@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g3d.Shader;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -16,6 +17,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.awt.*;
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Elevator {
 
@@ -43,24 +47,13 @@ public class Elevator {
     private static final float BUTTONS_HORIZ_FACTOR = 1.53f;
     private static Image buttonsImage;
 
-    private static boolean viewButtons;
+    private static Group elevatorGroup;
 
-    private static Stage stage;
+    private static List<Image> elements = new ArrayList<>();
 
-    public static Sprite getDoor() {
-        return door;
-    }
 
-    public static boolean getViewButtons() {
-        return viewButtons;
-    }
-
-    public static void changeViewButtons() {
-        viewButtons = !viewButtons;
-    }
-
-    public static void initialize(float width, float height) {
-        stage = App.getStage();
+    public static void initialize(float width, float height, Stage stage) {
+        elevatorGroup = new Group();
 
         atlas = new TextureAtlas(Gdx.files.internal("Elevator.atlas"));
 
@@ -68,14 +61,14 @@ public class Elevator {
         elevatorImage = new Image(elevator);
         elevatorImage.setSize(elevator.getWidth()*width/ELEVATOR_RESIZE_FACTOR,
             elevator.getHeight()*width/ELEVATOR_RESIZE_FACTOR);
-        stage.addActor(elevatorImage);
+        elements.add(elevatorImage);
 
         door = atlas.createSprite("Door");
         doorImage = new Image(door);
         doorImage.setSize(door.getWidth()*width/DOOR_RESIZE_FACTOR,
             door.getHeight()*width/DOOR_RESIZE_FACTOR);
         doorImage.setPosition(width / DOOR_HORIZ_FACTOR, height / DOOR_VERT_FACTOR);
-        stage.addActor(doorImage);
+        elements.add(doorImage);
 
         display = atlas.createSprite("Display", 1);
         displayImage = new Image(display);
@@ -83,22 +76,35 @@ public class Elevator {
             display.getHeight()*width/DISPLAY_RESIZE_FACTOR);
         displayImage.setPosition(width / DISPLAY_HORIZ_FACTOR,
             height / DISPLAY_VERT_FACTOR);
-        stage.addActor(displayImage);
+        elements.add(displayImage);
 
         buttons = atlas.createSprite("Buttons");
         buttonsImage = new Image(buttons);
         buttonsImage.setSize(buttons.getWidth() * width / BUTTONS_RESIZE_FACTOR,
             buttons.getHeight() * width / BUTTONS_RESIZE_FACTOR);
         buttonsImage.setPosition(width / BUTTONS_HORIZ_FACTOR, height / BUTTONS_VERT_FACTOR);
-
         buttonsImage.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println(1);
+                dispose();
+                Buttons.render();
             }
         });
-        stage.addActor(buttonsImage);
+        elements.add(buttonsImage);
 
-        viewButtons = false;
+
+    }
+
+    public static void render() {
+        for (Image element : elements) {
+            elevatorGroup.addActor(element);
+        }
+        App.getStage().addActor(elevatorGroup);
+    }
+
+    public static void dispose() {
+        for (Image element : elements) {
+            elevatorGroup.removeActor(element);
+        }
     }
 }
