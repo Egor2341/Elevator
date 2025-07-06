@@ -1,0 +1,15 @@
+Door.png
+size:64,512
+repeat:none
+Door
+index:3
+bounds:2,245,54,79
+Door
+index:2
+bounds:2,164,54,79
+Door
+index:4
+bounds:2,83,54,79
+Door
+index:1
+bounds:2,2,54,79

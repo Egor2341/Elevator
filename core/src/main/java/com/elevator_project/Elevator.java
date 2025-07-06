@@ -29,11 +29,11 @@ public class Elevator {
     private static final float ELEVATOR_RESIZE_FACTOR = 158f;
     private static Image elevatorImage;
 
-    private static Sprite door;
-    private static final float DOOR_RESIZE_FACTOR = 220f;
-    private static final float DOOR_VERT_FACTOR = 4.7f;
-    private static final float DOOR_HORIZ_FACTOR = 2.7f;
-    private static Image doorImage;
+    private static Sprite back;
+    private static final float BACK_RESIZE_FACTOR = 240f;
+    private static final float BACK_VERT_FACTOR = 4.65f;
+    private static final float BACK_HORIZ_FACTOR = 2.6f;
+    private static Image backImage;
 
     private static Sprite display;
     private static final float DISPLAY_RESIZE_FACTOR = 700f;
@@ -51,6 +51,10 @@ public class Elevator {
 
     private static List<Image> elements = new ArrayList<>();
 
+    public static TextureAtlas getAtlas() {
+        return atlas;
+    }
+
 
     public static void initialize(float width, float height, Stage stage) {
         elevatorGroup = new Group();
@@ -63,12 +67,12 @@ public class Elevator {
             elevator.getHeight()*width/ELEVATOR_RESIZE_FACTOR);
         elements.add(elevatorImage);
 
-        door = atlas.createSprite("Door");
-        doorImage = new Image(door);
-        doorImage.setSize(door.getWidth()*width/DOOR_RESIZE_FACTOR,
-            door.getHeight()*width/DOOR_RESIZE_FACTOR);
-        doorImage.setPosition(width / DOOR_HORIZ_FACTOR, height / DOOR_VERT_FACTOR);
-        elements.add(doorImage);
+        back = atlas.createSprite("Back");
+        backImage = new Image(back);
+        backImage.setSize(back.getWidth() * width / BACK_RESIZE_FACTOR,
+            back.getHeight() * width / BACK_RESIZE_FACTOR);
+        backImage.setPosition(width / BACK_HORIZ_FACTOR, height / BACK_VERT_FACTOR);
+        elements.add(backImage);
 
         display = atlas.createSprite("Display", 1);
         displayImage = new Image(display);

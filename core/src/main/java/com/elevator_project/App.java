@@ -26,11 +26,14 @@ public class App extends ApplicationAdapter {
         Elevator.initialize(w, h, stage);
         Buttons.initialize(w, h);
         Elevator.render();
+        Door.initialize(w, h);
     }
 
     @Override
     public void render() {
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
+        float delta = Gdx.graphics.getDeltaTime();
+        Door.update(delta);
         stage.act();
         stage.draw();
     }
