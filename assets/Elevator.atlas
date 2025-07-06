@@ -2,9 +2,13 @@ Elevator.png
 size:512,128
 repeat:none
 Back
+index:0
 bounds:164,43,54,79
+Back
+index:1
+bounds:220,44,53,78
 Buttons
-bounds:220,65,45,57
+bounds:275,65,45,57
 Display
 index:1
 bounds:2,2,45,28

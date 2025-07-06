@@ -15,6 +15,7 @@ public class App extends ApplicationAdapter {
     private float h;
     private OrthographicCamera camera;
     private static Stage stage;
+    private static FirstFloor firstFloor;
 
     @Override
     public void create() {
@@ -27,6 +28,7 @@ public class App extends ApplicationAdapter {
         Buttons.initialize(w, h);
         Elevator.render();
         Door.initialize(w, h);
+        firstFloor = new FirstFloor(w, h);
     }
 
     @Override
@@ -45,5 +47,12 @@ public class App extends ApplicationAdapter {
 
     public static Stage getStage() {
         return stage;
+    }
+
+    public static Floor getFloor(int index) {
+        return switch (index) {
+            case 1 -> firstFloor;
+            default -> firstFloor;
+        };
     }
 }

@@ -1,6 +1,5 @@
 package com.elevator_project;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -9,11 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-import java.util.List;
-
 public class Door {
-
-    private static TextureAtlas atlas;
 
     private static Animation<TextureRegion> doorAnimation;
     private static Image door;
@@ -26,7 +21,8 @@ public class Door {
     private static boolean openDoor;
 
     public static void initialize(float w, float h) {
-        atlas = new TextureAtlas("Door.atlas");
+        TextureAtlas atlas = new TextureAtlas("Door.atlas");
+
         door = new Image();
         doorAnimation = new Animation<>(0.15f, atlas.findRegions("Door"));
         door = new Image(new TextureRegionDrawable(doorAnimation.getKeyFrame(0)));
@@ -38,6 +34,10 @@ public class Door {
                 if (!openDoor) {
                     stateTime = 0;
                     openDoor = true;
+                } else if (doorAnimation.isAnimationFinished(stateTime)){
+                    dispose();
+                    Elevator.dispose();
+                    App.getFloor(Elevator.getFloorIndex()).render();
                 }
             }
         });
@@ -51,5 +51,9 @@ public class Door {
             TextureRegion frame = doorAnimation.getKeyFrame(stateTime, false);
             door.setDrawable(new TextureRegionDrawable(frame));
         }
+    }
+
+    private static void dispose() {
+        door.remove();
     }
 }
