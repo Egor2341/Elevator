@@ -48,8 +48,8 @@ public class Elevator {
         atlas = new TextureAtlas(Gdx.files.internal("Elevator.atlas"));
 
         Image elevator = new Image(atlas.createSprite("Elevator"));
-        elevator.setSize(elevator.getWidth()*width/ELEVATOR_RESIZE_FACTOR,
-            elevator.getHeight()*width/ELEVATOR_RESIZE_FACTOR);
+        elevator.setSize(elevator.getWidth() * width / ELEVATOR_RESIZE_FACTOR,
+            elevator.getHeight() * width / ELEVATOR_RESIZE_FACTOR);
         elements.add(elevator);
 
         Image back = new Image(atlas.createSprite("Back", 1));
@@ -59,8 +59,8 @@ public class Elevator {
         elements.add(back);
 
         Image display = new Image(atlas.createSprite("Display", 1));
-        display.setSize(display.getWidth()*width/DISPLAY_RESIZE_FACTOR,
-            display.getHeight()*width/DISPLAY_RESIZE_FACTOR);
+        display.setSize(display.getWidth() * width / DISPLAY_RESIZE_FACTOR,
+            display.getHeight() * width / DISPLAY_RESIZE_FACTOR);
         display.setPosition(width / DISPLAY_HORIZ_FACTOR,
             height / DISPLAY_VERT_FACTOR);
         elements.add(display);
@@ -72,7 +72,7 @@ public class Elevator {
         buttons.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                dispose();
+                hide();
                 Buttons.render();
             }
         });
@@ -89,6 +89,18 @@ public class Elevator {
     public static void dispose() {
         for (Image element : elements) {
             elevatorGroup.removeActor(element);
+        }
+    }
+
+    public static void show() {
+        for (Image element : elements) {
+            elevatorGroup.setVisible(true);
+        }
+    }
+
+    public static void hide() {
+        for (Image element : elements) {
+            elevatorGroup.setVisible(false);
         }
     }
 

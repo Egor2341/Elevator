@@ -24,10 +24,17 @@ public class App extends ApplicationAdapter {
         (this.camera = new OrthographicCamera(this.w, this.h)).setToOrtho(false);
         stage = new Stage(new ScreenViewport(camera));
         Gdx.input.setInputProcessor(stage);
+
+        init();
+        Elevator.render();
+        Door.render();
+    }
+
+    private void init() {
+        Door.initialize(w, h);
+        Arrows.initialize(w, h);
         Elevator.initialize(w, h, stage);
         Buttons.initialize(w, h);
-        Elevator.render();
-        Door.initialize(w, h);
         firstFloor = new FirstFloor(w, h);
     }
 
@@ -35,7 +42,9 @@ public class App extends ApplicationAdapter {
     public void render() {
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
         float delta = Gdx.graphics.getDeltaTime();
-        Door.update(delta);
+        if (Door.isAnimation()){
+            Door.update(delta);
+        }
         stage.act();
         stage.draw();
     }
@@ -49,8 +58,8 @@ public class App extends ApplicationAdapter {
         return stage;
     }
 
-    public static Floor getFloor(int index) {
-        return switch (index) {
+    public static Floor getFloor() {
+        return switch (Elevator.getFloorIndex()) {
             case 1 -> firstFloor;
             default -> firstFloor;
         };

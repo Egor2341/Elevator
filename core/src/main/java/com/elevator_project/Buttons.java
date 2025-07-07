@@ -36,7 +36,7 @@ public class Buttons {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 dispose();
-                Elevator.render();
+                Elevator.show();
             }
         });
         elements.add(back);
