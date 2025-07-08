@@ -46,11 +46,15 @@ public class Door {
                                 App.getFloor().render();
                                 Arrows.render();
                                 available = false;
-                                TextureRegion frame = doorAnimation.getKeyFrame(0, false);
-                                door.setDrawable(new TextureRegionDrawable(frame));
-                                door.setY(h / DOOR_VERT_FACTOR_IN_ROOM);
                                 elevator = false;
+                            } else {
+                                App.getFloor().dispose();
+                                Arrows.dispose();
+                                elevator = true;
                             }
+                            TextureRegion frame = doorAnimation.getKeyFrame(0, false);
+                            door.setDrawable(new TextureRegionDrawable(frame));
+                            door.setY(h / DOOR_VERT_FACTOR_IN_ROOM);
                         } else {
                             animation = true;
                             stateTime = 0;
