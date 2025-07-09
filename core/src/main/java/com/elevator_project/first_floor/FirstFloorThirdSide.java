@@ -30,6 +30,7 @@ public class FirstFloorThirdSide implements GroupElements {
     private void initElements () {
         elements.add(initWall());
         elements.add(initBack());
+        elements.add(initWire());
         elements.add(initButton());
     }
 
@@ -62,6 +63,17 @@ public class FirstFloorThirdSide implements GroupElements {
         ImageProcessing.process(button, BUTTON_RESIZE_FACTOR, BUTTON_HORIZ_FACTOR, BUTTON_VERT_FACTOR);
 
         return button;
+    }
+
+    private Image initWire () {
+        final float WIRE_RESIZE_FACTOR = 500f;
+        final float WIRE_HORIZ_FACTOR = 1.54f;
+        final float WIRE_VERT_FACTOR = 1.7f;
+
+        Image wire = new Image(atlas.createSprite("Wire", 1));
+        ImageProcessing.process(wire, WIRE_RESIZE_FACTOR, WIRE_HORIZ_FACTOR, WIRE_VERT_FACTOR);
+
+        return wire;
     }
 
     public Group initGroup() {
