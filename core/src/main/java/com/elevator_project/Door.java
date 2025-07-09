@@ -23,7 +23,7 @@ public class Door {
 
     public Door () {
         this.h = App.getDimensions()[1];
-        atlas = App.getAtlasses().getDoorAtlas();
+        atlas = GameManager.getAtlasses().getDoorAtlas();
         initDoor();
         elevator = true;
         available = true;
@@ -48,14 +48,14 @@ public class Door {
                         if (doorAnimation.isAnimationFinished(stateTime)) {
                             if (elevator) {
                                 dispose();
-                                App.getElevatorManager().dispose();
-                                App.getFloor().render();
-                                App.getArrows().render();
+                                GameManager.getElevatorManager().dispose();
+                                GameManager.getFloor().render();
+                                GameManager.getArrows().render();
                                 available = false;
                                 elevator = false;
                             } else {
-                                App.getFloor().dispose();
-                                App.getArrows().dispose();
+                                GameManager.getFloor().dispose();
+                                GameManager.getArrows().dispose();
                                 elevator = true;
                             }
                             TextureRegion frame = doorAnimation.getKeyFrame(0, false);

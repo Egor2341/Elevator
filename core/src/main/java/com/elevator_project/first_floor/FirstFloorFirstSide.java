@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.elevator_project.App;
+import com.elevator_project.GameManager;
 import com.elevator_project.GroupElements;
 import com.elevator_project.ImageProcessing;
 
@@ -17,7 +18,7 @@ public class FirstFloorFirstSide implements GroupElements {
     public FirstFloorFirstSide() {
         this.w = App.getDimensions()[0];
         this.h = App.getDimensions()[1];
-        atlas = App.getAtlasses().getFirstFloorAtlas();
+        atlas = GameManager.getAtlasses().getFirstFloorAtlas();
         mainGroup = new Group();
     }
 

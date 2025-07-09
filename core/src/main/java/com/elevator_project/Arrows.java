@@ -1,6 +1,7 @@
 package com.elevator_project;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -9,14 +10,12 @@ public class Arrows {
 
     private Image rightArrow;
     private Image leftArrow;
-    private final float w;
-    private final float h;
     private final TextureAtlas atlas;
+    private final Group mainGroup;
 
     public Arrows () {
-        w = App.getDimensions()[0];
-        h = App.getDimensions()[1];
-        atlas = App.getAtlasses().getExtraElementsAtlas();
+        atlas = GameManager.getAtlasses().getExtraElementsAtlas();
+        mainGroup = new Group();
         initArrows();
     }
 
@@ -31,7 +30,7 @@ public class Arrows {
         rightArrow.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                App.getFloor().right();
+                GameManager.getFloor().right();
             }
         });
 
@@ -41,18 +40,26 @@ public class Arrows {
         leftArrow.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                App.getFloor().left();
+                GameManager.getFloor().left();
             }
         });
     }
 
     public void render() {
-        App.getStage().addActor(leftArrow);
-        App.getStage().addActor(rightArrow);
+        mainGroup.addActor(rightArrow);
+        mainGroup.addActor(leftArrow);
+        App.getStage().addActor(mainGroup);
     }
 
     public void dispose() {
-        rightArrow.remove();
-        leftArrow.remove();
+        mainGroup.remove();
+    }
+
+    public void hide () {
+        mainGroup.setVisible(false);
+    }
+
+    public void show () {
+        mainGroup.setVisible(true);
     }
 }

@@ -19,7 +19,7 @@ public class Elevator implements GroupElements{
     public Elevator () {
         this.w = App.getDimensions()[0];
         this.h = App.getDimensions()[1];
-        atlas = App.getAtlasses().getElevatorAtlas();
+        atlas = GameManager.getAtlasses().getElevatorAtlas();
         mainGroup = new Group();
         elements = new ArrayList<>();
         initElements();
@@ -58,8 +58,8 @@ public class Elevator implements GroupElements{
             @Override
             public void clicked (InputEvent event, float x, float y) {
                 hide();
-                App.getElevatorManager().getButtons().show();
-                App.getDoor().dispose();
+                GameManager.getElevatorManager().getButtons().show();
+                GameManager.getDoor().dispose();
             }
         });
         return buttons;

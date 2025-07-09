@@ -1,14 +1,18 @@
 package com.elevator_project;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ElevatorManager {
     private final List<Group> groups;
+    @Getter
     private final Elevator elevator;
+    @Getter
     private final Buttons buttons;
+    @Getter
     private int floorIndex;
 
     public ElevatorManager() {
@@ -35,17 +39,5 @@ public class ElevatorManager {
         for (Group group : groups) {
             group.remove();
         }
-    }
-
-    public int getFloorIndex() {
-        return floorIndex;
-    }
-
-    public Buttons getButtons() {
-        return buttons;
-    }
-
-    public Elevator getElevator() {
-        return elevator;
     }
 }

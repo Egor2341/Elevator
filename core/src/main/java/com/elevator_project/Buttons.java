@@ -20,7 +20,7 @@ public class Buttons implements GroupElements {
     public Buttons () {
         this.w = App.getDimensions()[0];
         this.h = App.getDimensions()[1];
-        atlas = App.getAtlasses().getButtonsAtlas();
+        atlas = GameManager.getAtlasses().getButtonsAtlas();
         mainGroup = new Group();
         elements = new ArrayList<>();
         initElements();
@@ -39,8 +39,8 @@ public class Buttons implements GroupElements {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 hide();
-                App.getElevatorManager().getElevator().show();
-                App.getDoor().render();
+                GameManager.getElevatorManager().getElevator().show();
+                GameManager.getDoor().render();
             }
         });
         return back;
@@ -98,42 +98,4 @@ public class Buttons implements GroupElements {
     public void show () {
         mainGroup.setVisible(true);
     }
-
-//    private static final Group buttonsGroup = new Group();
-//
-
-//
-//    private static List<Image> elements = new ArrayList<>();
-//
-//
-//    public static void initialize(float w, float h) {
-//        TextureAtlas atlas = new TextureAtlas("Buttons.atlas");
-//
-//        Image back = new Image(atlas.createSprite("Back"));
-//        back.setSize(back.getWidth() * w / BACK_RESIZE_FACTOR, back.getHeight() * w / BACK_RESIZE_FACTOR);
-//        back.setPosition(0, 0);
-//        back.addListener(new ClickListener() {
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//                dispose();
-//                Elevator.show();
-//            }
-//        });
-//        elements.add(back);
-//
-
-//    }
-//
-//    public static void render() {
-//        for (Image element : elements) {
-//            buttonsGroup.addActor(element);
-//        }
-//        App.getStage().addActor(buttonsGroup);
-//    }
-//
-//    public static void dispose() {
-//        for (Image element : elements) {
-//            buttonsGroup.removeActor(element);
-//        }
-//    }
 }

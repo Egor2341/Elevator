@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.elevator_project.App;
-import com.elevator_project.GroupElements;
+import com.elevator_project.GameManager;
 import com.elevator_project.ImageProcessing;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class BoxQuest {
     public BoxQuest () {
         w = App.getDimensions()[0];
         h = App.getDimensions()[1];
-        atlas = App.getAtlasses().getFirstFloorAtlas();
+        atlas = GameManager.getAtlasses().getFirstFloorAtlas();
         mainGroup = new Group();
         elements = new ArrayList<>();
         runes = new ArrayList<>();
@@ -62,7 +62,8 @@ public class BoxQuest {
             @Override
             public void clicked (InputEvent event, float x, float y) {
                 hide();
-                App.getFloor().show();
+                GameManager.getFloor().show();
+                GameManager.getArrows().show();
             }
         });
 

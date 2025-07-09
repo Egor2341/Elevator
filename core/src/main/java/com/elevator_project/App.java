@@ -1,6 +1,7 @@
 package com.elevator_project;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -8,18 +9,14 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.elevator_project.first_floor.BoxQuest;
 import com.elevator_project.first_floor.FirstFloor;
+import lombok.Getter;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class App extends ApplicationAdapter {
     private static float w;
     private static float h;
+    @Getter
     private static Stage stage;
-    private static FirstFloor firstFloor;
-    private static Atlasses atlasses;
-    private static ElevatorManager elevatorManager;
-    private static Door door;
-    private static Arrows arrows;
-    private static BoxQuest boxQuest;
 
     @Override
     public void create() {
@@ -44,22 +41,16 @@ public class App extends ApplicationAdapter {
     }
 
     private void init() {
-        atlasses = new Atlasses();
-        elevatorManager = new ElevatorManager();
-        door = new Door();
-        arrows = new Arrows();
-        firstFloor = new FirstFloor();
-        boxQuest = new BoxQuest();
-        elevatorManager.render();
-        door.render();
+        GameManager.getElevatorManager().render();
+        GameManager.getDoor().render();
     }
 
     @Override
     public void render() {
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
         float delta = Gdx.graphics.getDeltaTime();
-        if (door.isAnimation()){
-            door.update(delta);
+        if (GameManager.getDoor().isAnimation()){
+            GameManager.getDoor().update(delta);
         }
         stage.act();
         stage.draw();
@@ -70,38 +61,7 @@ public class App extends ApplicationAdapter {
 
     }
 
-    public static Stage getStage() {
-        return stage;
-    }
-
-    public static Floor getFloor() {
-        return switch (elevatorManager.getFloorIndex()) {
-            case 1 -> firstFloor;
-            default -> firstFloor;
-        };
-    }
-
     public static float[] getDimensions () {
         return new float[] {w, h};
-    }
-
-    public static Atlasses getAtlasses() {
-        return atlasses;
-    }
-
-    public static ElevatorManager getElevatorManager() {
-        return elevatorManager;
-    }
-
-    public static Door getDoor () {
-        return door;
-    }
-
-    public static Arrows getArrows () {
-        return arrows;
-    }
-
-    public static BoxQuest getBoxQuest () {
-        return boxQuest;
     }
 }

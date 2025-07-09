@@ -17,7 +17,7 @@ public class FirstFloor implements Floor {
     private final Door door;
 
     public FirstFloor() {
-        door = App.getDoor();
+        door = GameManager.getDoor();
         groups = new ArrayList<>();
         wallIndex = 0;
         firstSide = new FirstFloorFirstSide();
@@ -42,8 +42,8 @@ public class FirstFloor implements Floor {
         for (Group group : groups) {
             App.getStage().addActor(group);
         }
-        App.getBoxQuest().render();
-        App.getBoxQuest().hide();
+        GameManager.getBoxQuest().render();
+        GameManager.getBoxQuest().hide();
     }
 
     public void right() {
