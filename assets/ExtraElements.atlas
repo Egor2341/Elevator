@@ -1,7 +1,13 @@
 ExtraElements.png
-size:32,32
+size:128,32
 repeat:none
+Inventory
+index:1
+bounds:2,2,24,24
+Inventory
+index:2
+bounds:28,2,24,24
 LeftArrow
-bounds:12,2,8,14
+bounds:64,12,8,14
 RightArrow
-bounds:2,2,8,14
+bounds:54,12,8,14

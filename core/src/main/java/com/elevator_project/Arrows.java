@@ -7,22 +7,27 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class Arrows {
 
-    private static Image rightArrow;
-    private static Image leftArrow;
+    private Image rightArrow;
+    private Image leftArrow;
+    private final float w;
+    private final float h;
+    private final TextureAtlas atlas;
 
-    public static void initialize(float w, float h) {
+    public Arrows () {
+        w = App.getDimensions()[0];
+        h = App.getDimensions()[1];
+        atlas = App.getAtlasses().getExtraElementsAtlas();
+        initArrows();
+    }
 
-        TextureAtlas atlas = new TextureAtlas("ExtraElements.atlas");
-
+    private void initArrows () {
         float ARROW_RESIZE_FACTOR = 400f;
         float RIGHT_ARROW_HORIZ_FACTOR = 1.08f;
         float LEFT_ARROW_HORIZ_FACTOR = 15f;
         float ARROW_VERT_FACTOR = 2f;
 
         rightArrow = new Image(atlas.createSprite("RightArrow"));
-        rightArrow.setSize(rightArrow.getWidth() * w / ARROW_RESIZE_FACTOR,
-            rightArrow.getHeight() * w / ARROW_RESIZE_FACTOR);
-        rightArrow.setPosition(w / RIGHT_ARROW_HORIZ_FACTOR, h / ARROW_VERT_FACTOR);
+        ImageProcessing.process(rightArrow, ARROW_RESIZE_FACTOR, RIGHT_ARROW_HORIZ_FACTOR, ARROW_VERT_FACTOR);
         rightArrow.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
@@ -32,9 +37,7 @@ public class Arrows {
 
 
         leftArrow = new Image(atlas.createSprite("LeftArrow"));
-        leftArrow.setSize(leftArrow.getWidth() * w / ARROW_RESIZE_FACTOR,
-            leftArrow.getHeight() * w / ARROW_RESIZE_FACTOR);
-        leftArrow.setPosition(w / LEFT_ARROW_HORIZ_FACTOR, h / ARROW_VERT_FACTOR);
+        ImageProcessing.process(leftArrow, ARROW_RESIZE_FACTOR, LEFT_ARROW_HORIZ_FACTOR, ARROW_VERT_FACTOR);
         leftArrow.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
@@ -43,12 +46,12 @@ public class Arrows {
         });
     }
 
-    public static void render() {
+    public void render() {
         App.getStage().addActor(leftArrow);
         App.getStage().addActor(rightArrow);
     }
 
-    public static void dispose() {
+    public void dispose() {
         rightArrow.remove();
         leftArrow.remove();
     }

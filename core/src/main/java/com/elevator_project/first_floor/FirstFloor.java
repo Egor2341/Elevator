@@ -1,20 +1,23 @@
-package com.elevator_project;
+package com.elevator_project.first_floor;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.elevator_project.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FirstFloor implements Floor{
+public class FirstFloor implements Floor {
 
     private final List<Group> groups;
     private final FirstFloorFirstSide firstSide;
     private final FirstFloorSecondSide secondSide;
     private final FirstFloorThirdSide thirdSide;
     private final FirstFloorFourthSide fourthSide;
-    int wallIndex;
+    private int wallIndex;
+    private final Door door;
 
     public FirstFloor() {
+        door = App.getDoor();
         groups = new ArrayList<>();
         wallIndex = 0;
         firstSide = new FirstFloorFirstSide();
@@ -34,14 +37,13 @@ public class FirstFloor implements Floor{
         groups.get(3).setVisible(false);
     }
 
-
-
-
     public void render() {
         initGroups();
         for (Group group : groups) {
             App.getStage().addActor(group);
         }
+        App.getBoxQuest().render();
+        App.getBoxQuest().hide();
     }
 
     public void right() {
@@ -54,13 +56,13 @@ public class FirstFloor implements Floor{
 
     private void move (int hide, int show) {
         if (hide == 2) {
-            Door.dispose();
+            door.dispose();
         }
         groups.get(hide).setVisible(false);
         groups.get(show).setVisible(true);
         wallIndex = show;
         if (show == 2) {
-            Door.render();
+            door.render();
         } else if (show == 3) {
             fourthSide.changeWindow();
         }
@@ -70,5 +72,13 @@ public class FirstFloor implements Floor{
         for (Group group : groups) {
             group.remove();
         }
+    }
+
+    public void hide () {
+        groups.get(wallIndex).setVisible(false);
+    }
+
+    public void show () {
+        groups.get(wallIndex).setVisible(true);
     }
 }

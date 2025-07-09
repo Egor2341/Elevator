@@ -2,31 +2,31 @@ package com.elevator_project;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.graphics.g2d.freetype.*;
+import com.elevator_project.first_floor.BoxQuest;
+import com.elevator_project.first_floor.FirstFloor;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class App extends ApplicationAdapter {
-    private SpriteBatch batch;
     private static float w;
     private static float h;
-    private OrthographicCamera camera;
     private static Stage stage;
     private static FirstFloor firstFloor;
     private static Atlasses atlasses;
+    private static ElevatorManager elevatorManager;
+    private static Door door;
+    private static Arrows arrows;
+    private static BoxQuest boxQuest;
 
     @Override
     public void create() {
         w = (float) Gdx.graphics.getWidth();
         h = (float) Gdx.graphics.getHeight();
-        (this.camera = new OrthographicCamera(w, h)).setToOrtho(false);
+        OrthographicCamera camera;
+        (camera = new OrthographicCamera(w, h)).setToOrtho(false);
         stage = new Stage(new ScreenViewport(camera));
         Gdx.input.setInputProcessor(stage);
 
@@ -39,26 +39,27 @@ public class App extends ApplicationAdapter {
 //        labelStyle.font = generator.generateFont(parameter);
 //        Label label = new Label("RUN", labelStyle);
 //        label.setPosition(w / 2, h / 2);
-        atlasses = new Atlasses();
+
         init();
-        Elevator.render();
-        Door.render();
     }
 
     private void init() {
-        Door.initialize(w, h);
-        Arrows.initialize(w, h);
-        Elevator.initialize(w, h, stage);
-        Buttons.initialize(w, h);
+        atlasses = new Atlasses();
+        elevatorManager = new ElevatorManager();
+        door = new Door();
+        arrows = new Arrows();
         firstFloor = new FirstFloor();
+        boxQuest = new BoxQuest();
+        elevatorManager.render();
+        door.render();
     }
 
     @Override
     public void render() {
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
         float delta = Gdx.graphics.getDeltaTime();
-        if (Door.isAnimation()){
-            Door.update(delta);
+        if (door.isAnimation()){
+            door.update(delta);
         }
         stage.act();
         stage.draw();
@@ -74,7 +75,7 @@ public class App extends ApplicationAdapter {
     }
 
     public static Floor getFloor() {
-        return switch (Elevator.getFloorIndex()) {
+        return switch (elevatorManager.getFloorIndex()) {
             case 1 -> firstFloor;
             default -> firstFloor;
         };
@@ -86,5 +87,21 @@ public class App extends ApplicationAdapter {
 
     public static Atlasses getAtlasses() {
         return atlasses;
+    }
+
+    public static ElevatorManager getElevatorManager() {
+        return elevatorManager;
+    }
+
+    public static Door getDoor () {
+        return door;
+    }
+
+    public static Arrows getArrows () {
+        return arrows;
+    }
+
+    public static BoxQuest getBoxQuest () {
+        return boxQuest;
     }
 }

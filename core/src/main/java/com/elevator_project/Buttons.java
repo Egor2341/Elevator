@@ -10,84 +10,130 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Buttons {
-    private static final Group buttonsGroup = new Group();
+public class Buttons implements GroupElements {
+    private final float h;
+    private final float w;
+    private final TextureAtlas atlas;
+    private final Group mainGroup;
+    private final List<Image> elements;
 
-    private static final float BUTTON_RESIZE_FACTOR = 200f;
-    private static final float FIRST_HORIZ_ROW_FACTOR = 2.9f;
-    private static final float SECOND_HORIZ_ROW_FACTOR = 2.2f;
-    private static final float THIRD_HORIZ_ROW_FACTOR = 1.8f;
-    private static final float FIRST_VERT_ROW_FACTOR = 1.5f;
-    private static final float SECOND_VERT_ROW_FACTOR = 1.8f;
-    private static final float THIRD_VERT_ROW_FACTOR = 2.7f;
-    private static final float FOURTH_VERT_ROW_FACTOR = 3.9f;
+    public Buttons () {
+        this.w = App.getDimensions()[0];
+        this.h = App.getDimensions()[1];
+        atlas = App.getAtlasses().getButtonsAtlas();
+        mainGroup = new Group();
+        elements = new ArrayList<>();
+        initElements();
+    }
 
-    private static List<Image> elements = new ArrayList<>();
+    private void initElements () {
+        elements.add(initBack());
+        elements.addAll(initButtons());
+    }
 
-    private static final float BACK_RESIZE_FACTOR = 110f;
-
-    public static void initialize(float w, float h) {
-        TextureAtlas atlas = new TextureAtlas("Buttons.atlas");
-
+    private Image initBack () {
+        final float BACK_RESIZE_FACTOR = 110f;
         Image back = new Image(atlas.createSprite("Back"));
-        back.setSize(back.getWidth() * w / BACK_RESIZE_FACTOR, back.getHeight() * w / BACK_RESIZE_FACTOR);
-        back.setPosition(0, 0);
+        ImageProcessing.process(back, BACK_RESIZE_FACTOR, w, h);
         back.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                dispose();
-                Elevator.show();
+                hide();
+                App.getElevatorManager().getElevator().show();
+                App.getDoor().render();
             }
         });
-        elements.add(back);
+        return back;
+    }
+
+    private List<Image> initButtons () {
+        final float BUTTON_RESIZE_FACTOR = 200f;
+        final float FIRST_HORIZ_ROW_FACTOR = 2.9f;
+        final float SECOND_HORIZ_ROW_FACTOR = 2.2f;
+        final float THIRD_HORIZ_ROW_FACTOR = 1.8f;
+        final float FIRST_VERT_ROW_FACTOR = 1.5f;
+        final float SECOND_VERT_ROW_FACTOR = 1.8f;
+        final float THIRD_VERT_ROW_FACTOR = 2.7f;
+        final float FOURTH_VERT_ROW_FACTOR = 3.9f;
+        List<Image> buttons = new ArrayList<>();
 
         Image buttonOne = new Image(atlas.createSprite("Button", 1));
-        buttonOne.setSize(buttonOne.getWidth() * w / BUTTON_RESIZE_FACTOR,
-            buttonOne.getHeight() * w / BUTTON_RESIZE_FACTOR);
-        buttonOne.setPosition(w / SECOND_HORIZ_ROW_FACTOR, h / FIRST_VERT_ROW_FACTOR);
-        elements.add(buttonOne);
+        ImageProcessing.process(buttonOne, BUTTON_RESIZE_FACTOR, SECOND_HORIZ_ROW_FACTOR, FIRST_VERT_ROW_FACTOR);
+        buttons.add(buttonOne);
 
         Image buttonTwo = new Image(atlas.createSprite("Button", 2));
-        buttonTwo.setSize(buttonTwo.getWidth() * w / BUTTON_RESIZE_FACTOR,
-            buttonTwo.getHeight() * w / BUTTON_RESIZE_FACTOR);
-        buttonTwo.setPosition(w / THIRD_HORIZ_ROW_FACTOR, h / SECOND_VERT_ROW_FACTOR);
-        elements.add(buttonTwo);
+        ImageProcessing.process(buttonTwo, BUTTON_RESIZE_FACTOR, THIRD_HORIZ_ROW_FACTOR, SECOND_VERT_ROW_FACTOR);
+        buttons.add(buttonTwo);
 
         Image buttonThree = new Image(atlas.createSprite("Button", 3));
-        buttonThree.setSize(buttonThree.getWidth() * w / BUTTON_RESIZE_FACTOR,
-            buttonThree.getHeight() * w / BUTTON_RESIZE_FACTOR);
-        buttonThree.setPosition(w / THIRD_HORIZ_ROW_FACTOR, h / THIRD_VERT_ROW_FACTOR);
-        elements.add(buttonThree);
+        ImageProcessing.process(buttonThree, BUTTON_RESIZE_FACTOR, THIRD_HORIZ_ROW_FACTOR, THIRD_VERT_ROW_FACTOR);
+        buttons.add(buttonThree);
 
         Image buttonFour = new Image(atlas.createSprite("Button", 4));
-        buttonFour.setSize(buttonFour.getWidth() * w / BUTTON_RESIZE_FACTOR,
-            buttonFour.getHeight() * w / BUTTON_RESIZE_FACTOR);
-        buttonFour.setPosition(w / SECOND_HORIZ_ROW_FACTOR, h / FOURTH_VERT_ROW_FACTOR);
-        elements.add(buttonFour);
+        ImageProcessing.process(buttonFour, BUTTON_RESIZE_FACTOR, SECOND_HORIZ_ROW_FACTOR, FOURTH_VERT_ROW_FACTOR);
+        buttons.add(buttonFour);
 
         Image buttonFive = new Image(atlas.createSprite("Button", 5));
-        buttonFive.setSize(buttonFive.getWidth() * w / BUTTON_RESIZE_FACTOR,
-            buttonFive.getHeight() * w / BUTTON_RESIZE_FACTOR);
-        buttonFive.setPosition(w / FIRST_HORIZ_ROW_FACTOR, h / THIRD_VERT_ROW_FACTOR);
-        elements.add(buttonFive);
+        ImageProcessing.process(buttonFive, BUTTON_RESIZE_FACTOR, FIRST_HORIZ_ROW_FACTOR, THIRD_VERT_ROW_FACTOR);
+        buttons.add(buttonFive);
 
         Image buttonSix = new Image(atlas.createSprite("Button", 6));
-        buttonSix.setSize(buttonSix.getWidth() * w / BUTTON_RESIZE_FACTOR,
-            buttonSix.getHeight() * w / BUTTON_RESIZE_FACTOR);
-        buttonSix.setPosition(w / FIRST_HORIZ_ROW_FACTOR, h / SECOND_VERT_ROW_FACTOR);
-        elements.add(buttonSix);
+        ImageProcessing.process(buttonSix, BUTTON_RESIZE_FACTOR, FIRST_HORIZ_ROW_FACTOR, SECOND_VERT_ROW_FACTOR);
+        buttons.add(buttonSix);
+
+        return buttons;
     }
 
-    public static void render() {
+    public Group initGroup () {
         for (Image element : elements) {
-            buttonsGroup.addActor(element);
+            mainGroup.addActor(element);
         }
-        App.getStage().addActor(buttonsGroup);
+        return mainGroup;
     }
 
-    public static void dispose() {
-        for (Image element : elements) {
-            buttonsGroup.removeActor(element);
-        }
+    public void hide () {
+        mainGroup.setVisible(false);
     }
+
+    public void show () {
+        mainGroup.setVisible(true);
+    }
+
+//    private static final Group buttonsGroup = new Group();
+//
+
+//
+//    private static List<Image> elements = new ArrayList<>();
+//
+//
+//    public static void initialize(float w, float h) {
+//        TextureAtlas atlas = new TextureAtlas("Buttons.atlas");
+//
+//        Image back = new Image(atlas.createSprite("Back"));
+//        back.setSize(back.getWidth() * w / BACK_RESIZE_FACTOR, back.getHeight() * w / BACK_RESIZE_FACTOR);
+//        back.setPosition(0, 0);
+//        back.addListener(new ClickListener() {
+//            @Override
+//            public void clicked(InputEvent event, float x, float y) {
+//                dispose();
+//                Elevator.show();
+//            }
+//        });
+//        elements.add(back);
+//
+
+//    }
+//
+//    public static void render() {
+//        for (Image element : elements) {
+//            buttonsGroup.addActor(element);
+//        }
+//        App.getStage().addActor(buttonsGroup);
+//    }
+//
+//    public static void dispose() {
+//        for (Image element : elements) {
+//            buttonsGroup.removeActor(element);
+//        }
+//    }
 }

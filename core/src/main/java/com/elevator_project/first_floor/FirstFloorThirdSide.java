@@ -1,13 +1,16 @@
-package com.elevator_project;
+package com.elevator_project.first_floor;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.elevator_project.App;
+import com.elevator_project.GroupElements;
+import com.elevator_project.ImageProcessing;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FirstFloorThirdSide implements GroupElements{
+public class FirstFloorThirdSide implements GroupElements {
     private final float w;
     private final float h;
     private final TextureAtlas atlas;

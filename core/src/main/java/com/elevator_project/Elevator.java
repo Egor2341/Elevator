@@ -1,110 +1,91 @@
 package com.elevator_project;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Elevator {
+public class Elevator implements GroupElements{
+    private final float h;
+    private final float w;
+    private final TextureAtlas atlas;
+    private final Group mainGroup;
+    private final List<Image> elements;
 
-    private static TextureAtlas atlas;
-
-    private static final float ELEVATOR_RESIZE_FACTOR = 158f;
-
-    private static final float BACK_RESIZE_FACTOR = 240f;
-    private static final float BACK_VERT_FACTOR = 4.65f;
-    private static final float BACK_HORIZ_FACTOR = 2.6f;
-
-    private static final float DISPLAY_RESIZE_FACTOR = 700f;
-    private static final float DISPLAY_VERT_FACTOR = 1.8f;
-    private static final float DISPLAY_HORIZ_FACTOR = 1.5f;
-
-    private static final float BUTTONS_RESIZE_FACTOR = 900f;
-    private static final float BUTTONS_VERT_FACTOR = 2.35f;
-    private static final float BUTTONS_HORIZ_FACTOR = 1.53f;
-
-    private static Group elevatorGroup;
-
-    private static final List<Image> elements = new ArrayList<>();
-
-    private static int floorIndex;
-
-    public static TextureAtlas getAtlas() {
-        return atlas;
+    public Elevator () {
+        this.w = App.getDimensions()[0];
+        this.h = App.getDimensions()[1];
+        atlas = App.getAtlasses().getElevatorAtlas();
+        mainGroup = new Group();
+        elements = new ArrayList<>();
+        initElements();
     }
 
+    private void initElements () {
+        elements.add(initElevator());
+        elements.add(initBack());
+        elements.add(initButtons());
+        elements.add(initDisplay());
+    }
 
-    public static void initialize(float width, float height, Stage stage) {
-        floorIndex = 1;
-
-        elevatorGroup = new Group();
-
-        atlas = new TextureAtlas(Gdx.files.internal("Elevator.atlas"));
-
+    private Image initElevator () {
+        final float ELEVATOR_RESIZE_FACTOR = 158f;
         Image elevator = new Image(atlas.createSprite("Elevator"));
-        elevator.setSize(elevator.getWidth() * width / ELEVATOR_RESIZE_FACTOR,
-            elevator.getHeight() * width / ELEVATOR_RESIZE_FACTOR);
-        elements.add(elevator);
+        ImageProcessing.process(elevator, ELEVATOR_RESIZE_FACTOR, w, h);
+        return elevator;
+    }
 
+    private Image initBack () {
+        final float BACK_RESIZE_FACTOR = 240f;
+        final float BACK_VERT_FACTOR = 4.65f;
+        final float BACK_HORIZ_FACTOR = 2.6f;
         Image back = new Image(atlas.createSprite("Back", 1));
-        back.setSize(back.getWidth() * width / BACK_RESIZE_FACTOR,
-            back.getHeight() * width / BACK_RESIZE_FACTOR);
-        back.setPosition(width / BACK_HORIZ_FACTOR, height / BACK_VERT_FACTOR);
-        elements.add(back);
+        ImageProcessing.process(back, BACK_RESIZE_FACTOR, BACK_HORIZ_FACTOR, BACK_VERT_FACTOR);
+        return back;
+    }
 
-        Image display = new Image(atlas.createSprite("Display", 1));
-        display.setSize(display.getWidth() * width / DISPLAY_RESIZE_FACTOR,
-            display.getHeight() * width / DISPLAY_RESIZE_FACTOR);
-        display.setPosition(width / DISPLAY_HORIZ_FACTOR,
-            height / DISPLAY_VERT_FACTOR);
-        elements.add(display);
-
+    private Image initButtons () {
+        final float BUTTONS_RESIZE_FACTOR = 900f;
+        final float BUTTONS_VERT_FACTOR = 2.35f;
+        final float BUTTONS_HORIZ_FACTOR = 1.53f;
         Image buttons = new Image(atlas.createSprite("Buttons"));
-        buttons.setSize(buttons.getWidth() * width / BUTTONS_RESIZE_FACTOR,
-            buttons.getHeight() * width / BUTTONS_RESIZE_FACTOR);
-        buttons.setPosition(width / BUTTONS_HORIZ_FACTOR, height / BUTTONS_VERT_FACTOR);
+        ImageProcessing.process(buttons, BUTTONS_RESIZE_FACTOR, BUTTONS_HORIZ_FACTOR, BUTTONS_VERT_FACTOR);
         buttons.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void clicked (InputEvent event, float x, float y) {
                 hide();
-                Buttons.render();
+                App.getElevatorManager().getButtons().show();
+                App.getDoor().dispose();
             }
         });
-        elements.add(buttons);
+        return buttons;
     }
 
-    public static void render() {
+    private Image initDisplay () {
+        final float DISPLAY_RESIZE_FACTOR = 700f;
+        final float DISPLAY_VERT_FACTOR = 1.8f;
+        final float DISPLAY_HORIZ_FACTOR = 1.5f;
+        Image display = new Image(atlas.createSprite("Display", 1));
+        ImageProcessing.process(display, DISPLAY_RESIZE_FACTOR, DISPLAY_HORIZ_FACTOR, DISPLAY_VERT_FACTOR);
+        return display;
+    }
+
+    public Group initGroup() {
         for (Image element : elements) {
-            elevatorGroup.addActor(element);
+            mainGroup.addActor(element);
         }
-        App.getStage().addActor(elevatorGroup);
+        return mainGroup;
     }
 
-    public static void dispose() {
-        for (Image element : elements) {
-            elevatorGroup.removeActor(element);
-        }
+    public void hide () {
+        mainGroup.setVisible(false);
     }
 
-    public static void show() {
-        for (Image element : elements) {
-            elevatorGroup.setVisible(true);
-        }
-    }
-
-    public static void hide() {
-        for (Image element : elements) {
-            elevatorGroup.setVisible(false);
-        }
-    }
-
-    public static int getFloorIndex () {
-        return floorIndex;
+    public void show () {
+        mainGroup.setVisible(true);
     }
 }

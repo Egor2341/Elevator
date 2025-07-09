@@ -1,4 +1,4 @@
-package com.elevator_project;
+package com.elevator_project.first_floor;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -7,11 +7,14 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.elevator_project.App;
+import com.elevator_project.GroupElements;
+import com.elevator_project.ImageProcessing;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FirstFloorFourthSide implements GroupElements{
+public class FirstFloorFourthSide implements GroupElements {
     private final float w;
     private final float h;
     private final TextureAtlas atlas;
@@ -87,7 +90,8 @@ public class FirstFloorFourthSide implements GroupElements{
         box.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                App.getFloor().hide();
+                App.getBoxQuest().show();
             }
         });
 
