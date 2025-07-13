@@ -94,6 +94,9 @@ public class FirstFloorFourthSide implements GroupElements {
                 GameManager.getFloor().hide();
                 GameManager.getArrows().hide();
                 GameManager.getBoxQuest().show();
+                if (GameManager.getBoxQuest().isOpen()) {
+                    GameManager.getInsulatingTape().show();
+                }
             }
         });
 
@@ -101,8 +104,12 @@ public class FirstFloorFourthSide implements GroupElements {
     }
 
     public void changeWindow () {
-        window.setDrawable(new SpriteDrawable(windowSprites.get(windowIndex)));
-        windowIndex = windowIndex == 0 ? 1 : 0;
+        if (GameManager.getBoxQuest().isOpen()){
+            window.setDrawable(new SpriteDrawable(windowSprites.get(2)));
+        } else {
+            window.setDrawable(new SpriteDrawable(windowSprites.get(windowIndex)));
+            windowIndex = windowIndex == 0 ? 1 : 0;
+        }
     }
 
     public Group initGroup() {

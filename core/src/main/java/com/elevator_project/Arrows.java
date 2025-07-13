@@ -21,8 +21,8 @@ public class Arrows {
 
     private void initArrows () {
         float ARROW_RESIZE_FACTOR = 400f;
-        float RIGHT_ARROW_HORIZ_FACTOR = 1.08f;
-        float LEFT_ARROW_HORIZ_FACTOR = 15f;
+        float RIGHT_ARROW_HORIZ_FACTOR = 1.13f;
+        float LEFT_ARROW_HORIZ_FACTOR = 9.5f;
         float ARROW_VERT_FACTOR = 2f;
 
         rightArrow = new Image(atlas.createSprite("RightArrow"));

@@ -17,6 +17,10 @@ public class GameManager {
     private static final FirstFloor firstFloor;
     @Getter
     private static final BoxQuest boxQuest;
+    @Getter
+    private static final Inventory inventory;
+    @Getter
+    private static final InsulatingTape insulatingTape;
 
     static {
         atlasses = new Atlasses();
@@ -25,6 +29,8 @@ public class GameManager {
         arrows = new Arrows();
         firstFloor = new FirstFloor();
         boxQuest = new BoxQuest();
+        inventory = new Inventory();
+        insulatingTape = new InsulatingTape();
     }
 
 

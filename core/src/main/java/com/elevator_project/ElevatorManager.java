@@ -33,6 +33,8 @@ public class ElevatorManager {
         for (Group group : groups) {
             App.getStage().addActor(group);
         }
+        GameManager.getInventory().render();
+        GameManager.getDoor().render();
     }
 
     public void dispose () {

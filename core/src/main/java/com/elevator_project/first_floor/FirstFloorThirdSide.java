@@ -2,11 +2,15 @@ package com.elevator_project.first_floor;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.elevator_project.App;
 import com.elevator_project.GameManager;
 import com.elevator_project.GroupElements;
 import com.elevator_project.ImageProcessing;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +21,9 @@ public class FirstFloorThirdSide implements GroupElements {
     private final TextureAtlas atlas;
     private final Group mainGroup;
     private final List<Image> elements;
+    @Getter
+    private boolean buttonAvailable;
+    private Image back;
 
     public FirstFloorThirdSide() {
         this.w = App.getDimensions()[0];
@@ -24,6 +31,7 @@ public class FirstFloorThirdSide implements GroupElements {
         atlas = GameManager.getAtlasses().getFirstFloorAtlas();
         mainGroup = new Group();
         elements = new ArrayList<>();
+        buttonAvailable = false;
         initElements();
     }
 
@@ -48,7 +56,7 @@ public class FirstFloorThirdSide implements GroupElements {
         final float BACK_VERT_FACTOR = 3.15f;
         final float BACK_HORIZ_FACTOR = 2.6f;
 
-        Image back = new Image(atlas.createSprite("Back"));
+        back = new Image(atlas.createSprite("Back", 1));
         ImageProcessing.process(back, BACK_RESIZE_FACTOR, BACK_HORIZ_FACTOR, BACK_VERT_FACTOR);
 
         return back;
@@ -61,6 +69,15 @@ public class FirstFloorThirdSide implements GroupElements {
 
         Image button = new Image(atlas.createSprite("Button"));
         ImageProcessing.process(button, BUTTON_RESIZE_FACTOR, BUTTON_HORIZ_FACTOR, BUTTON_VERT_FACTOR);
+        button.addListener(new ClickListener() {
+            @Override
+            public void clicked (InputEvent event, float x, float y) {
+                if (buttonAvailable) {
+                    back.setDrawable(new SpriteDrawable(atlas.createSprite("Back", 2)));
+                    GameManager.getDoor().setAvailable(true);
+                }
+            }
+        });
 
         return button;
     }
@@ -72,6 +89,18 @@ public class FirstFloorThirdSide implements GroupElements {
 
         Image wire = new Image(atlas.createSprite("Wire", 1));
         ImageProcessing.process(wire, WIRE_RESIZE_FACTOR, WIRE_HORIZ_FACTOR, WIRE_VERT_FACTOR);
+        wire.addListener(new ClickListener() {
+            @Override
+            public void clicked (InputEvent event, float x, float y) {
+                int insulatingTapeIndexInventory = GameManager.getInsulatingTape().getIndexInInventory();
+                if (insulatingTapeIndexInventory != -1 &&
+                GameManager.getInventory().getChosen() == insulatingTapeIndexInventory) {
+                    GameManager.getInventory().removeObject(insulatingTapeIndexInventory);
+                    wire.setDrawable(new SpriteDrawable(atlas.createSprite("Wire", 2)));
+                    buttonAvailable = true;
+                }
+            }
+        });
 
         return wire;
     }

@@ -10,11 +10,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.elevator_project.App;
 import com.elevator_project.GameManager;
 import com.elevator_project.ImageProcessing;
+import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.lang.Integer;
+
+import java.util.*;
 
 public class BoxQuest {
     private final TextureAtlas atlas;
@@ -24,6 +24,11 @@ public class BoxQuest {
     private final List<Image> elements;
     private final List<Sprite> runes;
     private final Map<Image, Integer> buttons;
+    private final Integer[] combination;
+    private Image box;
+    @Getter
+    private boolean open;
+    private final Group runesGroup;
 
     public BoxQuest () {
         w = App.getDimensions()[0];
@@ -32,14 +37,17 @@ public class BoxQuest {
         mainGroup = new Group();
         elements = new ArrayList<>();
         runes = new ArrayList<>();
-        buttons = new HashMap<>();
+        buttons = new LinkedHashMap<>();
+        combination = new Integer[] {2, 5, 1, 4};
+        open = false;
+        runesGroup = new Group();
         initElements();
     }
 
     private void initElements () {
         elements.add(initFloor());
         elements.add(initBox());
-        elements.addAll(initRunes().keySet());
+        initRunes();
     }
 
     private Image initBox () {
@@ -47,8 +55,16 @@ public class BoxQuest {
         final float BOX_HORIZ_FACTOR = 9.7f;
         final float BOX_VERT_FACTOR = 4.7f;
 
-        Image box = new Image(atlas.createSprite("Box", 2));
+        box = new Image(atlas.createSprite("Box", 2));
         ImageProcessing.process(box, BOX_RESIZE_FACTOR, BOX_HORIZ_FACTOR, BOX_VERT_FACTOR);
+        box.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (!open){
+                    checkSubsequence();
+                }
+            }
+        });
 
         return box;
     }
@@ -62,6 +78,9 @@ public class BoxQuest {
             @Override
             public void clicked (InputEvent event, float x, float y) {
                 hide();
+                if (open) {
+                    GameManager.getInsulatingTape().hide();
+                }
                 GameManager.getFloor().show();
                 GameManager.getArrows().show();
             }
@@ -70,7 +89,7 @@ public class BoxQuest {
         return floor;
     }
 
-    private Map<Image, Integer> initRunes () {
+    private void initRunes () {
         final float BUTTON_RESIZE_FACTOR = 220f;
         final float BUTTON_VERT_FACTOR = 2.19f;
         final float FIRST_BUTTON_HORIZ_FACTOR = 3.7f;
@@ -96,36 +115,52 @@ public class BoxQuest {
             button.addListener(new ClickListener() {
                 @Override
                 public void clicked (InputEvent event, float x, float y) {
-                    buttons.put(button, buttons.get(button) + 1);
-                    button.setDrawable(new SpriteDrawable((runes.get((buttons.get(button)) % 6))));
+                    buttons.put(button, (buttons.get(button) + 1) % 6);
+                    button.setDrawable(new SpriteDrawable((runes.get((buttons.get(button))))));
                 }
             });
             buttons.put(button, 0);
         }
-
-        return buttons;
     }
 
-    private Group initGroup () {
+    private void checkSubsequence () {
+        if (Arrays.equals(combination, buttons.values().toArray(new Integer[4]))){
+            box.setDrawable(new SpriteDrawable(atlas.createSprite("Box", 3)));
+            runesGroup.remove();
+            GameManager.getInsulatingTape().render();
+            open = true;
+            GameManager.getFirstFloor().getFourthSide().changeWindow();
+        }
+    }
+
+    private void initGroup () {
         for (Image element : elements) {
             mainGroup.addActor(element);
         }
-        return mainGroup;
+        for (Image button : buttons.keySet()) {
+            runesGroup.addActor(button);
+        }
     }
 
     public void render () {
-        App.getStage().addActor(initGroup());
+        initGroup();
+        App.getStage().addActor(mainGroup);
+        App.getStage().addActor(runesGroup);
     }
 
     public void dispose () {
         mainGroup.remove();
+        runesGroup.remove();
     }
 
     public void hide () {
         mainGroup.setVisible(false);
+        runesGroup.setVisible(false);
     }
 
     public void show () {
         mainGroup.setVisible(true);
+        runesGroup.setVisible(true);
     }
+
 }

@@ -42,7 +42,6 @@ public class App extends ApplicationAdapter {
 
     private void init() {
         GameManager.getElevatorManager().render();
-        GameManager.getDoor().render();
     }
 
     @Override

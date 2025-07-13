@@ -2,6 +2,7 @@ package com.elevator_project.first_floor;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.elevator_project.*;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ public class FirstFloor implements Floor {
     private final FirstFloorFirstSide firstSide;
     private final FirstFloorSecondSide secondSide;
     private final FirstFloorThirdSide thirdSide;
+    @Getter
     private final FirstFloorFourthSide fourthSide;
     private int wallIndex;
     private final Door door;
@@ -44,6 +46,8 @@ public class FirstFloor implements Floor {
         }
         GameManager.getBoxQuest().render();
         GameManager.getBoxQuest().hide();
+        GameManager.getInventory().render();
+        move(2, 0);
     }
 
     public void right() {
@@ -63,6 +67,9 @@ public class FirstFloor implements Floor {
         wallIndex = show;
         if (show == 2) {
             door.render();
+            if (thirdSide.isButtonAvailable()) {
+                door.setAvailable(true);
+            }
         } else if (show == 3) {
             fourthSide.changeWindow();
         }

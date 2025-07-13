@@ -19,6 +19,7 @@ public class Door {
 
     private static boolean animation;
     private static boolean available;
+    private static boolean open;
     private static boolean elevator;
 
     public Door () {
@@ -27,7 +28,7 @@ public class Door {
         initDoor();
         elevator = true;
         available = true;
-        animation = false;
+        open = false;
     }
 
     private void initDoor () {
@@ -44,28 +45,36 @@ public class Door {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (available){
-                    if (!animation) {
-                        if (doorAnimation.isAnimationFinished(stateTime)) {
+                        if (open) {
                             if (elevator) {
                                 dispose();
                                 GameManager.getElevatorManager().dispose();
+                                GameManager.getInventory().dispose();
                                 GameManager.getFloor().render();
                                 GameManager.getArrows().render();
                                 available = false;
                                 elevator = false;
                             } else {
+                                dispose();
                                 GameManager.getFloor().dispose();
                                 GameManager.getArrows().dispose();
+                                GameManager.getElevatorManager().render();
                                 elevator = true;
                             }
                             TextureRegion frame = doorAnimation.getKeyFrame(0, false);
                             door.setDrawable(new TextureRegionDrawable(frame));
-                            door.setY(h / DOOR_VERT_FACTOR_IN_ROOM);
+                            if (elevator) {
+                                door.setY(h / DOOR_VERT_FACTOR_IN_ELEVATOR);
+                            } else {
+                                door.setY(h / DOOR_VERT_FACTOR_IN_ROOM);
+                            }
+                            open = false;
+
                         } else {
-                            animation = true;
                             stateTime = 0;
+                            animation = true;
+                            available = false;
                         }
-                    }
                 }
             }
         });
@@ -78,6 +87,8 @@ public class Door {
             door.setDrawable(new TextureRegionDrawable(frame));
             if (doorAnimation.isAnimationFinished(stateTime)) {
                 animation = false;
+                open = true;
+                available = true;
             }
         }
     }
