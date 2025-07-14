@@ -1,8 +1,11 @@
 package com.elevator_project.first_floor;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.elevator_project.*;
-import lombok.Getter;
+import com.elevator_project.game.App;
+import com.elevator_project.game.Floor;
+import com.elevator_project.game.GameManager;
+import com.elevator_project.game.RoomPart;
+import com.elevator_project.independent_elements.Door;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,44 +13,33 @@ import java.util.List;
 public class FirstFloor implements Floor {
 
     private final List<Group> groups;
-    private final FirstFloorFirstSide firstSide;
-    private final FirstFloorSecondSide secondSide;
-    private final FirstFloorThirdSide thirdSide;
-    @Getter
-    private final FirstFloorFourthSide fourthSide;
     private int wallIndex;
     private final Door door;
+    private final List<RoomPart> parts;
 
     public FirstFloor() {
         door = GameManager.getDoor();
         groups = new ArrayList<>();
+        parts = new ArrayList<>();
         wallIndex = 0;
-        firstSide = new FirstFloorFirstSide();
-        secondSide = new FirstFloorSecondSide();
-        thirdSide = new FirstFloorThirdSide();
-        fourthSide = new FirstFloorFourthSide();
-        initGroups();
+        initElements();
+    }
+
+    private void initElements () {
+        parts.add(new FirstFloorFirstSide());
+        parts.add(new FirstFloorSecondSide());
+        parts.add(new FirstFloorThirdSide());
+        parts.add(new FirstFloorFourthSide());
+        parts.add(new BoxQuest());
     }
 
     private void initGroups () {
-        groups.add(firstSide.initGroup());
-        groups.add(secondSide.initGroup());
-        groups.add(thirdSide.initGroup());
-        groups.add(fourthSide.initGroup());
-        groups.get(1).setVisible(false);
-        groups.get(2).setVisible(false);
-        groups.get(3).setVisible(false);
-    }
-
-    public void render() {
-        initGroups();
-        for (Group group : groups) {
-            App.getStage().addActor(group);
+        for (RoomPart part : parts) {
+            groups.add(part.initGroup());
         }
-        GameManager.getBoxQuest().render();
-        GameManager.getBoxQuest().hide();
-        GameManager.getInventory().render();
-        move(2, 0);
+        for (int i = 1; i < groups.size(); i++) {
+            groups.get(i).setVisible(false);
+        }
     }
 
     public void right() {
@@ -57,6 +49,8 @@ public class FirstFloor implements Floor {
     public void left() {
         move(wallIndex, (wallIndex + 3) % 4);
     }
+
+    public void back() {}
 
     private void move (int hide, int show) {
         App.getSoundManager().playSteps();
@@ -76,6 +70,15 @@ public class FirstFloor implements Floor {
                 fourthSide.changeWindow();
             }
         }
+    }
+
+    public void render() {
+        initGroups();
+        for (Group group : groups) {
+            App.getStage().addActor(group);
+        }
+        GameManager.getInventory().render();
+        move(2, 0);
     }
 
     public void dispose() {

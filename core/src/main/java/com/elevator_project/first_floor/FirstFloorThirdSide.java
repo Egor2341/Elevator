@@ -6,30 +6,22 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import com.elevator_project.App;
-import com.elevator_project.GameManager;
-import com.elevator_project.GroupElements;
-import com.elevator_project.ImageProcessing;
+import com.elevator_project.game.*;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FirstFloorThirdSide implements GroupElements {
-    private final float w;
-    private final float h;
+public class FirstFloorThirdSide extends RoomPart {
+
     private final TextureAtlas atlas;
-    private final Group mainGroup;
     private final List<Image> elements;
     @Getter
     private boolean buttonAvailable;
     private Image back;
 
     public FirstFloorThirdSide() {
-        this.w = App.getDimensions()[0];
-        this.h = App.getDimensions()[1];
         atlas = GameManager.getAtlasses().getFirstFloorAtlas();
-        mainGroup = new Group();
         elements = new ArrayList<>();
         buttonAvailable = false;
         initElements();

@@ -7,20 +7,18 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import com.elevator_project.App;
-import com.elevator_project.GameManager;
-import com.elevator_project.ImageProcessing;
+import com.elevator_project.game.App;
+import com.elevator_project.game.GameManager;
+import com.elevator_project.game.ImageProcessing;
+import com.elevator_project.game.RoomPart;
 import lombok.Getter;
 
 import java.lang.Integer;
 
 import java.util.*;
 
-public class BoxQuest {
+public class BoxQuest extends RoomPart {
     private final TextureAtlas atlas;
-    private final float w;
-    private final float h;
-    private final Group mainGroup;
     private final List<Image> elements;
     private final List<Sprite> runes;
     private final Map<Image, Integer> buttons;
@@ -32,10 +30,7 @@ public class BoxQuest {
     private boolean sound;
 
     public BoxQuest () {
-        w = App.getDimensions()[0];
-        h = App.getDimensions()[1];
         atlas = GameManager.getAtlasses().getFirstFloorAtlas();
-        mainGroup = new Group();
         elements = new ArrayList<>();
         runes = new ArrayList<>();
         buttons = new LinkedHashMap<>();
@@ -80,7 +75,7 @@ public class BoxQuest {
         floor.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                hide();
+//                hide();
                 if (open) {
                     GameManager.getInsulatingTape().hide();
                     if (!sound) {
@@ -146,43 +141,46 @@ public class BoxQuest {
         if (Arrays.equals(combination, buttons.values().toArray(new Integer[4]))){
             App.getSoundManager().playBox();
             box.setDrawable(new SpriteDrawable(atlas.createSprite("Box", 3)));
-            runesGroup.remove();
+            for (Image button : buttons.keySet()) {
+                button.remove();
+            }
             GameManager.getInsulatingTape().render();
             open = true;
             GameManager.getFirstFloor().getFourthSide().changeWindow();
         }
     }
 
-    private void initGroup () {
+    public Group initGroup () {
         for (Image element : elements) {
             mainGroup.addActor(element);
         }
         for (Image button : buttons.keySet()) {
-            runesGroup.addActor(button);
+            mainGroup.addActor(button);
         }
+        return mainGroup;
     }
 
-    public void render () {
-        initGroup();
-        App.getStage().addActor(mainGroup);
-        if (!open) {
-            App.getStage().addActor(runesGroup);
-        }
-    }
-
-    public void dispose () {
-        mainGroup.remove();
-        runesGroup.remove();
-    }
-
-    public void hide () {
-        mainGroup.setVisible(false);
-        runesGroup.setVisible(false);
-    }
-
-    public void show () {
-        mainGroup.setVisible(true);
-        runesGroup.setVisible(true);
-    }
+//    public void render () {
+//        initGroup();
+//        App.getStage().addActor(mainGroup);
+//        if (!open) {
+//            App.getStage().addActor(runesGroup);
+//        }
+//    }
+//
+//    public void dispose () {
+//        mainGroup.remove();
+//        runesGroup.remove();
+//    }
+//
+//    public void hide () {
+//        mainGroup.setVisible(false);
+//        runesGroup.setVisible(false);
+//    }
+//
+//    public void show () {
+//        mainGroup.setVisible(true);
+//        runesGroup.setVisible(true);
+//    }
 
 }

@@ -7,29 +7,21 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import com.elevator_project.App;
-import com.elevator_project.GameManager;
-import com.elevator_project.GroupElements;
-import com.elevator_project.ImageProcessing;
+import com.elevator_project.game.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FirstFloorFourthSide implements GroupElements {
-    private final float w;
-    private final float h;
+public class FirstFloorFourthSide extends RoomPart {
+
     private final TextureAtlas atlas;
-    private final Group mainGroup;
     private Image window;
     private int windowIndex;
     private final List<Sprite> windowSprites;
     private final List<Image> elements;
 
     public FirstFloorFourthSide() {
-        this.w = App.getDimensions()[0];
-        this.h = App.getDimensions()[1];
         atlas = GameManager.getAtlasses().getFirstFloorAtlas();
-        mainGroup = new Group();
         windowSprites = new ArrayList<>();
         elements = new ArrayList<>();
         initElements();

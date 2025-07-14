@@ -1,15 +1,19 @@
-package com.elevator_project;
+package com.elevator_project.elevator;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.elevator_project.game.App;
+import com.elevator_project.game.GameManager;
+import com.elevator_project.game.GroupElements;
+import com.elevator_project.game.ImageProcessing;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Elevator implements GroupElements{
+public class Elevator implements GroupElements {
     private final float h;
     private final float w;
     private final TextureAtlas atlas;

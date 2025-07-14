@@ -1,5 +1,10 @@
-package com.elevator_project;
+package com.elevator_project.game;
 
+import com.elevator_project.independent_elements.Door;
+import com.elevator_project.elevator.ElevatorManager;
+import com.elevator_project.independent_elements.InsulatingTape;
+import com.elevator_project.extra_elements.Arrows;
+import com.elevator_project.extra_elements.Inventory;
 import com.elevator_project.first_floor.BoxQuest;
 import com.elevator_project.first_floor.FirstFloor;
 import lombok.Getter;

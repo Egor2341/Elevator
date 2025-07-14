@@ -1,6 +1,8 @@
-package com.elevator_project;
+package com.elevator_project.elevator;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.elevator_project.game.App;
+import com.elevator_project.game.GameManager;
 import lombok.Getter;
 
 import java.util.ArrayList;

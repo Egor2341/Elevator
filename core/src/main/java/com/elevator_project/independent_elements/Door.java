@@ -1,13 +1,15 @@
-package com.elevator_project;
+package com.elevator_project.independent_elements;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.elevator_project.game.App;
+import com.elevator_project.game.GameManager;
+import com.elevator_project.game.ImageProcessing;
 
 public class Door {
     private final float h;

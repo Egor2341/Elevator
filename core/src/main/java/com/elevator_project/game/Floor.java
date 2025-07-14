@@ -1,4 +1,4 @@
-package com.elevator_project;
+package com.elevator_project.game;
 
 public interface Floor {
     public void render();

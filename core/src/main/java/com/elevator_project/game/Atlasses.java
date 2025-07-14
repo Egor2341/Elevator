@@ -1,4 +1,4 @@
-package com.elevator_project;
+package com.elevator_project.game;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import lombok.Getter;

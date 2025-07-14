@@ -1,6 +1,8 @@
 ExtraElements.png
 size:128,64
 repeat:none
+DownArrow
+bounds:91,52,14,8
 InsulatingTape
 bounds:2,28,35,32
 Inventory
@@ -13,6 +15,6 @@ Inventory
 index:2
 bounds:65,36,24,24
 LeftArrow
-bounds:91,46,8,14
+bounds:91,36,8,14
 RightArrow
 bounds:28,12,8,14

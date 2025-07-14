@@ -1,4 +1,4 @@
-package com.elevator_project;
+package com.elevator_project.game;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
 

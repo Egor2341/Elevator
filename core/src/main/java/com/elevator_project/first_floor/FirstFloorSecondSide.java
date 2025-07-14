@@ -3,22 +3,14 @@ package com.elevator_project.first_floor;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.elevator_project.App;
-import com.elevator_project.GameManager;
-import com.elevator_project.GroupElements;
-import com.elevator_project.ImageProcessing;
+import com.elevator_project.game.*;
 
-public class FirstFloorSecondSide implements GroupElements {
-    private final float w;
-    private final float h;
+public class FirstFloorSecondSide extends RoomPart {
+
     private final TextureAtlas atlas;
-    private final Group mainGroup;
 
     public FirstFloorSecondSide() {
-        this.w = App.getDimensions()[0];
-        this.h = App.getDimensions()[1];
         atlas = GameManager.getAtlasses().getFirstFloorAtlas();
-        mainGroup = new Group();
     }
 
     private Image initWall () {
@@ -34,5 +26,4 @@ public class FirstFloorSecondSide implements GroupElements {
         mainGroup.addActor(initWall());
         return mainGroup;
     }
-
 }

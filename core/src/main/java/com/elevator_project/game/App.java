@@ -1,15 +1,11 @@
-package com.elevator_project;
+package com.elevator_project.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.elevator_project.first_floor.BoxQuest;
-import com.elevator_project.first_floor.FirstFloor;
 import lombok.Getter;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
@@ -19,7 +15,7 @@ public class App extends ApplicationAdapter {
     @Getter
     private static Stage stage;
     @Getter
-    private static SoundManager  soundManager;
+    private static SoundManager soundManager;
 
     @Override
     public void create() {
