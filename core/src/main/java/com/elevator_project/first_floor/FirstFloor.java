@@ -59,6 +59,7 @@ public class FirstFloor implements Floor {
     }
 
     private void move (int hide, int show) {
+        App.getSoundManager().playSteps();
         if (hide == 2) {
             door.dispose();
         }
@@ -71,7 +72,9 @@ public class FirstFloor implements Floor {
                 door.setAvailable(true);
             }
         } else if (show == 3) {
-            fourthSide.changeWindow();
+            if (!GameManager.getBoxQuest().isOpen()) {
+                fourthSide.changeWindow();
+            }
         }
     }
 

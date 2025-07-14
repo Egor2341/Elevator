@@ -75,7 +75,7 @@ public class FirstFloorFourthSide implements GroupElements {
         final float LOCKER_HORIZ_FACTOR = 2.32f;
         final float LOCKER_VERT_FACTOR = 3.19f;
 
-        Image locker = new Image(atlas.createSprite("Locker"));
+        Image locker = new Image(atlas.createSprite("Locker", 1));
         ImageProcessing.process(locker, LOCKER_RESIZE_FACTOR, LOCKER_HORIZ_FACTOR, LOCKER_VERT_FACTOR);
 
         return locker;

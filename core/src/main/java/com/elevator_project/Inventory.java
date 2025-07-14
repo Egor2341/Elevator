@@ -44,28 +44,7 @@ public class Inventory {
         for (int i = 0; i < 6; i++) {
             Image cell = new Image(cellsSprites[0]);
             ImageProcessing.process(cell, CELL_RESIZE_FACTOR, CELL_HORIZ_FACTOR, CELL_VERT_FACTOR[i]);
-            Image object = new Image();
-            ImageProcessing.process(object, 1, CELL_HORIZ_FACTOR, CELL_VERT_FACTOR[i]);
-            object.addListener(new ClickListener() {
-                @Override
-                public void clicked (InputEvent event, float x, float y) {
-                    if (inventory[objects.indexOf(object)] != 1){
-                        return;
-                    }
-                    Image cell = cells.get(objects.indexOf(object));
-                    if (chosen == cells.indexOf(cell)) {
-                        chosen = -1;
-                        cell.setDrawable(new SpriteDrawable(cellsSprites[0]));
-                    } else {
-                        if (chosen != -1) {
-                            cells.get(chosen).setDrawable(new SpriteDrawable(cellsSprites[0]));
-                        }
-                        chosen = cells.indexOf(cell);
-                        cell.setDrawable(new SpriteDrawable(cellsSprites[1]));
-                    }
-                }
-            });
-            objects.add(object);
+            objects.add(initObject(i));
             cells.add(cell);
         }
     }
@@ -103,7 +82,34 @@ public class Inventory {
 
     public void removeObject (int index) {
         inventory[index] = 0;
-        objects.get(index).remove();
+        objects.get(index).setDrawable(new SpriteDrawable(atlas.createSprite("Inventory", 3)));
         cells.get(index).setDrawable(new SpriteDrawable(cellsSprites[0]));
+    }
+
+    private Image initObject (int i) {
+        final float OBJECT_HORIZ_FACTOR = 1.08f;
+        final float[] OBJECT_VERT_FACTOR = new float[] {1.15f, 1.3f, 1.5f, 1.78f, 2.18f, 2.78f};
+        Image object = new Image();
+        ImageProcessing.process(object, 1, OBJECT_HORIZ_FACTOR, OBJECT_VERT_FACTOR[i]);
+        object.addListener(new ClickListener() {
+            @Override
+            public void clicked (InputEvent event, float x, float y) {
+                if (inventory[objects.indexOf(object)] != 1){
+                    return;
+                }
+                Image cell = cells.get(objects.indexOf(object));
+                if (chosen == cells.indexOf(cell)) {
+                    chosen = -1;
+                    cell.setDrawable(new SpriteDrawable(cellsSprites[0]));
+                } else {
+                    if (chosen != -1) {
+                        cells.get(chosen).setDrawable(new SpriteDrawable(cellsSprites[0]));
+                    }
+                    chosen = cells.indexOf(cell);
+                    cell.setDrawable(new SpriteDrawable(cellsSprites[1]));
+                }
+            }
+        });
+        return object;
     }
 }

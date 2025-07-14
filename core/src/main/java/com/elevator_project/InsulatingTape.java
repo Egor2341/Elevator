@@ -19,8 +19,8 @@ public class InsulatingTape {
     public InsulatingTape () {
         mainGroup = new Group();
         indexInInventory = -1;
-        float horiz = 2f;
-        float vert = 2f;
+        float horiz = 2.5f;
+        float vert = 2.2f;
         float resize = 200f;
         spriteResize = 720f;
         sprite = GameManager.getAtlasses().getExtraElementsAtlas().createSprite("InsulatingTape");

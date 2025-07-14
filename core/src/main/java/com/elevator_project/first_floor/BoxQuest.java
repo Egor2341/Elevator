@@ -29,6 +29,7 @@ public class BoxQuest {
     @Getter
     private boolean open;
     private final Group runesGroup;
+    private boolean sound;
 
     public BoxQuest () {
         w = App.getDimensions()[0];
@@ -41,19 +42,21 @@ public class BoxQuest {
         combination = new Integer[] {2, 5, 1, 4};
         open = false;
         runesGroup = new Group();
+        sound = false;
         initElements();
     }
 
     private void initElements () {
         elements.add(initFloor());
+        elements.add(initLocker());
         elements.add(initBox());
         initRunes();
     }
 
     private Image initBox () {
-        final float BOX_RESIZE_FACTOR = 110f;
-        final float BOX_HORIZ_FACTOR = 9.7f;
-        final float BOX_VERT_FACTOR = 4.7f;
+        final float BOX_RESIZE_FACTOR = 100f;
+        final float BOX_HORIZ_FACTOR = 4.4f;
+        final float BOX_VERT_FACTOR = 3.4f;
 
         box = new Image(atlas.createSprite("Box", 2));
         ImageProcessing.process(box, BOX_RESIZE_FACTOR, BOX_HORIZ_FACTOR, BOX_VERT_FACTOR);
@@ -80,6 +83,10 @@ public class BoxQuest {
                 hide();
                 if (open) {
                     GameManager.getInsulatingTape().hide();
+                    if (!sound) {
+                        App.getSoundManager().playWindow();
+                        sound = true;
+                    }
                 }
                 GameManager.getFloor().show();
                 GameManager.getArrows().show();
@@ -89,10 +96,21 @@ public class BoxQuest {
         return floor;
     }
 
+    private Image initLocker () {
+        final float LOCKER_RESIZE_FACTOR = 100f;
+        final float LOCKER_HORIZ_FACTOR = 18f;
+        final float LOCKER_VERT_FACTOR = 7.5f;
+
+        Image locker = new Image(atlas.createSprite("Locker", 2));
+        ImageProcessing.process(locker, LOCKER_RESIZE_FACTOR, LOCKER_HORIZ_FACTOR, LOCKER_VERT_FACTOR);
+
+        return locker;
+    }
+
     private void initRunes () {
         final float BUTTON_RESIZE_FACTOR = 220f;
-        final float BUTTON_VERT_FACTOR = 2.19f;
-        final float FIRST_BUTTON_HORIZ_FACTOR = 3.7f;
+        final float BUTTON_VERT_FACTOR = 2.3f;
+        final float FIRST_BUTTON_HORIZ_FACTOR = 3.8f;
         final float SECOND_BUTTON_HORIZ_FACTOR = 2.6f;
         final float THIRD_BUTTON_HORIZ_FACTOR = 1.87f;
         final float FOURTH_BUTTON_HORIZ_FACTOR = 1.5f;
@@ -115,6 +133,7 @@ public class BoxQuest {
             button.addListener(new ClickListener() {
                 @Override
                 public void clicked (InputEvent event, float x, float y) {
+                    App.getSoundManager().playRune();
                     buttons.put(button, (buttons.get(button) + 1) % 6);
                     button.setDrawable(new SpriteDrawable((runes.get((buttons.get(button))))));
                 }
@@ -125,6 +144,7 @@ public class BoxQuest {
 
     private void checkSubsequence () {
         if (Arrays.equals(combination, buttons.values().toArray(new Integer[4]))){
+            App.getSoundManager().playBox();
             box.setDrawable(new SpriteDrawable(atlas.createSprite("Box", 3)));
             runesGroup.remove();
             GameManager.getInsulatingTape().render();
@@ -145,7 +165,9 @@ public class BoxQuest {
     public void render () {
         initGroup();
         App.getStage().addActor(mainGroup);
-        App.getStage().addActor(runesGroup);
+        if (!open) {
+            App.getStage().addActor(runesGroup);
+        }
     }
 
     public void dispose () {

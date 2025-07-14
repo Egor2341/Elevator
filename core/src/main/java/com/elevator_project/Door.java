@@ -38,7 +38,7 @@ public class Door {
         final float DOOR_HORIZ_FACTOR = 2.6f;
 
         door = new Image();
-        doorAnimation = new Animation<>(0.15f, atlas.findRegions("Door"));
+        doorAnimation = new Animation<>(0.3f, atlas.findRegions("Door"));
         door = new Image(new TextureRegionDrawable(doorAnimation.getKeyFrame(0)));
         ImageProcessing.process(door, DOOR_RESIZE_FACTOR, DOOR_HORIZ_FACTOR, DOOR_VERT_FACTOR_IN_ELEVATOR);
         door.addListener(new ClickListener() {
@@ -46,6 +46,7 @@ public class Door {
             public void clicked(InputEvent event, float x, float y) {
                 if (available){
                         if (open) {
+                            App.getSoundManager().playSteps();
                             if (elevator) {
                                 dispose();
                                 GameManager.getElevatorManager().dispose();
@@ -59,6 +60,7 @@ public class Door {
                                 GameManager.getFloor().dispose();
                                 GameManager.getArrows().dispose();
                                 GameManager.getElevatorManager().render();
+                                GameManager.getBoxQuest().dispose();
                                 elevator = true;
                             }
                             TextureRegion frame = doorAnimation.getKeyFrame(0, false);
@@ -71,6 +73,7 @@ public class Door {
                             open = false;
 
                         } else {
+                            App.getSoundManager().playElevatorDoors();
                             stateTime = 0;
                             animation = true;
                             available = false;

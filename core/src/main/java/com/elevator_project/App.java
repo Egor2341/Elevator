@@ -3,6 +3,7 @@ package com.elevator_project;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -17,6 +18,8 @@ public class App extends ApplicationAdapter {
     private static float h;
     @Getter
     private static Stage stage;
+    @Getter
+    private static SoundManager  soundManager;
 
     @Override
     public void create() {
@@ -41,6 +44,8 @@ public class App extends ApplicationAdapter {
     }
 
     private void init() {
+        soundManager = new SoundManager();
+        soundManager.playBackgroundMusic();
         GameManager.getElevatorManager().render();
     }
 
