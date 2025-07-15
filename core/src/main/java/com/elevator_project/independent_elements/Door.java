@@ -22,6 +22,7 @@ public class Door {
     private static boolean animation;
     private static boolean available;
     private static boolean open;
+    private static boolean closingDoors;
 
     public Door () {
         this.h = App.getDimensions()[1];
@@ -29,6 +30,7 @@ public class Door {
         initDoor();
         available = true;
         open = false;
+        closingDoors = true;
     }
 
     private void initDoor () {
@@ -37,7 +39,6 @@ public class Door {
         final float DOOR_VERT_FACTOR_IN_ROOM = 3.15f;
         final float DOOR_HORIZ_FACTOR = 2.6f;
 
-        door = new Image();
         doorAnimation = new Animation<>(0.3f, atlas.findRegions("Door"));
         door = new Image(new TextureRegionDrawable(doorAnimation.getKeyFrame(0)));
         ImageProcessing.process(door, DOOR_RESIZE_FACTOR, DOOR_HORIZ_FACTOR, DOOR_VERT_FACTOR_IN_ELEVATOR);
@@ -54,11 +55,13 @@ public class Door {
                                 GameManager.getFloor().render();
                                 available = false;
                                 GameManager.setElevator(false);
+                                App.getSoundManager().playElevatorDoors();
                             } else {
                                 dispose();
                                 GameManager.getFloor().dispose();
                                 GameManager.getElevatorManager().render();
                                 GameManager.setElevator(true);
+                                close();
                             }
                             TextureRegion frame = doorAnimation.getKeyFrame(0, false);
                             door.setDrawable(new TextureRegionDrawable(frame));
@@ -74,10 +77,25 @@ public class Door {
                             stateTime = 0;
                             animation = true;
                             available = false;
+                            closingDoors = false;
+                            doorAnimation.setPlayMode(Animation.PlayMode.NORMAL);
                         }
                 }
             }
         });
+    }
+
+    public void close () {
+        if (open) {
+            App.getSoundManager().playElevatorDoors();
+            doorAnimation.setPlayMode(Animation.PlayMode.REVERSED);
+            stateTime = 0;
+            available = false;
+            animation = true;
+            closingDoors = true;
+        } else {
+            GameManager.getElevatorManager().setMoving(true);
+        }
     }
 
     public void update(float delta) {
@@ -87,8 +105,13 @@ public class Door {
             door.setDrawable(new TextureRegionDrawable(frame));
             if (doorAnimation.isAnimationFinished(stateTime)) {
                 animation = false;
-                open = true;
-                available = true;
+                if (closingDoors) {
+                    GameManager.getElevatorManager().setMoving(true);
+                    open = false;
+                } else {
+                    open = true;
+                    available = true;
+                }
             }
         }
     }

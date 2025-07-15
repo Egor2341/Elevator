@@ -52,6 +52,9 @@ public class App extends ApplicationAdapter {
         if (GameManager.getDoor().isAnimation()){
             GameManager.getDoor().update(delta);
         }
+        if (GameManager.getElevatorManager().isMoving()) {
+            GameManager.getElevatorManager().moveElevator(delta);
+        }
         stage.act();
         stage.draw();
     }

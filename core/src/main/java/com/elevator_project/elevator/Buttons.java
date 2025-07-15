@@ -77,6 +77,20 @@ public class Buttons implements GroupElements {
         ImageProcessing.process(buttonSix, BUTTON_RESIZE_FACTOR, FIRST_HORIZ_ROW_FACTOR, SECOND_VERT_ROW_FACTOR);
         buttons.add(buttonSix);
 
+        for (Image button : buttons) {
+            button.addListener(new ClickListener() {
+                @Override
+                public void clicked (InputEvent event, float x, float y) {
+                    GameManager.getElevatorManager().getElevator().move(
+                        GameManager.getElevatorManager().getFloorIndex(),
+                        buttons.indexOf(button) + 1);
+                    GameManager.getElevatorManager().setFloorIndex(buttons.indexOf(button) + 1);
+                    GameManager.getElevatorManager().back();
+                }
+            });
+
+        }
+
         return buttons;
     }
 

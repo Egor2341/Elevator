@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.elevator_project.game.App;
 import com.elevator_project.game.GameManager;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,11 @@ public class ElevatorManager {
     @Getter
     private final Buttons buttons;
     @Getter
+    @Setter
     private int floorIndex;
+    @Getter
+    @Setter
+    private boolean moving;
 
     public ElevatorManager() {
         groups = new ArrayList<>();
@@ -23,6 +28,7 @@ public class ElevatorManager {
         elevator = new Elevator();
         floorIndex = 1;
         buttons.hide();
+        moving = false;
     }
 
     public void forward() {
@@ -37,6 +43,10 @@ public class ElevatorManager {
         elevator.show();
         GameManager.getDoor().show();
         GameManager.getDownArrow().hide();
+    }
+
+    public void moveElevator (float delta) {
+        elevator.update(delta);
     }
 
     public void initGroups () {

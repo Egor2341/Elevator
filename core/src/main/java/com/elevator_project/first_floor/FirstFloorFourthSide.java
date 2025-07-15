@@ -20,11 +20,13 @@ public class FirstFloorFourthSide extends RoomPart {
     private int windowIndex;
     private final List<Sprite> windowSprites;
     private final List<Image> elements;
+    private boolean screamer;
 
     public FirstFloorFourthSide() {
         atlas = GameManager.getAtlasses().getFirstFloorAtlas();
         windowSprites = new ArrayList<>();
         elements = new ArrayList<>();
+        screamer = false;
         initElements();
     }
 
@@ -98,6 +100,10 @@ public class FirstFloorFourthSide extends RoomPart {
     public void changeWindow() {
         if (GameManager.getFirstFloor().isBoxQuestSolved()) {
             window.setDrawable(new SpriteDrawable(windowSprites.get(2)));
+            if (!screamer) {
+                App.getSoundManager().playWindow();
+                screamer = true;
+            }
         } else {
             window.setDrawable(new SpriteDrawable(windowSprites.get(windowIndex)));
             windowIndex = windowIndex == 0 ? 1 : 0;

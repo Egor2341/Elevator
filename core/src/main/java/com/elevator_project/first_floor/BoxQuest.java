@@ -26,7 +26,6 @@ public class BoxQuest extends RoomPart {
     private Image box;
     @Getter
     private boolean open;
-    private boolean sound;
 
     public BoxQuest () {
         atlas = GameManager.getAtlasses().getFirstFloorAtlas();
@@ -35,7 +34,6 @@ public class BoxQuest extends RoomPart {
         buttons = new LinkedHashMap<>();
         combination = new Integer[] {2, 5, 1, 4};
         open = false;
-        sound = false;
         initElements();
     }
 

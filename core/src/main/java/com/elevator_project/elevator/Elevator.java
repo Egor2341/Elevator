@@ -1,10 +1,14 @@
 package com.elevator_project.elevator;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.elevator_project.game.App;
 import com.elevator_project.game.GameManager;
 import com.elevator_project.game.GroupElements;
@@ -19,6 +23,10 @@ public class Elevator implements GroupElements {
     private final TextureAtlas atlas;
     private final Group mainGroup;
     private final List<Image> elements;
+    private Animation<TextureRegion> displayAnimation;
+    private float stateTime;
+    private Image display;
+    private Image back;
 
     public Elevator () {
         this.w = App.getDimensions()[0];
@@ -47,7 +55,7 @@ public class Elevator implements GroupElements {
         final float BACK_RESIZE_FACTOR = 240f;
         final float BACK_VERT_FACTOR = 4.65f;
         final float BACK_HORIZ_FACTOR = 2.6f;
-        Image back = new Image(atlas.createSprite("Back", 1));
+        back = new Image(atlas.createSprite("Back", 1));
         ImageProcessing.process(back, BACK_RESIZE_FACTOR, BACK_HORIZ_FACTOR, BACK_VERT_FACTOR);
         return back;
     }
@@ -71,9 +79,43 @@ public class Elevator implements GroupElements {
         final float DISPLAY_RESIZE_FACTOR = 700f;
         final float DISPLAY_VERT_FACTOR = 1.8f;
         final float DISPLAY_HORIZ_FACTOR = 1.5f;
-        Image display = new Image(atlas.createSprite("Display", 1));
+
+        displayAnimation = new Animation<>(0.6f, atlas.findRegions("Display"));
+        display = new Image(new TextureRegionDrawable(displayAnimation.getKeyFrame(0)));
         ImageProcessing.process(display, DISPLAY_RESIZE_FACTOR, DISPLAY_HORIZ_FACTOR, DISPLAY_VERT_FACTOR);
         return display;
+    }
+
+    public void update (float delta) {
+        if (GameManager.getElevatorManager().getFloorIndex() != displayAnimation.getKeyFrameIndex(stateTime) + 1){
+            back.setDrawable(new SpriteDrawable(atlas.createSprite("Back", 0)));
+            stateTime += delta;
+            TextureRegion frame = displayAnimation.getKeyFrame(stateTime, false);
+            display.setDrawable(new TextureRegionDrawable(frame));
+        } else {
+            setFloorBack();
+            GameManager.getElevatorManager().setMoving(false);
+        }
+    }
+
+    public void move (int start, int end) {
+        if (start > end) {
+            displayAnimation.setPlayMode(Animation.PlayMode.REVERSED);
+            stateTime = 0 + 0.6f * (6 - start);
+        } else {
+            displayAnimation.setPlayMode(Animation.PlayMode.NORMAL);
+            stateTime = 0 + 0.6f * (start - 1);
+        }
+        System.out.println(start);
+        TextureRegion frame = displayAnimation.getKeyFrame(stateTime, false);
+        display.setDrawable(new TextureRegionDrawable(frame));
+        GameManager.getDoor().close();
+
+    }
+
+    private void setFloorBack () {
+        back.setDrawable(new SpriteDrawable(atlas.createSprite("Back", 1)));
+        GameManager.getDoor().setAvailable(true);
     }
 
     public Group initGroup() {
