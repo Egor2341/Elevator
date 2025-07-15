@@ -61,9 +61,7 @@ public class Elevator implements GroupElements {
         buttons.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                hide();
-                GameManager.getElevatorManager().getButtons().show();
-                GameManager.getDoor().dispose();
+                GameManager.getElevatorManager().forward();
             }
         });
         return buttons;

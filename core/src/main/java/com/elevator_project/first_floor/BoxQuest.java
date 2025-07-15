@@ -70,19 +70,6 @@ public class BoxQuest extends RoomPart {
 
         Image floor = new Image(atlas.createSprite("Floor"));
         ImageProcessing.process(floor, FLOOR_RESIZE_FACTOR, w, h);
-        floor.addListener(new ClickListener() {
-            @Override
-            public void clicked (InputEvent event, float x, float y) {
-                GameManager.getFirstFloor().back();
-                if (open) {
-                    GameManager.getInsulatingTape().hide();
-                    if (!sound) {
-                        App.getSoundManager().playWindow();
-                        sound = true;
-                    }
-                }
-            }
-        });
 
         return floor;
     }

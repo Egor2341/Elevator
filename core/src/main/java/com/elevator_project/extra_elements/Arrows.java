@@ -55,7 +55,11 @@ public class Arrows {
         downArrow.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                GameManager.getFloor();
+                if (GameManager.isElevator()){
+                    GameManager.getElevatorManager().back();
+                } else {
+                    GameManager.getFloor().back();
+                }
             }
         });
     }

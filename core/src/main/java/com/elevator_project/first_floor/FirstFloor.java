@@ -2,6 +2,7 @@ package com.elevator_project.first_floor;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.elevator_project.extra_elements.Arrows;
+import com.elevator_project.extra_elements.DownArrow;
 import com.elevator_project.extra_elements.Inventory;
 import com.elevator_project.game.App;
 import com.elevator_project.game.Floor;
@@ -19,6 +20,7 @@ public class FirstFloor implements Floor {
     private final Door door;
     private final Inventory inventory;
     private final Arrows arrows;
+    private final DownArrow downArrow;
     private final List<RoomPart> parts;
     private FirstFloorFirstSide firstSide;
     private FirstFloorSecondSide secondSide;
@@ -31,6 +33,7 @@ public class FirstFloor implements Floor {
         door = GameManager.getDoor();
         inventory = GameManager.getInventory();
         arrows = GameManager.getArrows();
+        downArrow = GameManager.getDownArrow();
         groups = new ArrayList<>();
         parts = new ArrayList<>();
         partIndex = 0;
@@ -68,15 +71,24 @@ public class FirstFloor implements Floor {
         move(partIndex, (partIndex + 3) % 4);
     }
 
-    public void forward() {move(partIndex, boxQuestIndex);}
+    public void forward() {
+        move(partIndex, boxQuestIndex);
 
-    public void back() {move(boxQuestIndex, partIndex);}
+    }
+
+    public void back() {
+        move(boxQuestIndex, partIndex);
+    }
 
     private void move (int hide, int show) {
         App.getSoundManager().playSteps();
         if (show != boxQuestIndex) {
             arrows.show();
+            downArrow.hide();
             partIndex = show;
+        } else {
+            arrows.hide();
+            downArrow.show();
         }
         if (hide == 2) {
             door.hide();
@@ -102,6 +114,8 @@ public class FirstFloor implements Floor {
         inventory.render();
         door.render();
         arrows.render();
+        downArrow.render();
+        downArrow.hide();
         move(2, 0);
     }
 
@@ -112,6 +126,7 @@ public class FirstFloor implements Floor {
         inventory.dispose();
         door.dispose();
         arrows.dispose();
+        downArrow.dispose();
     }
 
     public void hide () {

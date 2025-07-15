@@ -25,6 +25,20 @@ public class ElevatorManager {
         buttons.hide();
     }
 
+    public void forward() {
+        elevator.hide();
+        GameManager.getDoor().hide();
+        buttons.show();
+        GameManager.getDownArrow().show();
+    }
+
+    public void back() {
+        buttons.hide();
+        elevator.show();
+        GameManager.getDoor().show();
+        GameManager.getDownArrow().hide();
+    }
+
     public void initGroups () {
         groups.add(elevator.initGroup());
         groups.add(buttons.initGroup());
@@ -37,11 +51,14 @@ public class ElevatorManager {
         }
         GameManager.getInventory().render();
         GameManager.getDoor().render();
+        GameManager.getDownArrow().render();
+        GameManager.getDownArrow().hide();
     }
 
     public void dispose () {
         for (Group group : groups) {
             group.remove();
         }
+        GameManager.getDownArrow().dispose();
     }
 }

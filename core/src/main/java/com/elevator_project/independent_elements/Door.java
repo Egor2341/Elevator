@@ -22,13 +22,11 @@ public class Door {
     private static boolean animation;
     private static boolean available;
     private static boolean open;
-    private static boolean elevator;
 
     public Door () {
         this.h = App.getDimensions()[1];
         atlas = GameManager.getAtlasses().getDoorAtlas();
         initDoor();
-        elevator = true;
         available = true;
         open = false;
     }
@@ -49,22 +47,22 @@ public class Door {
                 if (available){
                         if (open) {
                             App.getSoundManager().playSteps();
-                            if (elevator) {
+                            if (GameManager.isElevator()) {
                                 dispose();
                                 GameManager.getElevatorManager().dispose();
                                 GameManager.getInventory().dispose();
                                 GameManager.getFloor().render();
                                 available = false;
-                                elevator = false;
+                                GameManager.setElevator(false);
                             } else {
                                 dispose();
                                 GameManager.getFloor().dispose();
                                 GameManager.getElevatorManager().render();
-                                elevator = true;
+                                GameManager.setElevator(true);
                             }
                             TextureRegion frame = doorAnimation.getKeyFrame(0, false);
                             door.setDrawable(new TextureRegionDrawable(frame));
-                            if (elevator) {
+                            if (GameManager.isElevator()) {
                                 door.setY(h / DOOR_VERT_FACTOR_IN_ELEVATOR);
                             } else {
                                 door.setY(h / DOOR_VERT_FACTOR_IN_ROOM);

@@ -38,14 +38,7 @@ public class Buttons implements GroupElements {
         final float BACK_RESIZE_FACTOR = 110f;
         Image back = new Image(atlas.createSprite("Back"));
         ImageProcessing.process(back, BACK_RESIZE_FACTOR, w, h);
-        back.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                hide();
-                GameManager.getElevatorManager().getElevator().show();
-                GameManager.getDoor().render();
-            }
-        });
+
         return back;
     }
 
