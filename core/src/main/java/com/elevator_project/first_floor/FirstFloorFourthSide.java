@@ -1,5 +1,6 @@
 package com.elevator_project.first_floor;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -27,14 +28,14 @@ public class FirstFloorFourthSide extends RoomPart {
         initElements();
     }
 
-    private void initElements () {
+    private void initElements() {
         elements.add(initWall());
         elements.add(initWindow());
         elements.add(initLocker());
         elements.add(initBox());
     }
 
-    private Image initWall () {
+    private Image initWall() {
         float WALL_RESIZE_FACTOR = 158f;
 
         Image wall = new Image(atlas.createSprite("Wall", 4));
@@ -62,7 +63,7 @@ public class FirstFloorFourthSide extends RoomPart {
         return window;
     }
 
-    private Image initLocker () {
+    private Image initLocker() {
         final float LOCKER_RESIZE_FACTOR = 600f;
         final float LOCKER_HORIZ_FACTOR = 2.32f;
         final float LOCKER_VERT_FACTOR = 3.19f;
@@ -73,7 +74,7 @@ public class FirstFloorFourthSide extends RoomPart {
         return locker;
     }
 
-    private Image initBox () {
+    private Image initBox() {
         final float BOX_RESIZE_FACTOR = 1600f;
         final float BOX_HORIZ_FACTOR = 2.1f;
         final float BOX_VERT_FACTOR = 2.19f;
@@ -83,10 +84,9 @@ public class FirstFloorFourthSide extends RoomPart {
         box.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                GameManager.getFloor().hide();
+                GameManager.getFirstFloor().forward();
                 GameManager.getArrows().hide();
-                GameManager.getBoxQuest().show();
-                if (GameManager.getBoxQuest().isOpen()) {
+                if (GameManager.getFirstFloor().isBoxQuestSolved()) {
                     GameManager.getInsulatingTape().show();
                 }
             }
@@ -95,8 +95,8 @@ public class FirstFloorFourthSide extends RoomPart {
         return box;
     }
 
-    public void changeWindow () {
-        if (GameManager.getBoxQuest().isOpen()){
+    public void changeWindow() {
+        if (GameManager.getFirstFloor().isBoxQuestSolved()) {
             window.setDrawable(new SpriteDrawable(windowSprites.get(2)));
         } else {
             window.setDrawable(new SpriteDrawable(windowSprites.get(windowIndex)));

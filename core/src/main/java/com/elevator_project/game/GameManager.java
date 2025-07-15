@@ -21,20 +21,17 @@ public class GameManager {
     @Getter
     private static final FirstFloor firstFloor;
     @Getter
-    private static final BoxQuest boxQuest;
-    @Getter
     private static final Inventory inventory;
     @Getter
     private static final InsulatingTape insulatingTape;
 
     static {
         atlasses = new Atlasses();
-        elevatorManager = new ElevatorManager();
         door = new Door();
-        arrows = new Arrows();
-        firstFloor = new FirstFloor();
-        boxQuest = new BoxQuest();
         inventory = new Inventory();
+        arrows = new Arrows();
+        elevatorManager = new ElevatorManager();
+        firstFloor = new FirstFloor();
         insulatingTape = new InsulatingTape();
     }
 

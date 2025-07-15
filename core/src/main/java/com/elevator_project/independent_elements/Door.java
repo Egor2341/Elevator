@@ -54,15 +54,12 @@ public class Door {
                                 GameManager.getElevatorManager().dispose();
                                 GameManager.getInventory().dispose();
                                 GameManager.getFloor().render();
-                                GameManager.getArrows().render();
                                 available = false;
                                 elevator = false;
                             } else {
                                 dispose();
                                 GameManager.getFloor().dispose();
-                                GameManager.getArrows().dispose();
                                 GameManager.getElevatorManager().render();
-                                GameManager.getBoxQuest().dispose();
                                 elevator = true;
                             }
                             TextureRegion frame = doorAnimation.getKeyFrame(0, false);
@@ -98,6 +95,14 @@ public class Door {
         }
     }
 
+    public void setAvailable(boolean value) {
+        available = value;
+    }
+
+    public boolean isAnimation () {
+        return animation;
+    }
+
     public void dispose() {
         door.remove();
     }
@@ -106,11 +111,11 @@ public class Door {
         App.getStage().addActor(door);
     }
 
-    public void setAvailable(boolean value) {
-        available = value;
+    public void hide() {
+        door.setVisible(false);
     }
 
-    public boolean isAnimation () {
-        return animation;
+    public void show() {
+        door.setVisible(true);
     }
 }

@@ -26,7 +26,6 @@ public class BoxQuest extends RoomPart {
     private Image box;
     @Getter
     private boolean open;
-    private final Group runesGroup;
     private boolean sound;
 
     public BoxQuest () {
@@ -36,7 +35,6 @@ public class BoxQuest extends RoomPart {
         buttons = new LinkedHashMap<>();
         combination = new Integer[] {2, 5, 1, 4};
         open = false;
-        runesGroup = new Group();
         sound = false;
         initElements();
     }
@@ -75,7 +73,7 @@ public class BoxQuest extends RoomPart {
         floor.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-//                hide();
+                GameManager.getFirstFloor().back();
                 if (open) {
                     GameManager.getInsulatingTape().hide();
                     if (!sound) {
@@ -83,8 +81,6 @@ public class BoxQuest extends RoomPart {
                         sound = true;
                     }
                 }
-                GameManager.getFloor().show();
-                GameManager.getArrows().show();
             }
         });
 
@@ -146,7 +142,6 @@ public class BoxQuest extends RoomPart {
             }
             GameManager.getInsulatingTape().render();
             open = true;
-            GameManager.getFirstFloor().getFourthSide().changeWindow();
         }
     }
 
@@ -154,33 +149,12 @@ public class BoxQuest extends RoomPart {
         for (Image element : elements) {
             mainGroup.addActor(element);
         }
-        for (Image button : buttons.keySet()) {
-            mainGroup.addActor(button);
+        if (!GameManager.getFirstFloor().isBoxQuestSolved()) {
+            for (Image button : buttons.keySet()) {
+                mainGroup.addActor(button);
+            }
         }
         return mainGroup;
     }
-
-//    public void render () {
-//        initGroup();
-//        App.getStage().addActor(mainGroup);
-//        if (!open) {
-//            App.getStage().addActor(runesGroup);
-//        }
-//    }
-//
-//    public void dispose () {
-//        mainGroup.remove();
-//        runesGroup.remove();
-//    }
-//
-//    public void hide () {
-//        mainGroup.setVisible(false);
-//        runesGroup.setVisible(false);
-//    }
-//
-//    public void show () {
-//        mainGroup.setVisible(true);
-//        runesGroup.setVisible(true);
-//    }
 
 }

@@ -89,7 +89,7 @@ public class FirstFloorThirdSide extends RoomPart {
                 GameManager.getInventory().getChosen() == insulatingTapeIndexInventory) {
                     GameManager.getInventory().removeObject(insulatingTapeIndexInventory);
                     wire.setDrawable(new SpriteDrawable(atlas.createSprite("Wire", 2)));
-                    buttonAvailable = true;
+                    GameManager.getDoor().setAvailable(true);
                 }
             }
         });
