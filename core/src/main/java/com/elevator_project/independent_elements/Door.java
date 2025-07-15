@@ -95,6 +95,7 @@ public class Door {
             closingDoors = true;
         } else {
             GameManager.getElevatorManager().setMoving(true);
+            App.getSoundManager().playElevatorMotor();
         }
     }
 
@@ -107,6 +108,7 @@ public class Door {
                 animation = false;
                 if (closingDoors) {
                     GameManager.getElevatorManager().setMoving(true);
+                    App.getSoundManager().playElevatorMotor();
                     open = false;
                 } else {
                     open = true;

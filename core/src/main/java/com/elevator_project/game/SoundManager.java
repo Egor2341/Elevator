@@ -11,6 +11,8 @@ public class SoundManager {
     private final Sound window;
     private final Sound box;
     private final Sound rune;
+    private final Sound elevatorMotor;
+    private final Sound elevatorDing;
 
     public SoundManager () {
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music/background_music.mp3"));
@@ -19,6 +21,8 @@ public class SoundManager {
          window = Gdx.audio.newSound(Gdx.files.internal("sounds/window.mp3"));
          box = Gdx.audio.newSound(Gdx.files.internal("sounds/box.mp3"));
          rune = Gdx.audio.newSound(Gdx.files.internal("sounds/rune.mp3"));
+        elevatorMotor = Gdx.audio.newSound(Gdx.files.internal("sounds/elevator_motor.mp3"));
+        elevatorDing = Gdx.audio.newSound(Gdx.files.internal("sounds/elevator_ding.mp3"));
     }
 
     public void playBackgroundMusic () {
@@ -45,5 +49,14 @@ public class SoundManager {
 
     public void playRune () {
         rune.play();
+    }
+
+    public void playElevatorMotor() {
+        elevatorMotor.play();
+    }
+
+    public void stopElevatorMotor() {
+        elevatorMotor.stop();
+        elevatorDing.play();
     }
 }

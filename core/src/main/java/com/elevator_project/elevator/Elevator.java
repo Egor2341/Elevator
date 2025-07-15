@@ -95,6 +95,7 @@ public class Elevator implements GroupElements {
         } else {
             setFloorBack();
             GameManager.getElevatorManager().setMoving(false);
+            App.getSoundManager().stopElevatorMotor();
         }
     }
 
@@ -106,7 +107,6 @@ public class Elevator implements GroupElements {
             displayAnimation.setPlayMode(Animation.PlayMode.NORMAL);
             stateTime = 0 + 0.6f * (start - 1);
         }
-        System.out.println(start);
         TextureRegion frame = displayAnimation.getKeyFrame(stateTime, false);
         display.setDrawable(new TextureRegionDrawable(frame));
         GameManager.getDoor().close();
