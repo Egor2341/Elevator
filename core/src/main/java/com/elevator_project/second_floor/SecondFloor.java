@@ -1,7 +1,6 @@
 package com.elevator_project.second_floor;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.elevator_project.game.App;
 import com.elevator_project.game.Floor;
 import com.elevator_project.game.RoomPart;
