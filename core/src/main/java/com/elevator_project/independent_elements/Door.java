@@ -53,7 +53,6 @@ public class Door {
                                 GameManager.getElevatorManager().dispose();
                                 GameManager.getInventory().dispose();
                                 GameManager.getFloor().render();
-                                available = false;
                                 GameManager.setElevator(false);
                                 App.getSoundManager().playElevatorDoors();
                             } else {

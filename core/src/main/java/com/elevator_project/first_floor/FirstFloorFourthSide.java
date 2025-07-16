@@ -1,6 +1,5 @@
 package com.elevator_project.first_floor;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -86,7 +85,7 @@ public class FirstFloorFourthSide extends RoomPart {
         box.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                GameManager.getFirstFloor().forward();
+                GameManager.getFirstFloor().moveToBox();
                 GameManager.getArrows().hide();
                 if (GameManager.getFirstFloor().isBoxQuestSolved()) {
                     GameManager.getInsulatingTape().show();
