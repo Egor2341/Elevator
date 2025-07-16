@@ -1,4 +1,4 @@
-package com.elevator_project.second_floor;
+package com.elevator_project.third_floor;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -7,16 +7,15 @@ import com.elevator_project.game.GameManager;
 import com.elevator_project.game.ImageProcessing;
 import com.elevator_project.game.RoomPart;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class SecondFloorThirdSide extends RoomPart {
+public class ThirdFloorFirstSide extends RoomPart {
 
     private final TextureAtlas atlas;
     private final List<Image> elements;
 
-    public SecondFloorThirdSide () {
-        atlas = GameManager.getAtlasses().getSecondFloorAtlas();
+    public ThirdFloorFirstSide () {
+        atlas = GameManager.getAtlasses().getThirdFloorAtlas();
         elements = new ArrayList<>();
         initElements();
     }
@@ -28,7 +27,7 @@ public class SecondFloorThirdSide extends RoomPart {
     private Image initWall () {
         float WALL_RESIZE_FACTOR = 158f;
 
-        Image wall = new Image(atlas.createSprite("Wall", 3));
+        Image wall = new Image(atlas.createSprite("Wall", 1));
         ImageProcessing.process(wall, WALL_RESIZE_FACTOR, w, h);
 
         return wall;

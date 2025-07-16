@@ -1,4 +1,4 @@
-package com.elevator_project.second_floor;
+package com.elevator_project.fourth_floor;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -10,13 +10,13 @@ import com.elevator_project.game.RoomPart;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SecondFloorThirdSide extends RoomPart {
+public class FourthFloorThirdSide extends RoomPart {
 
     private final TextureAtlas atlas;
     private final List<Image> elements;
 
-    public SecondFloorThirdSide () {
-        atlas = GameManager.getAtlasses().getSecondFloorAtlas();
+    public FourthFloorThirdSide () {
+        atlas = GameManager.getAtlasses().getFourthFloorAtlas();
         elements = new ArrayList<>();
         initElements();
     }

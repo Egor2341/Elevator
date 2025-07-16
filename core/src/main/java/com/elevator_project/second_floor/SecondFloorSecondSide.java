@@ -28,7 +28,7 @@ public class SecondFloorSecondSide extends RoomPart {
     private Image initWall () {
         float WALL_RESIZE_FACTOR = 158f;
 
-        Image wall = new Image(atlas.createSprite("Wall", 1));
+        Image wall = new Image(atlas.createSprite("Wall", 2));
         ImageProcessing.process(wall, WALL_RESIZE_FACTOR, w, h);
 
         return wall;
