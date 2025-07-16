@@ -67,6 +67,9 @@ public class FirstFloorThirdSide extends RoomPart {
                 if (buttonAvailable) {
                     back.setDrawable(new SpriteDrawable(atlas.createSprite("Back", 2)));
                     GameManager.getDoor().setAvailable(true);
+                    App.getSoundManager().playAvailableButton();
+                } else {
+                    App.getSoundManager().playUnavailableButton();
                 }
             }
         });
@@ -89,7 +92,7 @@ public class FirstFloorThirdSide extends RoomPart {
                 GameManager.getInventory().getChosen() == insulatingTapeIndexInventory) {
                     GameManager.getInventory().removeObject(insulatingTapeIndexInventory);
                     wire.setDrawable(new SpriteDrawable(atlas.createSprite("Wire", 2)));
-                    GameManager.getDoor().setAvailable(true);
+                    buttonAvailable = true;
                 }
             }
         });

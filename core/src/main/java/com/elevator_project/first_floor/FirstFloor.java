@@ -37,10 +37,10 @@ public class FirstFloor implements Floor {
         groups = new ArrayList<>();
         parts = new ArrayList<>();
         partIndex = 0;
-        initElements();
+        initParts();
     }
 
-    private void initElements () {
+    private void initParts() {
         firstSide = new FirstFloorFirstSide();
         secondSide = new FirstFloorSecondSide();
         thirdSide = new FirstFloorThirdSide();

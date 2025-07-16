@@ -8,6 +8,7 @@ import com.elevator_project.extra_elements.Arrows;
 import com.elevator_project.extra_elements.Inventory;
 import com.elevator_project.first_floor.BoxQuest;
 import com.elevator_project.first_floor.FirstFloor;
+import com.elevator_project.second_floor.SecondFloor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,6 +32,8 @@ public class GameManager {
     private static boolean elevator;
     @Getter
     private static final DownArrow downArrow;
+    @Getter
+    private static final SecondFloor secondFloor;
 
     static {
         elevator = true;
@@ -42,12 +45,14 @@ public class GameManager {
         elevatorManager = new ElevatorManager();
         firstFloor = new FirstFloor();
         insulatingTape = new InsulatingTape();
+        secondFloor = new SecondFloor();
     }
 
 
     public static Floor getFloor() {
         return switch (elevatorManager.getFloorIndex()) {
             case 1 -> firstFloor;
+            case 2 -> secondFloor;
             default -> firstFloor;
         };
     }

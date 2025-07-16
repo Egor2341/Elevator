@@ -11,6 +11,7 @@ public class Atlasses {
     private final TextureAtlas buttonsAtlas;
     private final TextureAtlas doorAtlas;
     private final TextureAtlas extraElementsAtlas;
+    private final TextureAtlas secondFloorAtlas;
 
     public Atlasses() {
         firstFloorAtlas = new TextureAtlas("FirstFloor.atlas");
@@ -18,5 +19,6 @@ public class Atlasses {
         buttonsAtlas = new TextureAtlas("Buttons.atlas");
         doorAtlas = new TextureAtlas("Door.atlas");
         extraElementsAtlas = new TextureAtlas("ExtraElements.atlas");
+        secondFloorAtlas = new TextureAtlas("secondFloor.atlas");
     }
 }
