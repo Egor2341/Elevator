@@ -17,16 +17,12 @@ public class ElevatorManager {
     private final Buttons buttons;
     @Getter
     @Setter
-    private int floorIndex;
-    @Getter
-    @Setter
     private boolean moving;
 
     public ElevatorManager() {
         groups = new ArrayList<>();
         buttons = new Buttons();
         elevator = new Elevator();
-        floorIndex = 1;
         buttons.hide();
         moving = false;
     }

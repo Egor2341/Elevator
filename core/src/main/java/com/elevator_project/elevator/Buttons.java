@@ -82,9 +82,9 @@ public class Buttons implements GroupElements {
                 @Override
                 public void clicked (InputEvent event, float x, float y) {
                     GameManager.getElevatorManager().getElevator().move(
-                        GameManager.getElevatorManager().getFloorIndex(),
+                        GameManager.getGameState().getFloorIndex(),
                         buttons.indexOf(button) + 1);
-                    GameManager.getElevatorManager().setFloorIndex(buttons.indexOf(button) + 1);
+                    GameManager.getGameState().setFloorIndex(buttons.indexOf(button) + 1);
                     GameManager.getElevatorManager().back();
                 }
             });

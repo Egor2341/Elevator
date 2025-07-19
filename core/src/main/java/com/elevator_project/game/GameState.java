@@ -20,6 +20,8 @@ public class GameState {
 
     private List<String> objectsInInventory;
 
+    private int floorIndex;
+
     public GameState () {
         elevator = true;
 
@@ -36,5 +38,7 @@ public class GameState {
         objectsInInventory.add("");
         objectsInInventory.add("");
         objectsInInventory.add("");
+
+        floorIndex = 1;
     }
 }

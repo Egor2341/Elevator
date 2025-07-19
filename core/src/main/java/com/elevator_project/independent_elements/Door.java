@@ -18,7 +18,6 @@ public class Door {
     private static float stateTime;
 
     private static boolean animation;
-    private static boolean available;
     private static boolean open;
     private static boolean close;
 
@@ -26,7 +25,6 @@ public class Door {
         this.h = App.getDimensions()[1];
         atlas = GameManager.getAtlasses().getDoorAtlas();
         initDoor();
-        available = true;
         open = false;
         close = true;
     }
@@ -125,10 +123,6 @@ public class Door {
                 }
             }
         }
-    }
-
-    public void setAvailable(boolean value) {
-        available = value;
     }
 
     public boolean isAnimation () {

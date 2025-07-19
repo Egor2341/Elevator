@@ -9,10 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.elevator_project.game.App;
-import com.elevator_project.game.GameManager;
-import com.elevator_project.game.GroupElements;
-import com.elevator_project.game.ImageProcessing;
+import com.elevator_project.game.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +52,7 @@ public class Elevator implements GroupElements {
         final float BACK_RESIZE_FACTOR = 240f;
         final float BACK_VERT_FACTOR = 4.65f;
         final float BACK_HORIZ_FACTOR = 2.6f;
-        back = new Image(atlas.createSprite("Back", 1));
+        back = new Image(atlas.createSprite("Back", GameManager.getGameState().getFloorIndex()));
         ImageProcessing.process(back, BACK_RESIZE_FACTOR, BACK_HORIZ_FACTOR, BACK_VERT_FACTOR);
         return back;
     }
@@ -81,13 +78,15 @@ public class Elevator implements GroupElements {
         final float DISPLAY_HORIZ_FACTOR = 1.5f;
 
         displayAnimation = new Animation<>(0.6f, atlas.findRegions("Display"));
-        display = new Image(new TextureRegionDrawable(displayAnimation.getKeyFrame(0)));
+        display = new Image(new TextureRegionDrawable(displayAnimation.getKeyFrame(
+            0 + 0.6f * (GameManager.getGameState().getFloorIndex() - 1))));
+        stateTime = 0 + 0.6f * (GameManager.getGameState().getFloorIndex() - 1);
         ImageProcessing.process(display, DISPLAY_RESIZE_FACTOR, DISPLAY_HORIZ_FACTOR, DISPLAY_VERT_FACTOR);
         return display;
     }
 
     public void update (float delta) {
-        if (GameManager.getElevatorManager().getFloorIndex() != displayAnimation.getKeyFrameIndex(stateTime) + 1){
+        if (GameManager.getGameState().getFloorIndex() != displayAnimation.getKeyFrameIndex(stateTime) + 1){
             back.setDrawable(new SpriteDrawable(atlas.createSprite("Back", 0)));
             stateTime += delta;
             TextureRegion frame = displayAnimation.getKeyFrame(stateTime, false);
@@ -114,8 +113,9 @@ public class Elevator implements GroupElements {
     }
 
     private void setFloorBack () {
-        back.setDrawable(new SpriteDrawable(atlas.createSprite("Back", GameManager.getElevatorManager().getFloorIndex())));
+        back.setDrawable(new SpriteDrawable(atlas.createSprite("Back", GameManager.getGameState().getFloorIndex())));
         GameManager.getGameState().setDoorAvailable(true);
+        SaveManager.saveAutosave();
     }
 
     public Group initGroup() {

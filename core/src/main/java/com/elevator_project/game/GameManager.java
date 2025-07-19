@@ -84,7 +84,7 @@ public class GameManager {
 
 
     public static Floor getFloor() {
-        return switch (elevatorManager.getFloorIndex()) {
+        return switch (gameState.getFloorIndex()) {
             case 1 -> firstFloor;
             case 2 -> secondFloor;
             case 3 -> thirdFloor;
