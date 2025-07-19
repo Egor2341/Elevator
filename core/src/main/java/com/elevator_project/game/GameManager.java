@@ -19,7 +19,8 @@ public class GameManager {
 
     @Getter
     @Setter
-    private static boolean elevator;
+    private static GameState gameState;
+
     @Getter
     private static final Atlasses atlasses;
 
@@ -52,7 +53,8 @@ public class GameManager {
     private static final SixthFloor sixthFloor;
 
     static {
-        elevator = true;
+        SaveManager.loadAll();
+
         atlasses = new Atlasses();
 
         door = new Door();

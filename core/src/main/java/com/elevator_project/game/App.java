@@ -25,24 +25,17 @@ public class App extends ApplicationAdapter {
         (camera = new OrthographicCamera(w, h)).setToOrtho(false);
         stage = new Stage(new ScreenViewport(camera));
         Gdx.input.setInputProcessor(stage);
-
-//        Label.LabelStyle labelStyle = new Label.LabelStyle();
-//        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Norse-Regular.ttf"));
-//        FreeTypeFontGenerator.FreeTypeFontParameter parameter =
-//            new FreeTypeFontGenerator.FreeTypeFontParameter();
-//        parameter.size = 44;
-//        parameter.color = Color.WHITE;
-//        labelStyle.font = generator.generateFont(parameter);
-//        Label label = new Label("RUN", labelStyle);
-//        label.setPosition(w / 2, h / 2);
-
         init();
     }
 
     private void init() {
         soundManager = new SoundManager();
         soundManager.playBackgroundMusic();
-        GameManager.getElevatorManager().render();
+        if (GameManager.getGameState().isElevator()) {
+            GameManager.getElevatorManager().render();
+        } else {
+            GameManager.getFloor().render();
+        }
     }
 
     @Override

@@ -14,6 +14,7 @@ public class FifthFloorThirdSide extends RoomPart {
 
     private final TextureAtlas atlas;
     private final List<Image> elements;
+    private Image back;
 
     public FifthFloorThirdSide () {
         atlas = GameManager.getAtlasses().getFifthFloorAtlas();
@@ -23,6 +24,18 @@ public class FifthFloorThirdSide extends RoomPart {
 
     private void initElements() {
         elements.add(initWall());
+        elements.add(initBack());
+    }
+
+    private Image initBack() {
+        final float BACK_RESIZE_FACTOR = 240f;
+        final float BACK_VERT_FACTOR = 3.15f;
+        final float BACK_HORIZ_FACTOR = 2.6f;
+
+        back = new Image(atlas.createSprite("Back", 1));
+        ImageProcessing.process(back, BACK_RESIZE_FACTOR, BACK_HORIZ_FACTOR, BACK_VERT_FACTOR);
+
+        return back;
     }
 
     private Image initWall () {

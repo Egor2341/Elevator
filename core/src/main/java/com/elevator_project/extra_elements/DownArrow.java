@@ -30,7 +30,7 @@ public class DownArrow {
         downArrow.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                if (GameManager.isElevator()){
+                if (GameManager.getGameState().isElevator()){
                     GameManager.getElevatorManager().back();
                 } else {
                     GameManager.getFloor().back();

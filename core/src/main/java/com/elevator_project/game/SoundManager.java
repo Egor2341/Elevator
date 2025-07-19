@@ -18,11 +18,11 @@ public class SoundManager {
 
     public SoundManager () {
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music/background_music.mp3"));
-         elevatorDoors = Gdx.audio.newSound(Gdx.files.internal("sounds/elevator_doors.mp3"));
-         steps = Gdx.audio.newSound(Gdx.files.internal("sounds/footsteps.mp3"));
-         window = Gdx.audio.newSound(Gdx.files.internal("sounds/window.mp3"));
-         box = Gdx.audio.newSound(Gdx.files.internal("sounds/box.mp3"));
-         rune = Gdx.audio.newSound(Gdx.files.internal("sounds/rune.mp3"));
+        elevatorDoors = Gdx.audio.newSound(Gdx.files.internal("sounds/elevator_doors.mp3"));
+        steps = Gdx.audio.newSound(Gdx.files.internal("sounds/footsteps.mp3"));
+        window = Gdx.audio.newSound(Gdx.files.internal("sounds/window_2.wav"));
+        box = Gdx.audio.newSound(Gdx.files.internal("sounds/box.mp3"));
+        rune = Gdx.audio.newSound(Gdx.files.internal("sounds/rune.mp3"));
         elevatorMotor = Gdx.audio.newSound(Gdx.files.internal("sounds/elevator_motor.mp3"));
         elevatorDing = Gdx.audio.newSound(Gdx.files.internal("sounds/elevator_ding.mp3"));
         unavailableButton = Gdx.audio.newSound(Gdx.files.internal("sounds/unavailable_button.mp3"));
