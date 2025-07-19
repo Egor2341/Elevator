@@ -47,7 +47,7 @@ public class Door {
         door.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (available){
+                if (GameManager.getGameState().isDoorAvailable()){
                         if (open) {
                             App.getSoundManager().playSteps();
                             if (GameManager.getGameState().isElevator()) {
@@ -55,8 +55,10 @@ public class Door {
                                 GameManager.getElevatorManager().dispose();
                                 GameManager.getInventory().dispose();
                                 GameManager.getFloor().render();
+
                                 GameManager.getGameState().setElevator(false);
-                                SaveManager.saveAll();
+                                SaveManager.saveAutosave();
+
                                 App.getSoundManager().playElevatorDoors();
                             } else {
                                 dispose();
@@ -64,12 +66,14 @@ public class Door {
                                 GameManager.getElevatorManager().render();
 
                                 GameManager.getGameState().setElevator(true);
-                                SaveManager.saveAll();
+                                SaveManager.saveAutosave();
 
                                 close();
                             }
+
                             TextureRegion frame = doorAnimation.getKeyFrame(0, false);
                             door.setDrawable(new TextureRegionDrawable(frame));
+
                             if (GameManager.getGameState().isElevator()) {
                                 door.setY(h / DOOR_VERT_FACTOR_IN_ELEVATOR);
                             } else {
@@ -81,7 +85,7 @@ public class Door {
                             App.getSoundManager().playElevatorDoors();
                             stateTime = 0;
                             animation = true;
-                            available = false;
+                            GameManager.getGameState().setDoorAvailable(false);
                             close = false;
                             doorAnimation.setPlayMode(Animation.PlayMode.NORMAL);
                         }
@@ -95,7 +99,7 @@ public class Door {
             App.getSoundManager().playElevatorDoors();
             doorAnimation.setPlayMode(Animation.PlayMode.REVERSED);
             stateTime = 0;
-            available = false;
+            GameManager.getGameState().setDoorAvailable(false);
             animation = true;
             close = true;
         } else {
@@ -117,7 +121,7 @@ public class Door {
                     open = false;
                 } else {
                     open = true;
-                    available = true;
+                    GameManager.getGameState().setDoorAvailable(true);
                 }
             }
         }

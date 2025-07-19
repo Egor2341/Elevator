@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.elevator_project.game.App;
 import com.elevator_project.game.GameManager;
 import com.elevator_project.game.ImageProcessing;
+import com.elevator_project.game.SaveManager;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class Inventory {
         for (int i = 0; i < 6; i++) {
             Image cell = new Image(cellsSprites[0]);
             ImageProcessing.process(cell, CELL_RESIZE_FACTOR, CELL_HORIZ_FACTOR, CELL_VERT_FACTOR[i]);
-            objects.add(initObject(i));
+                objects.add(initObject(i));
             cells.add(cell);
         }
     }
@@ -87,6 +88,9 @@ public class Inventory {
         inventory[index] = 0;
         objects.get(index).setDrawable(new SpriteDrawable(atlas.createSprite("Inventory", 3)));
         cells.get(index).setDrawable(new SpriteDrawable(cellsSprites[0]));
+
+        GameManager.getGameState().getObjectsInInventory().set(index, "");
+        SaveManager.saveAutosave();
     }
 
     private Image initObject (int i) {

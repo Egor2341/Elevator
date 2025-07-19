@@ -19,6 +19,10 @@ public class GameManager {
 
     @Getter
     @Setter
+    private static boolean playFootSteps;
+
+    @Getter
+    @Setter
     private static GameState gameState;
 
     @Getter
@@ -53,7 +57,9 @@ public class GameManager {
     private static final SixthFloor sixthFloor;
 
     static {
-        SaveManager.loadAll();
+        SaveManager.loadAutosave();
+
+        playFootSteps = true;
 
         atlasses = new Atlasses();
 
@@ -72,6 +78,8 @@ public class GameManager {
         fourthFloor = new FourthFloor();
         fifthFloor = new FifthFloor();
         sixthFloor = new SixthFloor();
+
+        SaveManager.fillInventory();
     }
 
 

@@ -34,6 +34,7 @@ public class App extends ApplicationAdapter {
         if (GameManager.getGameState().isElevator()) {
             GameManager.getElevatorManager().render();
         } else {
+            GameManager.setPlayFootSteps(false);
             GameManager.getFloor().render();
         }
     }

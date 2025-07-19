@@ -7,10 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import com.elevator_project.game.App;
-import com.elevator_project.game.GameManager;
-import com.elevator_project.game.ImageProcessing;
-import com.elevator_project.game.RoomPart;
+import com.elevator_project.game.*;
 import lombok.Getter;
 
 import java.lang.Integer;
@@ -46,11 +43,15 @@ public class BoxQuest extends RoomPart {
 
     private Image initBox () {
         final float BOX_RESIZE_FACTOR = 100f;
-        final float BOX_HORIZ_FACTOR = 4.4f;
+        final float BOX_HORIZ_FACTOR = 4.45f;
         final float BOX_VERT_FACTOR = 3.4f;
 
         box = new Image(atlas.createSprite("Box", 2));
         ImageProcessing.process(box, BOX_RESIZE_FACTOR, BOX_HORIZ_FACTOR, BOX_VERT_FACTOR);
+
+        if (GameManager.getGameState().isBoxQuestSolved()) {
+            box.setDrawable(new SpriteDrawable(atlas.createSprite("Box", 3)));
+        }
         box.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -126,7 +127,9 @@ public class BoxQuest extends RoomPart {
                 button.remove();
             }
             GameManager.getInsulatingTape().render();
-            open = true;
+
+            GameManager.getGameState().setBoxQuestSolved(true);
+            SaveManager.saveAutosave();
         }
     }
 
@@ -134,7 +137,7 @@ public class BoxQuest extends RoomPart {
         for (Image element : elements) {
             mainGroup.addActor(element);
         }
-        if (!GameManager.getFirstFloor().isBoxQuestSolved()) {
+        if (!GameManager.getGameState().isBoxQuestSolved()) {
             for (Image button : buttons.keySet()) {
                 mainGroup.addActor(button);
             }

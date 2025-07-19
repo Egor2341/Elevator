@@ -5,13 +5,11 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.elevator_project.game.App;
-import com.elevator_project.game.GameManager;
-import com.elevator_project.game.ImageProcessing;
+import com.elevator_project.game.*;
 import lombok.Getter;
 import lombok.Setter;
 
-public class InsulatingTape {
+public class InsulatingTape implements InventoryObject {
     private final Sprite sprite;
     private final float spriteResize;
     private final Group mainGroup;
@@ -32,11 +30,18 @@ public class InsulatingTape {
         insulatingTape.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                indexInInventory = GameManager.getInventory().addObject(sprite, spriteResize);
-                dispose();
+
+                addToInventory();
+                GameManager.getGameState().getObjectsInInventory().set(indexInInventory, "InsulatingTape");
+                SaveManager.saveAutosave();
             }
         });
         mainGroup.addActor(insulatingTape);
+    }
+
+    public void addToInventory () {
+        indexInInventory = GameManager.getInventory().addObject(sprite, spriteResize);
+        dispose();
     }
 
     public void render () {

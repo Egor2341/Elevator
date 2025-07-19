@@ -1,9 +1,7 @@
 package com.elevator_project.first_floor;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.elevator_project.game.App;
-import com.elevator_project.game.Floor;
-import com.elevator_project.game.RoomPart;
+import com.elevator_project.game.*;
 
 public class FirstFloor extends Floor {
 
@@ -46,7 +44,11 @@ public class FirstFloor extends Floor {
 
     @Override
     protected void move (int hide, int show) {
-        App.getSoundManager().playSteps();
+        if (GameManager.isPlayFootSteps()) {
+            App.getSoundManager().playSteps();
+        } else {
+            GameManager.setPlayFootSteps(true);
+        }
         if (show != boxQuestIndex) {
             arrows.show();
             downArrow.hide();
@@ -64,18 +66,21 @@ public class FirstFloor extends Floor {
             door.show();
         } else if (show == 3) {
             fourthSide.changeWindow();
+            if (
+                GameManager.getGameState().isBoxQuestSolved() &&
+                    GameManager.getInsulatingTape().getIndexInInventory() == -1
+            ) {
+                GameManager.getInsulatingTape().hide();
+            }
         }
-    }
-
-    public boolean isBoxQuestSolved() {
-        return boxQuest.isOpen();
     }
 
     @Override
     public void render() {
         super.render();
-        if (!isBoxQuestSolved()) {
-            door.setAvailable(false);
+        if (!GameManager.getGameState().isBoxQuestSolved()) {
+            GameManager.getGameState().setDoorAvailable(false);
+            SaveManager.saveAutosave();
         }
     }
 }

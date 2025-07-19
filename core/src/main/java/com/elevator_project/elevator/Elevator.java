@@ -115,7 +115,7 @@ public class Elevator implements GroupElements {
 
     private void setFloorBack () {
         back.setDrawable(new SpriteDrawable(atlas.createSprite("Back", GameManager.getElevatorManager().getFloorIndex())));
-        GameManager.getDoor().setAvailable(true);
+        GameManager.getGameState().setDoorAvailable(true);
     }
 
     public Group initGroup() {

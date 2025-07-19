@@ -19,13 +19,11 @@ public class FirstFloorFourthSide extends RoomPart {
     private int windowIndex;
     private final List<Sprite> windowSprites;
     private final List<Image> elements;
-    private boolean screamer;
 
     public FirstFloorFourthSide() {
         atlas = GameManager.getAtlasses().getFirstFloorAtlas();
         windowSprites = new ArrayList<>();
         elements = new ArrayList<>();
-        screamer = false;
         initElements();
     }
 
@@ -87,7 +85,7 @@ public class FirstFloorFourthSide extends RoomPart {
             public void clicked(InputEvent event, float x, float y) {
                 GameManager.getFirstFloor().moveToBox();
                 GameManager.getArrows().hide();
-                if (GameManager.getFirstFloor().isBoxQuestSolved()) {
+                if (GameManager.getGameState().isBoxQuestSolved()) {
                     GameManager.getInsulatingTape().show();
                 }
             }
@@ -97,11 +95,13 @@ public class FirstFloorFourthSide extends RoomPart {
     }
 
     public void changeWindow() {
-        if (GameManager.getFirstFloor().isBoxQuestSolved()) {
+        if (GameManager.getGameState().isBoxQuestSolved()) {
             window.setDrawable(new SpriteDrawable(windowSprites.get(2)));
-            if (!screamer) {
+            if (!GameManager.getGameState().isScreamerOnFirstFloorPlayed()) {
                 App.getSoundManager().playWindow();
-                screamer = true;
+
+                GameManager.getGameState().setScreamerOnFirstFloorPlayed(true);
+                SaveManager.saveAutosave();
             }
         } else {
             window.setDrawable(new SpriteDrawable(windowSprites.get(windowIndex)));

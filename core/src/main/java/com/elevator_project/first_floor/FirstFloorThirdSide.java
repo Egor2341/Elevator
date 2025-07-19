@@ -64,9 +64,12 @@ public class FirstFloorThirdSide extends RoomPart {
         button.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                if (buttonAvailable) {
+                if (GameManager.getGameState().isButtonAvailable()) {
                     back.setDrawable(new SpriteDrawable(atlas.createSprite("Back", 2)));
-                    GameManager.getDoor().setAvailable(true);
+
+                    GameManager.getGameState().setDoorAvailable(true);
+                    SaveManager.saveAutosave();
+
                     App.getSoundManager().playAvailableButton();
                 } else {
                     App.getSoundManager().playUnavailableButton();
@@ -82,7 +85,15 @@ public class FirstFloorThirdSide extends RoomPart {
         final float WIRE_HORIZ_FACTOR = 1.54f;
         final float WIRE_VERT_FACTOR = 1.7f;
 
-        Image wire = new Image(atlas.createSprite("Wire", 1));
+        Image wire;
+
+        if (GameManager.getGameState().isButtonAvailable()) {
+            wire = new Image(atlas.createSprite("Wire", 2));
+        } else {
+            wire = new Image(atlas.createSprite("Wire", 1));
+        }
+
+
         ImageProcessing.process(wire, WIRE_RESIZE_FACTOR, WIRE_HORIZ_FACTOR, WIRE_VERT_FACTOR);
         wire.addListener(new ClickListener() {
             @Override
@@ -93,6 +104,9 @@ public class FirstFloorThirdSide extends RoomPart {
                     GameManager.getInventory().removeObject(insulatingTapeIndexInventory);
                     wire.setDrawable(new SpriteDrawable(atlas.createSprite("Wire", 2)));
                     buttonAvailable = true;
+
+                    GameManager.getGameState().setButtonAvailable(true);
+                    SaveManager.saveAutosave();
                 }
             }
         });

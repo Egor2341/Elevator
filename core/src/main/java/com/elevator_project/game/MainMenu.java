@@ -47,8 +47,6 @@ public class MainMenu {
         label.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                SavingData.initialize();
-                SaveManager.saveAll();
             }
         });
 
@@ -64,7 +62,7 @@ public class MainMenu {
         label.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                SaveManager.loadAll();
+                SaveManager.loadAutosave();
             }
         });
 
