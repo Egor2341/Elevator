@@ -11,10 +11,8 @@ public class FirstFloor extends Floor {
     private FirstFloorFourthSide fourthSide;
 
     private BoxQuest boxQuest;
-    private int boxQuestIndex;
 
     public FirstFloor() {
-        partIndex = 0;
         initParts();
     }
 
@@ -29,34 +27,32 @@ public class FirstFloor extends Floor {
         parts.add(thirdSide);
         parts.add(fourthSide);
         parts.add(boxQuest);
-        boxQuestIndex = 4;
     }
 
     public void moveToBox() {
-        move(partIndex, boxQuestIndex);
+        partIndex = GameManager.getGameState().getPartIndex();
+        move(partIndex, partIndex + 1);
 
     }
 
     @Override
     public void back() {
-        move(boxQuestIndex, partIndex);
+        partIndex = GameManager.getGameState().getPartIndex();
+        move(partIndex, partIndex - 1);
     }
 
     @Override
     protected void move (int hide, int show) {
-        if (GameManager.isPlayFootSteps()) {
-            App.getSoundManager().playSteps();
-        } else {
-            GameManager.setPlayFootSteps(true);
-        }
-        if (show != boxQuestIndex) {
+        App.getSoundManager().playSteps();
+        if (show != 4) {
             arrows.show();
             downArrow.hide();
-            partIndex = show;
         } else {
             arrows.hide();
             downArrow.show();
         }
+        GameManager.getGameState().setPartIndex(show);
+        SaveManager.saveAutosave();
         if (hide == 2) {
             door.hide();
         }
@@ -81,6 +77,12 @@ public class FirstFloor extends Floor {
         if (!GameManager.getGameState().isBoxQuestSolved()) {
             GameManager.getGameState().setDoorAvailable(false);
             SaveManager.saveAutosave();
+        }
+        if (
+            GameManager.getInsulatingTape().getIndexInInventory() == -1 &&
+                !GameManager.getGameState().isButtonAvailable()
+        ) {
+            GameManager.getInsulatingTape().render();
         }
     }
 }

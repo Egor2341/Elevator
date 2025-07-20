@@ -18,13 +18,17 @@ public class Floor {
     protected final DownArrow downArrow;
     protected int partIndex;
 
-    private void initGroups() {
+    public void initGroups() {
+        partIndex = GameManager.getGameState().getPartIndex();
         for (RoomPart part : parts) {
             groups.add(part.initGroup());
         }
-        for (Group group : groups) {
-            group.setVisible(false);
+        for (int i = 0; i < groups.size(); i++) {
+            if (i != partIndex) {
+                groups.get(i).setVisible(false);
+            }
         }
+
     }
 
     public Floor() {
@@ -38,14 +42,17 @@ public class Floor {
     }
 
     public void right() {
+        partIndex = GameManager.getGameState().getPartIndex();
         move(partIndex, (partIndex + 1) % 4);
     }
 
     public void left() {
+        partIndex = GameManager.getGameState().getPartIndex();
         move(partIndex, (partIndex + 3) % 4);
     }
 
     public void back() {
+        partIndex = GameManager.getGameState().getPartIndex();
         move(partIndex, partIndex);
     }
 
@@ -58,7 +65,8 @@ public class Floor {
         if (hide == 2) {
             door.hide();
         }
-        partIndex = show;
+        GameManager.getGameState().setPartIndex(show);
+        SaveManager.saveAutosave();
         groups.get(hide).setVisible(false);
         groups.get(show).setVisible(true);
         if (show == 2) {
@@ -76,7 +84,7 @@ public class Floor {
         inventory.render();
         downArrow.render();
         downArrow.hide();
-        move(2, 0);
+        move(2, partIndex);
     }
 
     public void dispose () {
@@ -90,6 +98,7 @@ public class Floor {
     }
 
     public void hide () {
+        partIndex = GameManager.getGameState().getPartIndex();
         groups.get(partIndex).setVisible(false);
         if (partIndex == 2) {
             door.hide();
@@ -97,6 +106,7 @@ public class Floor {
     }
 
     public void show() {
+        partIndex = GameManager.getGameState().getPartIndex();
         groups.get(partIndex).setVisible(true);
         if (partIndex == 2) {
             door.show();

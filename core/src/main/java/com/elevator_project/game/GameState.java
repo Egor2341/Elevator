@@ -22,6 +22,8 @@ public class GameState {
 
     private int floorIndex;
 
+    private Integer partIndex;
+
     public GameState () {
         elevator = true;
 
@@ -40,5 +42,7 @@ public class GameState {
         objectsInInventory.add("");
 
         floorIndex = 1;
+
+        partIndex = 0;
     }
 }
