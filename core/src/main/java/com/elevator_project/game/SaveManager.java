@@ -13,7 +13,8 @@ public class SaveManager {
 
     private static final FileHandle autosave = Gdx.files.local("saves/autosave.sav");
 
-    public static void save (FileHandle save) {
+    public static void save (FileHandle save, String saveName) {
+        GameManager.getGameState().setSaveName(saveName);
         Json json = new Json();
         String saveData = json.toJson(GameManager.getGameState());
         save.writeString(saveData, false);
@@ -67,7 +68,7 @@ public class SaveManager {
     }
 
     public static void saveAutosave() {
-        save(autosave);
+        save(autosave, "autosave");
     }
 
 }

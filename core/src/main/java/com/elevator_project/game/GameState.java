@@ -24,6 +24,8 @@ public class GameState {
 
     private Integer partIndex;
 
+    private String saveName;
+
     public GameState () {
         elevator = true;
 
@@ -44,5 +46,7 @@ public class GameState {
         floorIndex = 1;
 
         partIndex = 0;
+
+        saveName = "autosave";
     }
 }

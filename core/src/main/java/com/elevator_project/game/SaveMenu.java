@@ -2,13 +2,19 @@ package com.elevator_project.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Json;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,14 +23,19 @@ public class SaveMenu {
     private final Group group;
     private final FileHandle[] saves;
     private final Image[] cells;
+    private final Label[] labels;
     private final TextureAtlas atlas;
     private Image back;
     private final float w;
     private final float h;
 
+    private FreeTypeFontGenerator generator;
+    private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
+
     public SaveMenu () {
         saves = new FileHandle[3];
         cells = new Image[3];
+        labels = new Label[3];
         atlas = GameManager.getAtlasses().getExtraElementsAtlas();
         group = new Group();
         w = App.getDimensions()[0];
@@ -32,15 +43,23 @@ public class SaveMenu {
         initSaves();
         initCells();
         initBack();
+        initLabels();
     }
 
     private void initSaves () {
         saves[0] = Gdx.files.local("saves/save1.sav");
+        saves[1] = Gdx.files.local("saves/save2.sav");
+        saves[2] = Gdx.files.local("saves/save3.sav");
     }
 
     private void initGroup () {
         group.addActor(back);
-        group.addActor(cells[0]);
+        for (Image cell : cells) {
+            group.addActor(cell);
+        }
+        for (Label label : labels) {
+            group.addActor(label);
+        }
     }
 
     private void initBack () {
@@ -51,21 +70,55 @@ public class SaveMenu {
     }
 
     private void initCells () {
-        final float CELL_RESIZE = 50f;
-        final float CELL_HORIZ = 2f;
-        final float CELL_1_VERT = 1.5f;
+        final float CELL_RESIZE = 70f;
+        final float CELL_HORIZ = 2.5f;
+        final float[] CELL_VERT = new float[] {1.5f, 2.6f, 10f};
 
-        Image cell = new Image(atlas.createSprite("SaveCell"));
-        ImageProcessing.process(cell, CELL_RESIZE, CELL_HORIZ, CELL_1_VERT);
-        cell.addListener(new ClickListener() {
-            @Override
-            public void clicked (InputEvent event, float x, float y) {
-                SaveManager.save(saves[0]);
-            }
-        });
-
-        cells[0] = cell;
+        for (int i = 0; i < 3; i++) {
+            int index = i;
+            Image cell = new Image(atlas.createSprite("SaveCell"));
+            ImageProcessing.process(cell, CELL_RESIZE, CELL_HORIZ, CELL_VERT[i]);
+            cell.addListener(new ClickListener() {
+                @Override
+                public void clicked (InputEvent event, float x, float y) {
+                    String saveName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                    SaveManager.save(saves[index], saveName);
+                    labels[index].setText("save"+(index+1)+"\n"+saveName);
+                }
+            });
+            cells[i] = cell;
+        }
     }
+
+    private void initLabels () {
+        final float LABEL_RESIZE = 50f;
+        final float LABEL_HORIZ = 2.4f;
+        final float[] LABEL_VERT = new float[] {1.26f, 1.95f, 4.4f};
+
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Norse-Regular.ttf"));
+        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = (int) (w / LABEL_RESIZE);
+        parameter.color = Color.WHITE;
+
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = generator.generateFont(parameter);
+
+        for (int i = 0; i < 3; i++) {
+            Json json = new Json();
+            String saveInfo;
+            GameState loadedData = json.fromJson(GameState.class, saves[i].readString());
+            if (loadedData == null || loadedData.getSaveName().isEmpty()) {
+                saveInfo = "Empty slot";
+            } else {
+                saveInfo = loadedData.getSaveName();
+            }
+            Label label = new Label("save"+(i+1)+"\n"+saveInfo, labelStyle);
+            label.setPosition(w / LABEL_HORIZ, h / LABEL_VERT[i]);
+            labels[i] = label;
+        }
+    }
+
+
 
     public void render () {
         initGroup();
