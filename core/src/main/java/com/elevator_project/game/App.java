@@ -2,11 +2,16 @@ package com.elevator_project.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import lombok.Getter;
+
+
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class App extends ApplicationAdapter {
@@ -26,6 +31,27 @@ public class App extends ApplicationAdapter {
         stage = new Stage(new ScreenViewport(camera));
         Gdx.input.setInputProcessor(stage);
         init();
+        stage.addListener(new InputListener() {
+            @Override
+            public boolean keyDown (InputEvent event, int keycode) {
+                switch (keycode) {
+                    case Input.Keys.ESCAPE:
+                        GameManager.getSaveMenu().render();
+                        return true;
+                    case Input.Keys.ENTER:
+                        GameManager.getSaveMenu().dispose();
+                        return true;
+                    case Input.Keys.A:
+                        GameManager.getLoadMenu().render();
+                        return true;
+                    case Input.Keys.F:
+                        GameManager.getLoadMenu().dispose();
+                        return true;
+                }
+                return false;
+            }
+
+        });
     }
 
     private void init() {

@@ -50,6 +50,9 @@ public class FirstFloor extends Floor {
         } else {
             arrows.hide();
             downArrow.show();
+            if (GameManager.getGameState().isBoxQuestSolved()) {
+                GameManager.getInsulatingTape().show();
+            }
         }
         GameManager.getGameState().setPartIndex(show);
         SaveManager.saveAutosave();
@@ -83,6 +86,16 @@ public class FirstFloor extends Floor {
                 !GameManager.getGameState().isButtonAvailable()
         ) {
             GameManager.getInsulatingTape().render();
+            if (!GameManager.getGameState().isBoxQuestSolved()||
+            GameManager.getGameState().getPartIndex() != 4) {
+                GameManager.getInsulatingTape().hide();
+            }
         }
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        GameManager.getInsulatingTape().dispose();
     }
 }

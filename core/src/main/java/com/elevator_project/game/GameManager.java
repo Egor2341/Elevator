@@ -56,6 +56,12 @@ public class GameManager {
     @Getter
     private static final SixthFloor sixthFloor;
 
+    @Getter
+    private static final SaveMenu saveMenu;
+
+    @Getter
+    private static final LoadMenu loadMenu;
+
     static {
         SaveManager.loadAutosave();
 
@@ -80,6 +86,9 @@ public class GameManager {
         sixthFloor = new SixthFloor();
 
         SaveManager.fillInventory();
+
+        saveMenu = new SaveMenu();
+        loadMenu = new LoadMenu();
     }
 
 

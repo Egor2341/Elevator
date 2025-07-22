@@ -126,7 +126,7 @@ public class BoxQuest extends RoomPart {
             for (Image button : buttons.keySet()) {
                 button.remove();
             }
-
+            GameManager.getInsulatingTape().show();
 
             GameManager.getGameState().setBoxQuestSolved(true);
             SaveManager.saveAutosave();

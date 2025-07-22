@@ -3,6 +3,7 @@ package com.elevator_project.elevator;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.elevator_project.game.App;
 import com.elevator_project.game.GameManager;
+import com.elevator_project.game.SaveManager;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -55,10 +56,13 @@ public class ElevatorManager {
         for (Group group : groups) {
             App.getStage().addActor(group);
         }
+        GameManager.getGameState().setElevator(true);
         GameManager.getInventory().render();
         GameManager.getDoor().render();
+        GameManager.getDoor().show();
         GameManager.getDownArrow().render();
         GameManager.getDownArrow().hide();
+        SaveManager.saveAutosave();
     }
 
     public void dispose () {
@@ -66,5 +70,6 @@ public class ElevatorManager {
             group.remove();
         }
         GameManager.getDownArrow().dispose();
+        GameManager.getDoor().dispose();
     }
 }

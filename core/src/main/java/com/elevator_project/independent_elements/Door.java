@@ -54,17 +54,13 @@ public class Door {
                                 GameManager.getInventory().dispose();
                                 GameManager.getFloor().render();
 
-                                GameManager.getGameState().setElevator(false);
-                                SaveManager.saveAutosave();
+
 
                                 App.getSoundManager().playElevatorDoors();
                             } else {
                                 dispose();
                                 GameManager.getFloor().dispose();
                                 GameManager.getElevatorManager().render();
-
-                                GameManager.getGameState().setElevator(true);
-                                SaveManager.saveAutosave();
 
                                 close();
                             }
@@ -134,7 +130,19 @@ public class Door {
     }
 
     public void render() {
+        final float DOOR_VERT_FACTOR_IN_ELEVATOR = 4.65f;
+        final float DOOR_VERT_FACTOR_IN_ROOM = 3.15f;
+        TextureRegion frame = doorAnimation.getKeyFrame(0, false);
+        door.setDrawable(new TextureRegionDrawable(frame));
+
+        if (GameManager.getGameState().isElevator()) {
+            door.setY(h / DOOR_VERT_FACTOR_IN_ELEVATOR);
+        } else {
+            door.setY(h / DOOR_VERT_FACTOR_IN_ROOM);
+        }
+        open = false;
         App.getStage().addActor(door);
+
     }
 
     public void hide() {

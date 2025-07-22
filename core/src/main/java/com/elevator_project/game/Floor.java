@@ -75,6 +75,8 @@ public class Floor {
     }
 
     public void render () {
+        GameManager.getGameState().setElevator(false);
+        SaveManager.saveAutosave();
         initGroups();
         for (Group group : groups) {
             App.getStage().addActor(group);

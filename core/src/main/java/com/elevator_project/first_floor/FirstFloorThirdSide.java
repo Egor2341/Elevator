@@ -48,9 +48,12 @@ public class FirstFloorThirdSide extends RoomPart {
         final float BACK_VERT_FACTOR = 3.15f;
         final float BACK_HORIZ_FACTOR = 2.6f;
 
-        back = new Image(atlas.createSprite("Back", 1));
+        if (GameManager.getGameState().isButtonAvailable()) {
+            back = new Image(atlas.createSprite("Back", 2));
+        } else {
+            back = new Image(atlas.createSprite("Back", 1));
+        }
         ImageProcessing.process(back, BACK_RESIZE_FACTOR, BACK_HORIZ_FACTOR, BACK_VERT_FACTOR);
-
         return back;
     }
 
