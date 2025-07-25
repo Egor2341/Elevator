@@ -48,7 +48,11 @@ public class FirstFloorFourthSide extends RoomPart {
         final float WINDOW_VERT_FACTOR = 2f;
         final float WINDOW_HORIZ_FACTOR = 2.5f;
 
-        windowIndex = 0;
+        if (GameManager.getGameState().isBoxQuestSolved()){
+            windowIndex = 2;
+        } else {
+            windowIndex = 0;
+        }
 
         for (int i = 1; i < 4; i++) {
             windowSprites.add(atlas.createSprite("Window", i));

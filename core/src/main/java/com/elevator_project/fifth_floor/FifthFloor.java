@@ -14,7 +14,7 @@ public class FifthFloor extends Floor {
         initParts();
     }
 
-    private void initParts() {
+    public void initParts() {
         firstSide = new FifthFloorFirstSide();
         parts.add(firstSide);
         secondSide = new FifthFloorSecondSide();

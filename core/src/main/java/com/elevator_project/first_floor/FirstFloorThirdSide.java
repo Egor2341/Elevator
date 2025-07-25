@@ -16,14 +16,12 @@ public class FirstFloorThirdSide extends RoomPart {
 
     private final TextureAtlas atlas;
     private final List<Image> elements;
-    @Getter
-    private boolean buttonAvailable;
     private Image back;
+    private Image wire;
 
     public FirstFloorThirdSide() {
         atlas = GameManager.getAtlasses().getFirstFloorAtlas();
         elements = new ArrayList<>();
-        buttonAvailable = false;
         initElements();
     }
 
@@ -88,8 +86,6 @@ public class FirstFloorThirdSide extends RoomPart {
         final float WIRE_HORIZ_FACTOR = 1.54f;
         final float WIRE_VERT_FACTOR = 1.7f;
 
-        Image wire;
-
         if (GameManager.getGameState().isButtonAvailable()) {
             wire = new Image(atlas.createSprite("Wire", 2));
         } else {
@@ -106,7 +102,6 @@ public class FirstFloorThirdSide extends RoomPart {
                 GameManager.getInventory().getChosen() == insulatingTapeIndexInventory) {
                     GameManager.getInventory().removeObject(insulatingTapeIndexInventory);
                     wire.setDrawable(new SpriteDrawable(atlas.createSprite("Wire", 2)));
-                    buttonAvailable = true;
 
                     GameManager.getGameState().setButtonAvailable(true);
                     SaveManager.saveAutosave();
@@ -118,6 +113,13 @@ public class FirstFloorThirdSide extends RoomPart {
     }
 
     public Group initGroup() {
+        if (GameManager.getGameState().isButtonAvailable()) {
+            wire.setDrawable(new SpriteDrawable(atlas.createSprite("Wire", 2)));
+            back.setDrawable(new SpriteDrawable(atlas.createSprite("Back", 2)));
+        } else {
+            wire.setDrawable(new SpriteDrawable(atlas.createSprite("Wire", 1)));
+            back.setDrawable(new SpriteDrawable(atlas.createSprite("Back", 1)));
+        }
         for (Image element : elements) {
             mainGroup.addActor(element);
         }

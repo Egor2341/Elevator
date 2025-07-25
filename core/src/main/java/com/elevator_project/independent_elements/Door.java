@@ -8,18 +8,21 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.elevator_project.game.*;
+import lombok.Getter;
 
 public class Door {
     private final float h;
     private final TextureAtlas atlas;
 
     Image door;
-    private static Animation<TextureRegion> doorAnimation;
-    private static float stateTime;
+    private Animation<TextureRegion> doorAnimation;
+    private float stateTime;
 
-    private static boolean animation;
-    private static boolean open;
-    private static boolean close;
+    @Getter
+    private boolean animation;
+    private boolean open;
+    @Getter
+    private boolean close;
 
     public Door () {
         this.h = App.getDimensions()[1];
@@ -54,26 +57,13 @@ public class Door {
                                 GameManager.getInventory().dispose();
                                 GameManager.getFloor().render();
 
-
-
                                 App.getSoundManager().playElevatorDoors();
                             } else {
                                 dispose();
                                 GameManager.getFloor().dispose();
                                 GameManager.getElevatorManager().render();
-
                                 close();
                             }
-
-                            TextureRegion frame = doorAnimation.getKeyFrame(0, false);
-                            door.setDrawable(new TextureRegionDrawable(frame));
-
-                            if (GameManager.getGameState().isElevator()) {
-                                door.setY(h / DOOR_VERT_FACTOR_IN_ELEVATOR);
-                            } else {
-                                door.setY(h / DOOR_VERT_FACTOR_IN_ROOM);
-                            }
-                            open = false;
 
                         } else {
                             App.getSoundManager().playElevatorDoors();
@@ -89,17 +79,12 @@ public class Door {
     }
 
     public void close () {
-        if (open) {
             App.getSoundManager().playElevatorDoors();
             doorAnimation.setPlayMode(Animation.PlayMode.REVERSED);
             stateTime = 0;
             GameManager.getGameState().setDoorAvailable(false);
             animation = true;
             close = true;
-        } else {
-            GameManager.getElevatorManager().setMoving(true);
-            App.getSoundManager().playElevatorMotor();
-        }
     }
 
     public void update(float delta) {
@@ -110,19 +95,19 @@ public class Door {
             if (doorAnimation.isAnimationFinished(stateTime)) {
                 animation = false;
                 if (close) {
-                    GameManager.getElevatorManager().setMoving(true);
-                    App.getSoundManager().playElevatorMotor();
                     open = false;
+                    if (GameManager.getElevatorManager().isWait()) {
+                        GameManager.getElevatorManager().getElevator().initMoving();
+                        GameManager.getElevatorManager().setWait(false);
+                    } else {
+                        GameManager.getGameState().setDoorAvailable(true);
+                    }
                 } else {
                     open = true;
                     GameManager.getGameState().setDoorAvailable(true);
                 }
             }
         }
-    }
-
-    public boolean isAnimation () {
-        return animation;
     }
 
     public void dispose() {
@@ -132,6 +117,7 @@ public class Door {
     public void render() {
         final float DOOR_VERT_FACTOR_IN_ELEVATOR = 4.65f;
         final float DOOR_VERT_FACTOR_IN_ROOM = 3.15f;
+        doorAnimation.setPlayMode(Animation.PlayMode.NORMAL);
         TextureRegion frame = doorAnimation.getKeyFrame(0, false);
         door.setDrawable(new TextureRegionDrawable(frame));
 

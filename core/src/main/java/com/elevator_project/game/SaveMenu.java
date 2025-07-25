@@ -15,8 +15,6 @@ import com.badlogic.gdx.utils.Json;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SaveMenu {
 
@@ -28,9 +26,6 @@ public class SaveMenu {
     private Image back;
     private final float w;
     private final float h;
-
-    private FreeTypeFontGenerator generator;
-    private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
 
     public SaveMenu () {
         saves = new FileHandle[3];
@@ -84,6 +79,7 @@ public class SaveMenu {
                     String saveName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
                     SaveManager.save(saves[index], saveName);
                     labels[index].setText("save"+(index+1)+"\n"+saveName);
+                    GameManager.getLoadMenu().changeLabel(index+1, saveName);
                 }
             });
             cells[i] = cell;
@@ -95,8 +91,8 @@ public class SaveMenu {
         final float LABEL_HORIZ = 2.4f;
         final float[] LABEL_VERT = new float[] {1.26f, 1.95f, 4.4f};
 
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Norse-Regular.ttf"));
-        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Norse-Regular.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = (int) (w / LABEL_RESIZE);
         parameter.color = Color.WHITE;
 

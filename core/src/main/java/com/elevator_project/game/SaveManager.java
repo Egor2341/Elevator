@@ -4,8 +4,7 @@ package com.elevator_project.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
-import com.elevator_project.elevator.ElevatorManager;
-import com.elevator_project.independent_elements.InsulatingTape;
+import com.elevator_project.extra_elements.Inventory;
 
 import java.util.List;
 
@@ -44,6 +43,7 @@ public class SaveManager {
         } else {
             GameManager.getFloor().render();
         }
+        fillInventory();
         GameManager.getLoadMenu().dispose();
     }
 
@@ -54,15 +54,21 @@ public class SaveManager {
     public static void  fillInventory () {
         List<String> objectsInInventory = GameManager.getGameState().getObjectsInInventory();
         if (!objectsInInventory.isEmpty()) {
+            int index = 0;
             for (String name : objectsInInventory) {
-                System.out.println(name);
                 InventoryObject object = switch (name) {
-                    case "InsulatingTape" -> GameManager.getInsulatingTape();
-                    default -> null;
+                    case "InsulatingTape":
+                        GameManager.getInsulatingTape().setIndexInInventory(-1);
+                        yield GameManager.getInsulatingTape();
+                    default:
+                        yield null;
                 };
                 if (object != null) {
                     object.addToInventory();
+                } else {
+                    GameManager.getInventory().addEmptyObject(index);
                 }
+                index++;
             }
         }
     }

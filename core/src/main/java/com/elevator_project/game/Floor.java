@@ -41,6 +41,10 @@ public class Floor {
         partIndex = 0;
     }
 
+    public void initParts () {
+
+    }
+
     public void right() {
         partIndex = GameManager.getGameState().getPartIndex();
         move(partIndex, (partIndex + 1) % 4);
@@ -95,8 +99,10 @@ public class Floor {
         }
         door.dispose();
         arrows.dispose();
+        arrows.show();
         inventory.dispose();
         downArrow.dispose();
+        downArrow.show();
     }
 
     public void hide () {

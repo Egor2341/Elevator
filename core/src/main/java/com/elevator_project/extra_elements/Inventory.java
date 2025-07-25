@@ -84,6 +84,12 @@ public class Inventory {
         return -1;
     }
 
+    public void addEmptyObject (int index) {
+        inventory[index] = 0;
+        objects.get(index).setDrawable(new SpriteDrawable(atlas.createSprite("Inventory", 3)));
+        cells.get(index).setDrawable(new SpriteDrawable(cellsSprites[0]));
+    }
+
     public void removeObject (int index) {
         inventory[index] = 0;
         objects.get(index).setDrawable(new SpriteDrawable(atlas.createSprite("Inventory", 3)));

@@ -10,12 +10,12 @@ import com.elevator_project.game.RoomPart;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ThirdFloorForuthSide extends RoomPart {
+public class ThirdFloorFourthSide extends RoomPart {
 
     private final TextureAtlas atlas;
     private final List<Image> elements;
 
-    public ThirdFloorForuthSide () {
+    public ThirdFloorFourthSide() {
         atlas = GameManager.getAtlasses().getThirdFloorAtlas();
         elements = new ArrayList<>();
         initElements();

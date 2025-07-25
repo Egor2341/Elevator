@@ -87,7 +87,7 @@ public class Elevator implements GroupElements {
 
     public void update (float delta) {
         if (GameManager.getGameState().getFloorIndex() != displayAnimation.getKeyFrameIndex(stateTime) + 1){
-            back.setDrawable(new SpriteDrawable(atlas.createSprite("Back", 0)));
+
             stateTime += delta;
             TextureRegion frame = displayAnimation.getKeyFrame(stateTime, false);
             display.setDrawable(new TextureRegionDrawable(frame));
@@ -108,8 +108,20 @@ public class Elevator implements GroupElements {
         }
         TextureRegion frame = displayAnimation.getKeyFrame(stateTime, false);
         display.setDrawable(new TextureRegionDrawable(frame));
-        GameManager.getDoor().close();
 
+        if (!GameManager.getDoor().isClose()){
+            GameManager.getDoor().close();
+            GameManager.getElevatorManager().setWait(true);
+        } else {
+            initMoving();
+        }
+
+    }
+
+    public void initMoving () {
+        GameManager.getElevatorManager().setMoving(true);
+        App.getSoundManager().playElevatorMotor();
+        back.setDrawable(new SpriteDrawable(atlas.createSprite("Back", 0)));
     }
 
     private void setFloorBack () {

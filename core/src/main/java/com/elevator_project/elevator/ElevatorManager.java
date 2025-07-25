@@ -19,6 +19,9 @@ public class ElevatorManager {
     @Getter
     @Setter
     private boolean moving;
+    @Getter
+    @Setter
+    private boolean wait;
 
     public ElevatorManager() {
         groups = new ArrayList<>();
@@ -26,6 +29,7 @@ public class ElevatorManager {
         elevator = new Elevator();
         buttons.hide();
         moving = false;
+        wait = false;
     }
 
     public void forward() {
@@ -62,6 +66,7 @@ public class ElevatorManager {
         GameManager.getDoor().show();
         GameManager.getDownArrow().render();
         GameManager.getDownArrow().hide();
+        GameManager.getGameState().setPartIndex(0);
         SaveManager.saveAutosave();
     }
 

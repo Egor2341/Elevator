@@ -35,10 +35,12 @@ public class GameManager {
     @Getter
     private static final DownArrow downArrow;
     @Getter
-    private static final Inventory inventory;
+    @Setter
+    private static Inventory inventory;
 
     @Getter
-    private static final InsulatingTape insulatingTape;
+    @Setter
+    private static InsulatingTape insulatingTape;
 
     @Getter
     private static final ElevatorManager elevatorManager;

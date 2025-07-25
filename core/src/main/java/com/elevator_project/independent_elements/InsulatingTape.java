@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class InsulatingTape implements InventoryObject {
-    private final Sprite sprite;
     private final float spriteResize;
     private final Group mainGroup;
     @Getter
@@ -24,8 +23,7 @@ public class InsulatingTape implements InventoryObject {
         float vert = 2.2f;
         float resize = 200f;
         spriteResize = 720f;
-        sprite = GameManager.getAtlasses().getExtraElementsAtlas().createSprite("InsulatingTape");
-        Image insulatingTape = new Image(sprite);
+        Image insulatingTape = new Image(GameManager.getAtlasses().getExtraElementsAtlas().createSprite("InsulatingTape"));
         ImageProcessing.process(insulatingTape, resize, horiz, vert);
         insulatingTape.addListener(new ClickListener() {
             @Override
@@ -40,7 +38,9 @@ public class InsulatingTape implements InventoryObject {
     }
 
     public void addToInventory () {
-        indexInInventory = GameManager.getInventory().addObject(sprite, spriteResize);
+        indexInInventory = GameManager.getInventory().addObject(
+            GameManager.getAtlasses().getExtraElementsAtlas().createSprite("InsulatingTape"),
+            spriteResize);
         dispose();
     }
 

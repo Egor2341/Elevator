@@ -2,6 +2,7 @@ package com.elevator_project.first_floor;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.elevator_project.game.*;
+import com.elevator_project.independent_elements.InsulatingTape;
 
 public class FirstFloor extends Floor {
 
@@ -16,7 +17,7 @@ public class FirstFloor extends Floor {
         initParts();
     }
 
-    private void initParts() {
+    public void initParts() {
         firstSide = new FirstFloorFirstSide();
         secondSide = new FirstFloorSecondSide();
         thirdSide = new FirstFloorThirdSide();
@@ -77,6 +78,7 @@ public class FirstFloor extends Floor {
     @Override
     public void render() {
         super.render();
+        GameManager.setInsulatingTape(new InsulatingTape());
         if (!GameManager.getGameState().isBoxQuestSolved()) {
             GameManager.getGameState().setDoorAvailable(false);
             SaveManager.saveAutosave();
@@ -86,6 +88,7 @@ public class FirstFloor extends Floor {
                 !GameManager.getGameState().isButtonAvailable()
         ) {
             GameManager.getInsulatingTape().render();
+            GameManager.getInsulatingTape().show();
             if (!GameManager.getGameState().isBoxQuestSolved()||
             GameManager.getGameState().getPartIndex() != 4) {
                 GameManager.getInsulatingTape().hide();
