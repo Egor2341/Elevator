@@ -64,6 +64,14 @@ public class GameManager {
     @Getter
     private static final LoadMenu loadMenu;
 
+    @Getter
+    private static final MainMenu mainMenu;
+
+    @Getter
+    private static final PauseMenu pauseMenu;
+
+
+
     static {
         SaveManager.loadAutosave();
 
@@ -91,6 +99,9 @@ public class GameManager {
 
         saveMenu = new SaveMenu();
         loadMenu = new LoadMenu();
+
+        mainMenu = new MainMenu();
+        pauseMenu = new PauseMenu();
     }
 
 

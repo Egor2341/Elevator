@@ -9,9 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import lombok.Getter;
 
-public class MainMenu {
+public class PauseMenu {
 
     private final TextureAtlas atlas;
     private final float w;
@@ -21,10 +20,7 @@ public class MainMenu {
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
 
-    @Getter
-    private boolean visible;
-
-    public MainMenu () {
+    public PauseMenu () {
         atlas = GameManager.getAtlasses().getExtraElementsAtlas();
         mainGroup = new Group();
         w = App.getDimensions()[0];
@@ -37,16 +33,14 @@ public class MainMenu {
         parameter.size = (int) (w / LABEL_RESIZE);
         parameter.color = Color.WHITE;
         initBack();
-        initLabelStart();
-        initLabelContinue();
     }
 
     private void initGroup () {
         mainGroup.addActor(back);
-        mainGroup.addActor(initLabelStart());
         mainGroup.addActor(initLabelContinue());
+        mainGroup.addActor(initLabelSave());
         mainGroup.addActor(initLabelLoad());
-        mainGroup.addActor(initLabelExit());
+        mainGroup.addActor(initLabelMainMenu());
     }
 
     private void initBack () {
@@ -56,19 +50,15 @@ public class MainMenu {
         ImageProcessing.process(back, BACK_RESIZE_FACTOR, w, h);
     }
 
-    private Label initLabelStart () {
+    private Label initLabelContinue () {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
 
         labelStyle.font = generator.generateFont(parameter);
-        Label label = new Label("NEW GAME", labelStyle);
-        label.setPosition(w / 2, h / 1.5f);
+        Label label = new Label("CONTINUE", labelStyle);
+        label.setPosition(w / 2, h / 1.2f);
         label.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                GameManager.setGameState(new GameState());
-                SaveManager.saveAutosave();
-                SaveManager.loadAutosave();
-                GameManager.getElevatorManager().render();
                 dispose();
             }
         });
@@ -76,22 +66,17 @@ public class MainMenu {
         return label;
     }
 
-    private Label initLabelContinue () {
+    private Label initLabelSave () {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
 
         labelStyle.font = generator.generateFont(parameter);
-        Label label = new Label("CONTINUE", labelStyle);
-        label.setPosition(w / 2, h / 2.5f);
+        Label label = new Label("SAVE", labelStyle);
+        label.setPosition(w / 2, h / 1.8f);
         label.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                SaveManager.loadAutosave();
-                if (GameManager.getGameState().isElevator()) {
-                    GameManager.getElevatorManager().render();
-                } else {
-                    GameManager.getFloor().render();
-                }
                 dispose();
+                GameManager.getSaveMenu().render();
             }
         });
         return label;
@@ -102,40 +87,47 @@ public class MainMenu {
 
         labelStyle.font = generator.generateFont(parameter);
         Label label = new Label("LOAD", labelStyle);
-        label.setPosition(w / 2, h / 3.5f);
+        label.setPosition(w / 2, h / 2.5f);
         label.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                GameManager.getLoadMenu().render();
                 dispose();
+                GameManager.getLoadMenu().render();
             }
         });
         return label;
     }
 
-    private Label initLabelExit () {
+    private Label initLabelMainMenu () {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
 
         labelStyle.font = generator.generateFont(parameter);
-        Label label = new Label("EXIT", labelStyle);
+        Label label = new Label("MAIN MENU", labelStyle);
         label.setPosition(w / 2, h / 4);
         label.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                Gdx.app.exit();
+                dispose();
+                GameManager.getMainMenu().render();
             }
         });
         return label;
     }
 
+    public void show () {
+        mainGroup.setVisible(true);
+    }
+
+    public void hide () {
+        mainGroup.setVisible(false);
+    }
+
     public void render () {
-        visible = true;
         initGroup();
         App.getStage().addActor(mainGroup);
     }
 
     public void dispose () {
-        visible = false;
         mainGroup.remove();
     }
 }

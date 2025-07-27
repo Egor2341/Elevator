@@ -36,17 +36,19 @@ public class App extends ApplicationAdapter {
             public boolean keyDown (InputEvent event, int keycode) {
                 switch (keycode) {
                     case Input.Keys.ESCAPE:
-                        GameManager.getSaveMenu().render();
+                        if (!GameManager.getMainMenu().isVisible()) {
+                            GameManager.getPauseMenu().render();
+                        }
                         return true;
-                    case Input.Keys.ENTER:
-                        GameManager.getSaveMenu().dispose();
-                        return true;
-                    case Input.Keys.A:
-                        GameManager.getLoadMenu().render();
-                        return true;
-                    case Input.Keys.F:
-                        GameManager.getLoadMenu().dispose();
-                        return true;
+//                    case Input.Keys.ENTER:
+//                        GameManager.getSaveMenu().dispose();
+//                        return true;
+//                    case Input.Keys.A:
+//                        GameManager.getLoadMenu().render();
+//                        return true;
+//                    case Input.Keys.F:
+//                        GameManager.getLoadMenu().dispose();
+//                        return true;
                 }
                 return false;
             }
@@ -57,12 +59,7 @@ public class App extends ApplicationAdapter {
     private void init() {
         soundManager = new SoundManager();
         soundManager.playBackgroundMusic();
-        if (GameManager.getGameState().isElevator()) {
-            GameManager.getElevatorManager().render();
-        } else {
-            GameManager.setPlayFootSteps(false);
-            GameManager.getFloor().render();
-        }
+        GameManager.getMainMenu().render();
     }
 
     @Override

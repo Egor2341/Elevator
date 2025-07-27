@@ -80,6 +80,7 @@ public class SaveMenu {
                     SaveManager.save(saves[index], saveName);
                     labels[index].setText("save"+(index+1)+"\n"+saveName);
                     GameManager.getLoadMenu().changeLabel(index+1, saveName);
+                    dispose();
                 }
             });
             cells[i] = cell;
