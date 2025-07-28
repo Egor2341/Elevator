@@ -128,7 +128,6 @@ public class Door {
         }
         open = false;
         App.getStage().addActor(door);
-
     }
 
     public void hide() {

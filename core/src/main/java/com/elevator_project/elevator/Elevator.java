@@ -135,6 +135,12 @@ public class Elevator implements GroupElements {
         for (Image element : elements) {
             mainGroup.addActor(element);
         }
+        back.setDrawable(new SpriteDrawable(atlas.createSprite("Back", GameManager.getGameState().getFloorIndex())));
+        displayAnimation.setPlayMode(Animation.PlayMode.NORMAL);
+        stateTime = 0 + 0.6f * (GameManager.getGameState().getFloorIndex() - 1);
+        TextureRegion frame = displayAnimation.getKeyFrame(stateTime, false);
+        display.setDrawable(new TextureRegionDrawable(frame));
+
         return mainGroup;
     }
 

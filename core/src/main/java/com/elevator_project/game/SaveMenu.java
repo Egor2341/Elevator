@@ -3,7 +3,6 @@ package com.elevator_project.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -12,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Json;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -26,6 +26,8 @@ public class SaveMenu {
     private Image back;
     private final float w;
     private final float h;
+    @Getter
+    private boolean visible;
 
     public SaveMenu () {
         saves = new FileHandle[3];
@@ -118,11 +120,13 @@ public class SaveMenu {
 
 
     public void render () {
+        visible = true;
         initGroup();
         App.getStage().addActor(group);
     }
 
     public void dispose () {
+        visible = false;
         group.remove();
     }
 }

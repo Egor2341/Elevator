@@ -4,7 +4,6 @@ package com.elevator_project.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
-import com.elevator_project.extra_elements.Inventory;
 
 import java.util.List;
 
@@ -19,17 +18,11 @@ public class SaveManager {
         save.writeString(saveData, false);
     }
 
-    public static void load (FileHandle load) {
-        Json json = new Json();
-        String loadedData = load.readString();
-        if (loadedData.isEmpty()) {
-            GameManager.setGameState(new GameState());
-        } else {
-            GameManager.setGameState(json.fromJson(GameState.class, loadedData));
-        }
+    public static void load() {
+        load(autosave);
     }
 
-    public static void loadUser (FileHandle load) {
+    public static void load (FileHandle load) {
         if (GameManager.getGameState().isElevator()) {
             GameManager.getElevatorManager().dispose();
         } else {
@@ -45,10 +38,6 @@ public class SaveManager {
         }
         fillInventory();
         GameManager.getLoadMenu().dispose();
-    }
-
-    public static void loadAutosave() {
-        load(autosave);
     }
 
     public static void  fillInventory () {

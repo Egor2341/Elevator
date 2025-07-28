@@ -99,6 +99,11 @@ public class FirstFloor extends Floor {
     @Override
     public void dispose() {
         super.dispose();
-        GameManager.getInsulatingTape().dispose();
+        if (
+            GameManager.getInsulatingTape().getIndexInInventory() == -1 &&
+                !GameManager.getGameState().isButtonAvailable()
+        ) {
+            GameManager.getInsulatingTape().dispose();
+        }
     }
 }

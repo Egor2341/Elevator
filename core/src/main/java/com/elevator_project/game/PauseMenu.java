@@ -19,6 +19,8 @@ public class PauseMenu {
     private Image back;
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
+    private final float LABEL_HORIZ;
+    private final float[] LABEL_VERT;
 
     public PauseMenu () {
         atlas = GameManager.getAtlasses().getExtraElementsAtlas();
@@ -26,7 +28,9 @@ public class PauseMenu {
         w = App.getDimensions()[0];
         h = App.getDimensions()[1];
 
-        final float LABEL_RESIZE = 50f;
+        final float LABEL_RESIZE = 20f;
+        LABEL_HORIZ = 2.3f;
+        LABEL_VERT = new float[] {1.3f, 1.7f, 2.5f, 4.5f};
 
         generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Norse-Bold.ttf"));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -55,7 +59,7 @@ public class PauseMenu {
 
         labelStyle.font = generator.generateFont(parameter);
         Label label = new Label("CONTINUE", labelStyle);
-        label.setPosition(w / 2, h / 1.2f);
+        label.setPosition(w / LABEL_HORIZ, h / LABEL_VERT[0]);
         label.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
@@ -71,7 +75,7 @@ public class PauseMenu {
 
         labelStyle.font = generator.generateFont(parameter);
         Label label = new Label("SAVE", labelStyle);
-        label.setPosition(w / 2, h / 1.8f);
+        label.setPosition(w / LABEL_HORIZ, h / LABEL_VERT[1]);
         label.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
@@ -87,7 +91,7 @@ public class PauseMenu {
 
         labelStyle.font = generator.generateFont(parameter);
         Label label = new Label("LOAD", labelStyle);
-        label.setPosition(w / 2, h / 2.5f);
+        label.setPosition(w / LABEL_HORIZ, h / LABEL_VERT[2]);
         label.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
@@ -103,7 +107,7 @@ public class PauseMenu {
 
         labelStyle.font = generator.generateFont(parameter);
         Label label = new Label("MAIN MENU", labelStyle);
-        label.setPosition(w / 2, h / 4);
+        label.setPosition(w / LABEL_HORIZ, h / LABEL_VERT[3]);
         label.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {

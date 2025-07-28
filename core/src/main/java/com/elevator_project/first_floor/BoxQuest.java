@@ -141,8 +141,10 @@ public class BoxQuest extends RoomPart {
             for (Image button : buttons.keySet()) {
                 mainGroup.addActor(button);
             }
+            box.setDrawable(new SpriteDrawable(atlas.createSprite("Box", 2)));
+        } else {
+            box.setDrawable(new SpriteDrawable(atlas.createSprite("Box", 3)));
         }
         return mainGroup;
     }
-
 }

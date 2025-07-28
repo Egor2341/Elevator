@@ -1,6 +1,5 @@
 package com.elevator_project.second_floor;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -23,6 +22,8 @@ public class SecondFloorFirstSide extends RoomPart {
 
     private void initElements() {
         elements.add(initWall());
+        elements.add(initLocker());
+        elements.add(initTV());
     }
 
     private Image initWall () {
@@ -32,6 +33,28 @@ public class SecondFloorFirstSide extends RoomPart {
         ImageProcessing.process(wall, WALL_RESIZE_FACTOR, w, h);
 
         return wall;
+    }
+
+    private Image initLocker () {
+        final float LOCKER_RESIZE_FACTOR = 600f;
+        final float LOCKER_HORIZ_FACTOR = 2.32f;
+        final float LOCKER_VERT_FACTOR = 3.19f;
+
+        Image locker = new Image(atlas.createSprite("Locker", 1));
+        ImageProcessing.process(locker, LOCKER_RESIZE_FACTOR, LOCKER_HORIZ_FACTOR, LOCKER_VERT_FACTOR);
+
+        return locker;
+    }
+
+    private Image initTV () {
+        final float TV_RESIZE = 600f;
+        final float TV_HORIZ = 2.25f;
+        final float TV_VERT = 2.2f;
+
+        Image tv = new Image(atlas.createSprite("TV", 0));
+        ImageProcessing.process(tv, TV_RESIZE, TV_HORIZ, TV_VERT);
+
+        return tv;
     }
 
     public Group initGroup() {

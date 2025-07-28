@@ -73,7 +73,7 @@ public class GameManager {
 
 
     static {
-        SaveManager.loadAutosave();
+        gameState = new GameState();
 
         playFootSteps = true;
 
@@ -94,8 +94,6 @@ public class GameManager {
         fourthFloor = new FourthFloor();
         fifthFloor = new FifthFloor();
         sixthFloor = new SixthFloor();
-
-        SaveManager.fillInventory();
 
         saveMenu = new SaveMenu();
         loadMenu = new LoadMenu();

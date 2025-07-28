@@ -61,12 +61,17 @@ public class ElevatorManager {
             App.getStage().addActor(group);
         }
         GameManager.getGameState().setElevator(true);
+
         GameManager.getInventory().render();
+
         GameManager.getDoor().render();
         GameManager.getDoor().show();
+
         GameManager.getDownArrow().render();
         GameManager.getDownArrow().hide();
+
         GameManager.getGameState().setPartIndex(0);
+
         SaveManager.saveAutosave();
     }
 
@@ -76,5 +81,6 @@ public class ElevatorManager {
         }
         GameManager.getDownArrow().dispose();
         GameManager.getDoor().dispose();
+        GameManager.getInventory().dispose();
     }
 }

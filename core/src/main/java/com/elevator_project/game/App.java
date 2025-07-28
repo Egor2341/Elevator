@@ -39,16 +39,13 @@ public class App extends ApplicationAdapter {
                         if (!GameManager.getMainMenu().isVisible()) {
                             GameManager.getPauseMenu().render();
                         }
+                        if (GameManager.getSaveMenu().isVisible()){
+                            GameManager.getSaveMenu().dispose();
+                        }
+                        if (GameManager.getLoadMenu().isVisible()) {
+                            GameManager.getLoadMenu().dispose();
+                        }
                         return true;
-//                    case Input.Keys.ENTER:
-//                        GameManager.getSaveMenu().dispose();
-//                        return true;
-//                    case Input.Keys.A:
-//                        GameManager.getLoadMenu().render();
-//                        return true;
-//                    case Input.Keys.F:
-//                        GameManager.getLoadMenu().dispose();
-//                        return true;
                 }
                 return false;
             }

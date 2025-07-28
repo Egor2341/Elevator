@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Json;
+import lombok.Getter;
 
 public class LoadMenu {
 
@@ -22,6 +23,8 @@ public class LoadMenu {
     private Image back;
     private final float w;
     private final float h;
+    @Getter
+    private boolean visible;
 
     public LoadMenu () {
         loads = new FileHandle[4];
@@ -77,7 +80,7 @@ public class LoadMenu {
                     Json json = new Json();
                     GameState loadedData = json.fromJson(GameState.class, loads[index].readString());
                     if (loadedData != null) {
-                        SaveManager.loadUser(loads[index]);
+                        SaveManager.load(loads[index]);
                     }
                 }
             });
@@ -122,11 +125,13 @@ public class LoadMenu {
     }
 
     public void render () {
+        visible = true;
         initGroup();
         App.getStage().addActor(group);
     }
 
     public void dispose () {
+        visible = false;
         group.remove();
     }
 }
