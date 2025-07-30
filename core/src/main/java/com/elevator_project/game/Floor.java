@@ -61,11 +61,7 @@ public class Floor {
     }
 
     protected void move (int hide, int show) {
-        if (GameManager.isPlayFootSteps()) {
-            App.getSoundManager().playSteps();
-        } else {
-            GameManager.setPlayFootSteps(true);
-        }
+        App.getSoundManager().playSteps();
         if (hide == 2) {
             door.hide();
         }

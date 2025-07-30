@@ -1,8 +1,7 @@
 secondFloor.png
 size:512,128
 repeat:none
-Back
-index:1
+DoorBack
 bounds:401,30,54,79
 Locker
 index:1
@@ -20,6 +19,8 @@ TV_Button
 bounds:255,70,41,39
 Wall
 index:2
+bounds:2,19,160,90
+TV_Back
 bounds:2,19,160,90
 Wall
 index:4

@@ -19,9 +19,12 @@ public class SecondFloor extends Floor {
     private SecondFloorSecondSide secondSide;
     private SecondFloorThirdSide thirdSide;
     private SecondFloorFourthSide fourthSide;
+    private Tv tv;
+
+    private final int moveToTvPart = 4;
+    private final int moveFromTvPart = 0;
 
     public SecondFloor() {
-        partIndex = 0;
         initParts();
     }
 
@@ -34,9 +37,34 @@ public class SecondFloor extends Floor {
         parts.add(thirdSide);
         fourthSide = new SecondFloorFourthSide();
         parts.add(fourthSide);
+        tv = new Tv();
+        parts.add(tv);
+
+    }
+
+    public void moveToTv() {
+        move(GameManager.getGameState().getPartIndex(), moveToTvPart);
+    }
+
+    @Override
+    public void move(int hide, int show) {
+        super.move(hide, show);
+        if (hide == moveToTvPart) {
+            arrows.show();
+            downArrow.hide();
+        }
+        if (show == moveToTvPart) {
+            arrows.hide();
+            downArrow.show();
+        }
     }
 
     @Override
     public void back() {
+        int show = switch (GameManager.getGameState().getPartIndex()) {
+            case moveToTvPart -> moveFromTvPart;
+            default -> moveFromTvPart;
+        };
+        move(GameManager.getGameState().getPartIndex(), show);
     }
 }

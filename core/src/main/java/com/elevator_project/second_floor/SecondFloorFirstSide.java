@@ -2,7 +2,9 @@ package com.elevator_project.second_floor;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.elevator_project.game.GameManager;
 import com.elevator_project.game.ImageProcessing;
 import com.elevator_project.game.RoomPart;
@@ -53,6 +55,13 @@ public class SecondFloorFirstSide extends RoomPart {
 
         Image tv = new Image(atlas.createSprite("TV", 0));
         ImageProcessing.process(tv, TV_RESIZE, TV_HORIZ, TV_VERT);
+
+        tv.addListener(new ClickListener() {
+            @Override
+            public void clicked (InputEvent event, float x, float y) {
+                GameManager.getSecondFloor().moveToTv();
+            }
+        });
 
         return tv;
     }
