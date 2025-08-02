@@ -26,6 +26,9 @@ public class GameState {
 
     private String saveName;
 
+    private int channelIndex;
+    private boolean tvOn;
+
     public GameState () {
         elevator = true;
 
@@ -48,5 +51,8 @@ public class GameState {
         partIndex = 0;
 
         saveName = "autosave";
+
+        channelIndex = 1;
+        tvOn = false;
     }
 }

@@ -23,14 +23,18 @@ public class SaveManager {
     }
 
     public static void load (FileHandle load) {
-        if (GameManager.getGameState().isElevator()) {
-            GameManager.getElevatorManager().dispose();
-        } else {
-            GameManager.getFloor().dispose();
-        }
         Json json = new Json();
         String loadedData = load.readString();
-        GameManager.setGameState(json.fromJson(GameState.class, loadedData));
+        if (loadedData.isEmpty()) {
+            GameManager.setGameState(new GameState());
+        } else {
+            if (GameManager.getGameState().isElevator()) {
+                GameManager.getElevatorManager().dispose();
+            } else {
+                GameManager.getFloor().dispose();
+            }
+            GameManager.setGameState(json.fromJson(GameState.class, loadedData));
+        }
         if (GameManager.getGameState().isElevator()) {
             GameManager.getElevatorManager().render();
         } else {
