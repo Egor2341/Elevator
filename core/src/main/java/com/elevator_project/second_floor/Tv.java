@@ -20,7 +20,7 @@ public class Tv extends RoomPart {
     private final List<Image> elements;
 
     private Image tv;
-    private Image button;
+    private Image switchButton;
 
     private Sprite[] tvSprites;
 
@@ -33,7 +33,8 @@ public class Tv extends RoomPart {
     private void initElements() {
         elements.add(initBack());
         elements.add(initTv());
-        elements.add(initButton());
+        elements.add(initSwitchButton());
+        elements.add(initPowerButton());
     }
 
     private Image initTv() {
@@ -59,33 +60,58 @@ public class Tv extends RoomPart {
         return back;
     }
 
-    private Image initButton() {
-        final float BUTTON_RESIZE = 700f;
-        final float BUTTON_HORIZ = 1.55f;
-        final float BUTTON_VERT = 1.4f;
+    private Image initSwitchButton() {
+        final float SWITCH_BUTTON_RESIZE = 700f;
+        final float SWITCH_BUTTON_HORIZ = 1.55f;
+        final float SWITCH_BUTTON_VERT = 1.4f;
 
-        button = new Image(atlas.createSprite("TV_Button"));
-        ImageProcessing.process(button, BUTTON_RESIZE, BUTTON_HORIZ, BUTTON_VERT);
-        button.setOrigin(Align.center);
+        switchButton = new Image(atlas.createSprite("TV_Button"));
+        ImageProcessing.process(switchButton, SWITCH_BUTTON_RESIZE, SWITCH_BUTTON_HORIZ, SWITCH_BUTTON_VERT);
+        switchButton.setOrigin(Align.center);
 
-        button.addListener(new ClickListener() {
+        switchButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                button.rotateBy(72);
+                switchButton.rotateBy(72);
                 GameManager.getGameState().setChannelIndex(
                     (GameManager.getGameState().getChannelIndex() + 1) % 5
                 );
-                tv.setDrawable(new SpriteDrawable(tvSprites[GameManager.getGameState().getChannelIndex()]));
+                if (GameManager.getGameState().isTvOn()) {
+                    tv.setDrawable(new SpriteDrawable(tvSprites[GameManager.getGameState().getChannelIndex()]));
+                }
             }
         });
 
-        return button;
+        return switchButton;
+    }
+
+    private Image initPowerButton() {
+        final float POWER_BUTTON_RESIZE = 700f;
+        final float POWER_BUTTON_HORIZ = 1.55f;
+        final float POWER_BUTTON_VERT = 2f;
+
+        Image powerButton = new Image(atlas.createSprite("TV_PowerButton"));
+        ImageProcessing.process(powerButton, POWER_BUTTON_RESIZE, POWER_BUTTON_HORIZ, POWER_BUTTON_VERT);
+
+        powerButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                GameManager.getGameState().setTvOn(!GameManager.getGameState().isTvOn());
+                tv.setDrawable(new SpriteDrawable(
+                    GameManager.getGameState().isTvOn() ?
+                        tvSprites[GameManager.getGameState().getChannelIndex()] : tvSprites[0]
+                ));
+            }
+        });
+
+        return powerButton;
     }
 
     @Override
     public Group initGroup() {
-        button.rotateBy((GameManager.getGameState().getChannelIndex() - 1)*72);
-        tv.setDrawable(new SpriteDrawable(tvSprites[GameManager.getGameState().getChannelIndex()]));
-
+        switchButton.rotateBy((GameManager.getGameState().getChannelIndex() - 1) * 72);
+        tv.setDrawable(new SpriteDrawable(
+            GameManager.getGameState().isTvOn() ?
+                tvSprites[GameManager.getGameState().getChannelIndex()] : tvSprites[0]
+        ));
         for (Image element : elements) {
             mainGroup.addActor(element);
         }

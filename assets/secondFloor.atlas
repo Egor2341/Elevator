@@ -13,10 +13,10 @@ TV
 index:0
 bounds:243,9,77,56
 TV
-index:2
+index:5
 bounds:243,9,77,56
 TV
-index:5
+index:2
 bounds:243,9,77,56
 TV
 index:4
@@ -26,6 +26,8 @@ index:1
 bounds:322,2,77,56
 TV_Button
 bounds:255,77,41,39
+TV_PowerButton
+bounds:2,3,40,21
 Wall
 index:2
 bounds:2,26,160,90
