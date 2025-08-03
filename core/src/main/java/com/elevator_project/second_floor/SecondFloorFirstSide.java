@@ -1,10 +1,12 @@
 package com.elevator_project.second_floor;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.elevator_project.game.GameManager;
 import com.elevator_project.game.ImageProcessing;
 import com.elevator_project.game.RoomPart;
@@ -15,6 +17,9 @@ public class SecondFloorFirstSide extends RoomPart {
 
     private final TextureAtlas atlas;
     private final List<Image> elements;
+
+    private Sprite[] tvSprites;
+    private Image tv;
 
     public SecondFloorFirstSide () {
         atlas = GameManager.getAtlasses().getSecondFloorAtlas();
@@ -38,8 +43,8 @@ public class SecondFloorFirstSide extends RoomPart {
     }
 
     private Image initLocker () {
-        final float LOCKER_RESIZE_FACTOR = 600f;
-        final float LOCKER_HORIZ_FACTOR = 2.32f;
+        final float LOCKER_RESIZE_FACTOR = 350f;
+        final float LOCKER_HORIZ_FACTOR = 2.55f;
         final float LOCKER_VERT_FACTOR = 3.19f;
 
         Image locker = new Image(atlas.createSprite("Locker", 1));
@@ -49,11 +54,15 @@ public class SecondFloorFirstSide extends RoomPart {
     }
 
     private Image initTV () {
-        final float TV_RESIZE = 600f;
-        final float TV_HORIZ = 2.25f;
-        final float TV_VERT = 2.2f;
+        final float TV_RESIZE = 400f;
+        final float TV_HORIZ = 2.35f;
+        final float TV_VERT = 1.78f;
 
-        Image tv = new Image(atlas.createSprite("TV", 0));
+        tvSprites = new Sprite[7];
+        for (int i = 0; i < 7; i++) {
+            tvSprites[i] = atlas.createSprite("TV", i);
+        }
+        tv = new Image(tvSprites[1]);
         ImageProcessing.process(tv, TV_RESIZE, TV_HORIZ, TV_VERT);
 
         tv.addListener(new ClickListener() {
@@ -66,7 +75,17 @@ public class SecondFloorFirstSide extends RoomPart {
         return tv;
     }
 
+    public void updateTvImage() {
+        System.out.println(GameManager.getGameState().isTvOn());
+        System.out.println(GameManager.getGameState().getChannelIndex());
+        tv.setDrawable(new SpriteDrawable(
+            GameManager.getGameState().isTvOn() ?
+                tvSprites[GameManager.getGameState().getChannelIndex()] : tvSprites[0]
+        ));
+    }
+
     public Group initGroup() {
+        updateTvImage();
         for (Image element : elements) {
             mainGroup.addActor(element);
         }

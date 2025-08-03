@@ -1,14 +1,13 @@
 package com.elevator_project.second_floor;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.elevator_project.extra_elements.Arrows;
 import com.elevator_project.extra_elements.DownArrow;
 import com.elevator_project.extra_elements.Inventory;
-import com.elevator_project.game.App;
-import com.elevator_project.game.Floor;
-import com.elevator_project.game.GameManager;
-import com.elevator_project.game.RoomPart;
+import com.elevator_project.game.*;
 import com.elevator_project.independent_elements.Door;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +38,6 @@ public class SecondFloor extends Floor {
         parts.add(fourthSide);
         tv = new Tv();
         parts.add(tv);
-
     }
 
     public void moveToTv() {
@@ -50,8 +48,10 @@ public class SecondFloor extends Floor {
     public void move(int hide, int show) {
         super.move(hide, show);
         if (hide == moveToTvPart) {
+            SaveManager.saveAutosave();
             arrows.show();
             downArrow.hide();
+            firstSide.updateTvImage();
         }
         if (show == moveToTvPart) {
             arrows.hide();

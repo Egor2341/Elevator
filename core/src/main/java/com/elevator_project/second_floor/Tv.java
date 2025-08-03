@@ -107,6 +107,7 @@ public class Tv extends RoomPart {
 
     @Override
     public Group initGroup() {
+        switchButton.setRotation(0);
         switchButton.rotateBy((GameManager.getGameState().getChannelIndex() - 1) * 72);
         tv.setDrawable(new SpriteDrawable(
             GameManager.getGameState().isTvOn() ?
