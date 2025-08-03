@@ -58,9 +58,9 @@ public class SecondFloorFirstSide extends RoomPart {
         final float TV_HORIZ = 2.35f;
         final float TV_VERT = 1.78f;
 
-        tvSprites = new Sprite[7];
-        for (int i = 0; i < 7; i++) {
-            tvSprites[i] = atlas.createSprite("TV", i);
+        tvSprites = new Sprite[5];
+        for (int i = 1; i < 6; i++) {
+            tvSprites[i-1] = atlas.createSprite("TV", i);
         }
         tv = new Image(tvSprites[1]);
         ImageProcessing.process(tv, TV_RESIZE, TV_HORIZ, TV_VERT);
@@ -80,7 +80,8 @@ public class SecondFloorFirstSide extends RoomPart {
         System.out.println(GameManager.getGameState().getChannelIndex());
         tv.setDrawable(new SpriteDrawable(
             GameManager.getGameState().isTvOn() ?
-                tvSprites[GameManager.getGameState().getChannelIndex()] : tvSprites[0]
+                tvSprites[GameManager.getGameState().getChannelIndex()] :
+                atlas.createSprite("TV", 0)
         ));
     }
 

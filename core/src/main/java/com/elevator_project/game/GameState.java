@@ -52,7 +52,7 @@ public class GameState {
 
         saveName = "autosave";
 
-        channelIndex = 1;
+        channelIndex = 0;
         tvOn = false;
     }
 }

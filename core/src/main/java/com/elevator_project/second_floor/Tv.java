@@ -41,9 +41,9 @@ public class Tv extends RoomPart {
         final float TV_RESIZE = 200f;
         final float TV_HORIZ = 3f;
         final float TV_VERT = 2.5f;
-        tvSprites = new Sprite[7];
-        for (int i = 0; i < 7; i++) {
-            tvSprites[i] = atlas.createSprite("TV", i);
+        tvSprites = new Sprite[5];
+        for (int i = 1; i < 6; i++) {
+            tvSprites[i-1] = atlas.createSprite("TV", i);
         }
         tv = new Image(tvSprites[1]);
         ImageProcessing.process(tv, TV_RESIZE, TV_HORIZ, TV_VERT);
@@ -97,7 +97,8 @@ public class Tv extends RoomPart {
                 GameManager.getGameState().setTvOn(!GameManager.getGameState().isTvOn());
                 tv.setDrawable(new SpriteDrawable(
                     GameManager.getGameState().isTvOn() ?
-                        tvSprites[GameManager.getGameState().getChannelIndex()] : tvSprites[0]
+                        tvSprites[GameManager.getGameState().getChannelIndex()] :
+                        atlas.createSprite("TV", 0)
                 ));
             }
         });
@@ -108,10 +109,11 @@ public class Tv extends RoomPart {
     @Override
     public Group initGroup() {
         switchButton.setRotation(0);
-        switchButton.rotateBy((GameManager.getGameState().getChannelIndex() - 1) * 72);
+        switchButton.rotateBy((GameManager.getGameState().getChannelIndex()) * 72);
         tv.setDrawable(new SpriteDrawable(
             GameManager.getGameState().isTvOn() ?
-                tvSprites[GameManager.getGameState().getChannelIndex()] : tvSprites[0]
+                tvSprites[GameManager.getGameState().getChannelIndex()] :
+                atlas.createSprite("TV", 0)
         ));
         for (Image element : elements) {
             mainGroup.addActor(element);
