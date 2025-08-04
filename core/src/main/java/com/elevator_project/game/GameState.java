@@ -28,6 +28,7 @@ public class GameState {
 
     private int channelIndex;
     private boolean tvOn;
+    private final int[] runesOnSecondFloorLocker;
 
     public GameState () {
         elevator = true;
@@ -45,6 +46,8 @@ public class GameState {
         objectsInInventory.add("");
         objectsInInventory.add("");
         objectsInInventory.add("");
+
+        runesOnSecondFloorLocker = new int[] {0, 0, 0, 0};
 
         floorIndex = 1;
 

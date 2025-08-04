@@ -1,16 +1,6 @@
 package com.elevator_project.second_floor;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.elevator_project.extra_elements.Arrows;
-import com.elevator_project.extra_elements.DownArrow;
-import com.elevator_project.extra_elements.Inventory;
 import com.elevator_project.game.*;
-import com.elevator_project.independent_elements.Door;
-import lombok.Getter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SecondFloor extends Floor {
 
@@ -22,6 +12,10 @@ public class SecondFloor extends Floor {
 
     private final int moveToTvPart = 4;
     private final int moveFromTvPart = 0;
+
+    private Locker locker;
+    private final int moveToLockerPart = 5;
+    private final int moveFromLockerPart = 0;
 
     public SecondFloor() {
         initParts();
@@ -38,22 +32,30 @@ public class SecondFloor extends Floor {
         parts.add(fourthSide);
         tv = new Tv();
         parts.add(tv);
+        locker = new Locker();
+        parts.add(locker);
     }
 
     public void moveToTv() {
-        move(GameManager.getGameState().getPartIndex(), moveToTvPart);
+        move(moveFromTvPart, moveToTvPart);
+    }
+
+    public void moveToLocker() {
+        move(moveFromLockerPart, moveToLockerPart);
     }
 
     @Override
     public void move(int hide, int show) {
         super.move(hide, show);
-        if (hide == moveToTvPart) {
+        if (hide == moveToTvPart || hide == moveToLockerPart) {
             SaveManager.saveAutosave();
             arrows.show();
             downArrow.hide();
+        }
+        if (hide == moveToTvPart) {
             firstSide.updateTvImage();
         }
-        if (show == moveToTvPart) {
+        if (show == moveToTvPart || show == moveToLockerPart) {
             arrows.hide();
             downArrow.show();
         }
@@ -63,7 +65,8 @@ public class SecondFloor extends Floor {
     public void back() {
         int show = switch (GameManager.getGameState().getPartIndex()) {
             case moveToTvPart -> moveFromTvPart;
-            default -> moveFromTvPart;
+            case moveToLockerPart -> moveFromLockerPart;
+            default -> 0;
         };
         move(GameManager.getGameState().getPartIndex(), show);
     }

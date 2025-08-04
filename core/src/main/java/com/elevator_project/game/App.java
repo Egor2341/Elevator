@@ -36,14 +36,14 @@ public class App extends ApplicationAdapter {
             public boolean keyDown (InputEvent event, int keycode) {
                 switch (keycode) {
                     case Input.Keys.ESCAPE:
-                        if (!GameManager.getMainMenu().isVisible()) {
-                            GameManager.getPauseMenu().render();
-                        }
                         if (GameManager.getSaveMenu().isVisible()){
                             GameManager.getSaveMenu().dispose();
                         }
                         if (GameManager.getLoadMenu().isVisible()) {
                             GameManager.getLoadMenu().dispose();
+                        }
+                        if (!GameManager.getMainMenu().isVisible()) {
+                            GameManager.getPauseMenu().render();
                         }
                         return true;
                 }

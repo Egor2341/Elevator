@@ -77,6 +77,9 @@ public class LoadMenu {
             cell.addListener(new ClickListener() {
                 @Override
                 public void clicked (InputEvent event, float x, float y) {
+                    if (GameManager.getMainMenu().isVisible()) {
+                        GameManager.getMainMenu().dispose();
+                    }
                     Json json = new Json();
                     GameState loadedData = json.fromJson(GameState.class, loads[index].readString());
                     if (loadedData != null) {
