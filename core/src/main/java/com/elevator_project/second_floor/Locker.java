@@ -55,7 +55,6 @@ public class Locker extends RoomPart {
         }
 
         runes = new Image[4];
-        int[] runesIndexes = GameManager.getGameState().getRunesOnSecondFloorLocker();
         for (int i = 0; i < 4; i++) {
             Image rune = new Image(runesSprites[0]);
             ImageProcessing.process(rune, RUNE_RESIZE, RUNE_HORIZ, RUNE_VERT[i]);
@@ -63,8 +62,8 @@ public class Locker extends RoomPart {
             rune.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    runesIndexes[number] = (runesIndexes[number] + 1) % 6;
-                    rune.setDrawable(new SpriteDrawable(runesSprites[runesIndexes[number]]));
+                    GameManager.getGameState().getRunesOnSecondFloorLocker().set(number, (GameManager.getGameState().getRunesOnSecondFloorLocker().get(number) + 1) % 6);
+                    rune.setDrawable(new SpriteDrawable(runesSprites[GameManager.getGameState().getRunesOnSecondFloorLocker().get(number)]));
                 }
             });
             runes[i] = rune;

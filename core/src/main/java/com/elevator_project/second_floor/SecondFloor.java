@@ -55,6 +55,9 @@ public class SecondFloor extends Floor {
         if (hide == moveToTvPart) {
             firstSide.updateTvImage();
         }
+        if (hide == moveToLockerPart) {
+            firstSide.updateRunesImage();
+        }
         if (show == moveToTvPart || show == moveToLockerPart) {
             arrows.hide();
             downArrow.show();

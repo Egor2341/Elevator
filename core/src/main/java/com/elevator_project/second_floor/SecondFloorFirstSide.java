@@ -24,6 +24,9 @@ public class SecondFloorFirstSide extends RoomPart {
     private Image switchButton;
     private Image powerButton;
 
+    private Sprite[] runesSprites;
+    private Image[] runes;
+
     public SecondFloorFirstSide () {
         atlas = GameManager.getAtlasses().getSecondFloorAtlas();
         elements = new ArrayList<>();
@@ -36,6 +39,7 @@ public class SecondFloorFirstSide extends RoomPart {
         elements.add(initTV());
         elements.add(switchButton);
         elements.add(powerButton);
+        elements.addAll(Arrays.asList(runes));
     }
 
     private Image initWall () {
@@ -51,6 +55,22 @@ public class SecondFloorFirstSide extends RoomPart {
         final float LOCKER_RESIZE_FACTOR = 350f;
         final float LOCKER_HORIZ_FACTOR = 2.55f;
         final float LOCKER_VERT_FACTOR = 3.19f;
+
+        final float RUNE_RESIZE = 800f;
+        final float RUNE_HORIZ = 1.68f;
+        final float[] RUNE_VERT = new float[] {1.945f, 2.1f, 2.29f, 2.52f};
+
+        runesSprites = new Sprite[6];
+        for (int i = 0; i < 6; i++) {
+            runesSprites[i] = atlas.createSprite("Rune", i);
+        }
+        runes = new Image[4];
+
+        for (int i = 0; i < 4; i++){
+            Image rune = new Image(runesSprites[0]);
+            ImageProcessing.process(rune, RUNE_RESIZE, RUNE_HORIZ, RUNE_VERT[i]);
+            runes[i] = rune;
+        }
 
         Image locker = new Image(atlas.createSprite("Locker", 1));
         ImageProcessing.process(locker, LOCKER_RESIZE_FACTOR, LOCKER_HORIZ_FACTOR, LOCKER_VERT_FACTOR);
@@ -111,8 +131,15 @@ public class SecondFloorFirstSide extends RoomPart {
         switchButton.rotateBy((GameManager.getGameState().getChannelIndex()) * 72);
     }
 
+    public void updateRunesImage() {
+        for (int i = 0; i < 4; i++) {
+            runes[i].setDrawable(new SpriteDrawable(runesSprites[GameManager.getGameState().getRunesOnSecondFloorLocker().get(i)]));
+        }
+    }
+
     public Group initGroup() {
         updateTvImage();
+        updateRunesImage();
         for (Image element : elements) {
             mainGroup.addActor(element);
         }
