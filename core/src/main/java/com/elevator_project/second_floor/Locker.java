@@ -21,6 +21,7 @@ public class Locker extends RoomPart {
     private Image[] runes;
     private Image locker;
     private final List<Image> elements;
+    private List<Integer> runesIndexes;
 
     public Locker() {
         atlas = GameManager.getAtlasses().getSecondFloorAtlas();
@@ -55,6 +56,7 @@ public class Locker extends RoomPart {
         }
 
         runes = new Image[4];
+        runesIndexes = GameManager.getGameState().getRunesOnSecondFloorLocker();
         for (int i = 0; i < 4; i++) {
             Image rune = new Image(runesSprites[0]);
             ImageProcessing.process(rune, RUNE_RESIZE, RUNE_HORIZ, RUNE_VERT[i]);
@@ -62,8 +64,10 @@ public class Locker extends RoomPart {
             rune.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    GameManager.getGameState().getRunesOnSecondFloorLocker().set(number, (GameManager.getGameState().getRunesOnSecondFloorLocker().get(number) + 1) % 6);
-                    rune.setDrawable(new SpriteDrawable(runesSprites[GameManager.getGameState().getRunesOnSecondFloorLocker().get(number)]));
+                    int runeIndex = (runesIndexes.get(number) + 1) % 6;
+                    runesIndexes.set(number, runeIndex);
+                    rune.setDrawable(new SpriteDrawable(runesSprites[runeIndex]));
+                    GameManager.getGameState().setRunesOnSecondFloorLocker(runesIndexes);
                 }
             });
             runes[i] = rune;
@@ -74,6 +78,10 @@ public class Locker extends RoomPart {
 
     @Override
     public Group initGroup() {
+        runesIndexes = GameManager.getGameState().getRunesOnSecondFloorLocker();
+        for (int i = 0; i < 4; i++) {
+            runes[i].setDrawable(new SpriteDrawable(runesSprites[runesIndexes.get(i)]));
+        }
         elements.forEach(mainGroup::addActor);
         return mainGroup;
     }

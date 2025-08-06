@@ -132,8 +132,9 @@ public class SecondFloorFirstSide extends RoomPart {
     }
 
     public void updateRunesImage() {
+        List<Integer> runesIndexes = GameManager.getGameState().getRunesOnSecondFloorLocker();
         for (int i = 0; i < 4; i++) {
-            runes[i].setDrawable(new SpriteDrawable(runesSprites[GameManager.getGameState().getRunesOnSecondFloorLocker().get(i)]));
+            runes[i].setDrawable(new SpriteDrawable(runesSprites[runesIndexes.get(i)]));
         }
     }
 
