@@ -44,6 +44,10 @@ public class SecondFloor extends Floor {
         move(moveFromLockerPart, moveToLockerPart);
     }
 
+    public void disposeRuneImagesOnLocker(){
+        firstSide.disposeRunesImage();
+    }
+
     @Override
     public void move(int hide, int show) {
         super.move(hide, show);
@@ -55,7 +59,7 @@ public class SecondFloor extends Floor {
         if (hide == moveToTvPart) {
             firstSide.updateTvImage();
         }
-        if (hide == moveToLockerPart) {
+        if (hide == moveToLockerPart && !GameManager.getGameState().isLockerOnSecondFloorQuestSolved()) {
             firstSide.updateRunesImage();
         }
         if (show == moveToTvPart || show == moveToLockerPart) {

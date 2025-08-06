@@ -39,7 +39,6 @@ public class SecondFloorFirstSide extends RoomPart {
         elements.add(initTV());
         elements.add(switchButton);
         elements.add(powerButton);
-        elements.addAll(Arrays.asList(runes));
     }
 
     private Image initWall () {
@@ -138,11 +137,22 @@ public class SecondFloorFirstSide extends RoomPart {
         }
     }
 
+    public void disposeRunesImage(){
+        for (Image rune : runes) {
+            rune.remove();
+        }
+    }
+
     public Group initGroup() {
         updateTvImage();
-        updateRunesImage();
         for (Image element : elements) {
             mainGroup.addActor(element);
+        }
+        if (!GameManager.getGameState().isLockerOnSecondFloorQuestSolved()) {
+            updateRunesImage();
+            for (Image rune : runes) {
+                mainGroup.addActor(rune);
+            }
         }
         return mainGroup;
     }

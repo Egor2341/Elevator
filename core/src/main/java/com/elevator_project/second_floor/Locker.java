@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.elevator_project.game.GameManager;
 import com.elevator_project.game.ImageProcessing;
 import com.elevator_project.game.RoomPart;
+import com.elevator_project.game.SaveManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,16 +23,18 @@ public class Locker extends RoomPart {
     private Image locker;
     private final List<Image> elements;
     private List<Integer> runesIndexes;
+    private final List<Integer> rightRunesIndexes;
 
     public Locker() {
         atlas = GameManager.getAtlasses().getSecondFloorAtlas();
         elements = new ArrayList<>();
+        rightRunesIndexes = List.of(4, 1, 2, 3);
         initElements();
     }
 
     private void initElements() {
         elements.add(initLocker());
-        elements.addAll(Arrays.asList(initRunes()));
+        initRunes();
     }
 
     private Image initLocker() {
@@ -41,11 +44,29 @@ public class Locker extends RoomPart {
 
         locker = new Image(atlas.createSprite("Locker", 1));
         ImageProcessing.process(locker, LOCKER_RESIZE, LOCKER_HORIZ, LOCKER_VERT);
+        locker.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                checkSubsequence();
+            }
+        });
 
         return locker;
     }
 
-    private Image[] initRunes() {
+    private void checkSubsequence() {
+        runesIndexes = GameManager.getGameState().getRunesOnSecondFloorLocker();
+        if (rightRunesIndexes.equals(runesIndexes)) {
+            GameManager.getGameState().setLockerOnSecondFloorQuestSolved(true);
+            for (Image rune : runes) {
+                rune.remove();
+            }
+            GameManager.getSecondFloor().disposeRuneImagesOnLocker();
+            SaveManager.saveAutosave();
+        }
+    }
+
+    private void initRunes() {
         final float RUNE_RESIZE = 400f;
         final float RUNE_HORIZ = 1.42f;
         final float[] RUNE_VERT = new float[] {1.35f, 1.52f, 1.74f, 2.04f};
@@ -72,17 +93,18 @@ public class Locker extends RoomPart {
             });
             runes[i] = rune;
         }
-
-        return runes;
     }
 
     @Override
     public Group initGroup() {
-        runesIndexes = GameManager.getGameState().getRunesOnSecondFloorLocker();
-        for (int i = 0; i < 4; i++) {
-            runes[i].setDrawable(new SpriteDrawable(runesSprites[runesIndexes.get(i)]));
-        }
         elements.forEach(mainGroup::addActor);
+        if (!GameManager.getGameState().isLockerOnSecondFloorQuestSolved()) {
+            runesIndexes = GameManager.getGameState().getRunesOnSecondFloorLocker();
+            for (int i = 0; i < 4; i++) {
+                runes[i].setDrawable(new SpriteDrawable(runesSprites[runesIndexes.get(i)]));
+                mainGroup.addActor(runes[i]);
+            }
+        }
         return mainGroup;
     }
 }

@@ -29,6 +29,7 @@ public class GameState {
     private int channelIndex;
     private boolean tvOn;
     private List<Integer> runesOnSecondFloorLocker;
+    private boolean lockerOnSecondFloorQuestSolved;
 
     public GameState () {
         elevator = true;
@@ -39,19 +40,10 @@ public class GameState {
         screamerOnFirstFloorPlayed = false;
         buttonAvailable = false;
 
-        objectsInInventory = new ArrayList<>();
-        objectsInInventory.add("");
-        objectsInInventory.add("");
-        objectsInInventory.add("");
-        objectsInInventory.add("");
-        objectsInInventory.add("");
-        objectsInInventory.add("");
+        objectsInInventory = List.of("", "", "", "", "", "");
 
-        runesOnSecondFloorLocker = new ArrayList<>();
-        runesOnSecondFloorLocker.add(0);
-        runesOnSecondFloorLocker.add(0);
-        runesOnSecondFloorLocker.add(0);
-        runesOnSecondFloorLocker.add(0);
+        runesOnSecondFloorLocker = List.of(0, 0, 0, 0);
+        lockerOnSecondFloorQuestSolved = false;
 
         floorIndex = 1;
 
