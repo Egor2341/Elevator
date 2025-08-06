@@ -1,5 +1,6 @@
 package com.elevator_project.elevator;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.elevator_project.game.App;
 import com.elevator_project.game.GameManager;
@@ -32,8 +33,7 @@ public class ElevatorManager {
         wait = false;
     }
 
-    public void forward() {
-        elevator.hide();
+    public void moveToButtons() {
         GameManager.getDoor().hide();
         buttons.show();
         GameManager.getDownArrow().show();
@@ -41,7 +41,6 @@ public class ElevatorManager {
 
     public void back() {
         buttons.hide();
-        elevator.show();
         GameManager.getDoor().show();
         GameManager.getDownArrow().hide();
     }
@@ -50,16 +49,15 @@ public class ElevatorManager {
         elevator.update(delta);
     }
 
-    public void initGroups () {
+    public List<Group> initGroups () {
         groups.add(elevator.initGroup());
         groups.add(buttons.initGroup());
+        return groups;
     }
 
     public void render () {
-        initGroups();
-        for (Group group : groups) {
-            App.getStage().addActor(group);
-        }
+        initGroups().forEach(App.getStage()::addActor);
+
         GameManager.getGameState().setElevator(true);
 
         GameManager.getInventory().render();
@@ -76,9 +74,7 @@ public class ElevatorManager {
     }
 
     public void dispose () {
-        for (Group group : groups) {
-            group.remove();
-        }
+        groups.forEach(Actor::remove);
         GameManager.getDownArrow().dispose();
         GameManager.getDoor().dispose();
         GameManager.getInventory().dispose();

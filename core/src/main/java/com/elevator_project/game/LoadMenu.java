@@ -3,6 +3,7 @@ package com.elevator_project.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -12,6 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Json;
 import lombok.Getter;
+
+import java.util.Arrays;
 
 public class LoadMenu {
 
@@ -48,14 +51,11 @@ public class LoadMenu {
         loads[3] = Gdx.files.local("saves/save3.sav");
     }
 
-    private void initGroup () {
+    private Group initGroup () {
         group.addActor(back);
-        for (Image cell : cells) {
-            group.addActor(cell);
-        }
-        for (Label label : labels) {
-            group.addActor(label);
-        }
+        Arrays.stream(cells).forEach(group::addActor);
+        Arrays.stream(labels).forEach(group::addActor);
+        return group;
     }
 
     private void initBack () {
@@ -70,9 +70,10 @@ public class LoadMenu {
         final float CELL_HORIZ = 2.5f;
         final float[] CELL_VERT = new float[] {1.32f, 1.95f, 3.7f, 35f};
 
+        Sprite cellSprite = atlas.createSprite("SaveCell");
         for (int i = 0; i < 4; i++) {
             int index = i;
-            Image cell = new Image(atlas.createSprite("SaveCell"));
+            Image cell = new Image(cellSprite);
             ImageProcessing.process(cell, CELL_RESIZE, CELL_HORIZ, CELL_VERT[i]);
             cell.addListener(new ClickListener() {
                 @Override
@@ -80,11 +81,7 @@ public class LoadMenu {
                     if (GameManager.getMainMenu().isVisible()) {
                         GameManager.getMainMenu().dispose();
                     }
-                    Json json = new Json();
-                    GameState loadedData = json.fromJson(GameState.class, loads[index].readString());
-                    if (loadedData != null) {
-                        SaveManager.load(loads[index]);
-                    }
+                    SaveManager.load(loads[index]);
                 }
             });
 
@@ -129,8 +126,7 @@ public class LoadMenu {
 
     public void render () {
         visible = true;
-        initGroup();
-        App.getStage().addActor(group);
+        App.getStage().addActor(initGroup());
     }
 
     public void dispose () {

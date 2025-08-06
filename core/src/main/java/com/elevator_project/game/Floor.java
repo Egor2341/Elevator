@@ -18,19 +18,6 @@ public class Floor {
     protected final DownArrow downArrow;
     protected int partIndex;
 
-    public void initGroups() {
-        partIndex = GameManager.getGameState().getPartIndex();
-        for (RoomPart part : parts) {
-            groups.add(part.initGroup());
-        }
-        for (int i = 0; i < groups.size(); i++) {
-            if (i != partIndex) {
-                groups.get(i).setVisible(false);
-            }
-        }
-
-    }
-
     public Floor() {
         parts = new ArrayList<>();
         groups = new ArrayList<>();
@@ -41,8 +28,19 @@ public class Floor {
         partIndex = 0;
     }
 
-    public void initParts () {
+    public void initGroups() {
+        partIndex = GameManager.getGameState().getPartIndex();
+        for (RoomPart part : parts) {
+            groups.add(part.initGroup());
+        }
+        for (int i = 0; i < groups.size(); i++) {
+            if (i != partIndex) {
+                groups.get(i).setVisible(false);
+            }
+        }
+    }
 
+    public void initParts () {
     }
 
     public void right() {
@@ -56,8 +54,6 @@ public class Floor {
     }
 
     public void back() {
-        partIndex = GameManager.getGameState().getPartIndex();
-        move(partIndex, partIndex);
     }
 
     protected void move (int hide, int show) {
@@ -101,19 +97,19 @@ public class Floor {
         downArrow.show();
     }
 
-    public void hide () {
-        partIndex = GameManager.getGameState().getPartIndex();
-        groups.get(partIndex).setVisible(false);
-        if (partIndex == 2) {
-            door.hide();
-        }
-    }
-
-    public void show() {
-        partIndex = GameManager.getGameState().getPartIndex();
-        groups.get(partIndex).setVisible(true);
-        if (partIndex == 2) {
-            door.show();
-        }
-    }
+//    public void hide () {
+//        partIndex = GameManager.getGameState().getPartIndex();
+//        groups.get(partIndex).setVisible(false);
+//        if (partIndex == 2) {
+//            door.hide();
+//        }
+//    }
+//
+//    public void show() {
+//        partIndex = GameManager.getGameState().getPartIndex();
+//        groups.get(partIndex).setVisible(true);
+//        if (partIndex == 2) {
+//            door.show();
+//        }
+//    }
 }

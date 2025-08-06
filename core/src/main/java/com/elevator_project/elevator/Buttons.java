@@ -43,38 +43,33 @@ public class Buttons implements GroupElements {
     }
 
     private List<Image> initButtons () {
-        final float BUTTON_RESIZE_FACTOR = 200f;
-        final float FIRST_HORIZ_ROW_FACTOR = 2.9f;
-        final float SECOND_HORIZ_ROW_FACTOR = 2.2f;
-        final float THIRD_HORIZ_ROW_FACTOR = 1.8f;
-        final float FIRST_VERT_ROW_FACTOR = 1.5f;
-        final float SECOND_VERT_ROW_FACTOR = 1.8f;
-        final float THIRD_VERT_ROW_FACTOR = 2.7f;
-        final float FOURTH_VERT_ROW_FACTOR = 3.9f;
+        final float BUTTON_RESIZE = 200f;
+        final float[] BUTTON_HORIZ = new float[] {2.9f, 2.2f, 1.8f};
+        final float[] BUTTON_VERT = new float[] {1.5f, 1.8f, 2.7f, 3.9f};
         List<Image> buttons = new ArrayList<>();
 
         Image buttonOne = new Image(atlas.createSprite("Button", 1));
-        ImageProcessing.process(buttonOne, BUTTON_RESIZE_FACTOR, SECOND_HORIZ_ROW_FACTOR, FIRST_VERT_ROW_FACTOR);
+        ImageProcessing.process(buttonOne, BUTTON_RESIZE, BUTTON_HORIZ[1], BUTTON_VERT[0]);
         buttons.add(buttonOne);
 
         Image buttonTwo = new Image(atlas.createSprite("Button", 2));
-        ImageProcessing.process(buttonTwo, BUTTON_RESIZE_FACTOR, THIRD_HORIZ_ROW_FACTOR, SECOND_VERT_ROW_FACTOR);
+        ImageProcessing.process(buttonTwo, BUTTON_RESIZE, BUTTON_HORIZ[2], BUTTON_VERT[1]);
         buttons.add(buttonTwo);
 
         Image buttonThree = new Image(atlas.createSprite("Button", 3));
-        ImageProcessing.process(buttonThree, BUTTON_RESIZE_FACTOR, THIRD_HORIZ_ROW_FACTOR, THIRD_VERT_ROW_FACTOR);
+        ImageProcessing.process(buttonThree, BUTTON_RESIZE, BUTTON_HORIZ[2], BUTTON_VERT[2]);
         buttons.add(buttonThree);
 
         Image buttonFour = new Image(atlas.createSprite("Button", 4));
-        ImageProcessing.process(buttonFour, BUTTON_RESIZE_FACTOR, SECOND_HORIZ_ROW_FACTOR, FOURTH_VERT_ROW_FACTOR);
+        ImageProcessing.process(buttonFour, BUTTON_RESIZE, BUTTON_HORIZ[1], BUTTON_VERT[3]);
         buttons.add(buttonFour);
 
         Image buttonFive = new Image(atlas.createSprite("Button", 5));
-        ImageProcessing.process(buttonFive, BUTTON_RESIZE_FACTOR, FIRST_HORIZ_ROW_FACTOR, THIRD_VERT_ROW_FACTOR);
+        ImageProcessing.process(buttonFive, BUTTON_RESIZE, BUTTON_HORIZ[0], BUTTON_VERT[2]);
         buttons.add(buttonFive);
 
         Image buttonSix = new Image(atlas.createSprite("Button", 6));
-        ImageProcessing.process(buttonSix, BUTTON_RESIZE_FACTOR, FIRST_HORIZ_ROW_FACTOR, SECOND_VERT_ROW_FACTOR);
+        ImageProcessing.process(buttonSix, BUTTON_RESIZE, BUTTON_HORIZ[0], BUTTON_VERT[1]);
         buttons.add(buttonSix);
 
         for (Image button : buttons) {
@@ -88,16 +83,12 @@ public class Buttons implements GroupElements {
                     GameManager.getElevatorManager().back();
                 }
             });
-
         }
-
         return buttons;
     }
 
     public Group initGroup () {
-        for (Image element : elements) {
-            mainGroup.addActor(element);
-        }
+        elements.forEach(mainGroup::addActor);
         return mainGroup;
     }
 

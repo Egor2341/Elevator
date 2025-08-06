@@ -28,7 +28,6 @@ public class InsulatingTape implements InventoryObject {
         insulatingTape.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-
                 addToInventory();
                 GameManager.getGameState().getObjectsInInventory().set(indexInInventory, "InsulatingTape");
                 SaveManager.saveAutosave();

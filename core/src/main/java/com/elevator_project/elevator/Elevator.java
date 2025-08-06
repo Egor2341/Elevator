@@ -24,10 +24,12 @@ public class Elevator implements GroupElements {
     private float stateTime;
     private Image display;
     private Image back;
+    private final float frameDuration;
 
     public Elevator () {
         this.w = App.getDimensions()[0];
         this.h = App.getDimensions()[1];
+        frameDuration = 0.9f;
         atlas = GameManager.getAtlasses().getElevatorAtlas();
         mainGroup = new Group();
         elements = new ArrayList<>();
@@ -66,7 +68,7 @@ public class Elevator implements GroupElements {
         buttons.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                GameManager.getElevatorManager().forward();
+                GameManager.getElevatorManager().moveToButtons();
             }
         });
         return buttons;
@@ -77,17 +79,14 @@ public class Elevator implements GroupElements {
         final float DISPLAY_VERT_FACTOR = 1.8f;
         final float DISPLAY_HORIZ_FACTOR = 1.5f;
 
-        displayAnimation = new Animation<>(0.6f, atlas.findRegions("Display"));
-        display = new Image(new TextureRegionDrawable(displayAnimation.getKeyFrame(
-            0 + 0.6f * (GameManager.getGameState().getFloorIndex() - 1))));
-        stateTime = 0 + 0.6f * (GameManager.getGameState().getFloorIndex() - 1);
+        displayAnimation = new Animation<>(frameDuration, atlas.findRegions("Display"));
+        display = new Image(new TextureRegionDrawable(displayAnimation.getKeyFrame(0)));
         ImageProcessing.process(display, DISPLAY_RESIZE_FACTOR, DISPLAY_HORIZ_FACTOR, DISPLAY_VERT_FACTOR);
         return display;
     }
 
     public void update (float delta) {
         if (GameManager.getGameState().getFloorIndex() != displayAnimation.getKeyFrameIndex(stateTime) + 1){
-
             stateTime += delta;
             TextureRegion frame = displayAnimation.getKeyFrame(stateTime, false);
             display.setDrawable(new TextureRegionDrawable(frame));
@@ -101,10 +100,10 @@ public class Elevator implements GroupElements {
     public void move (int start, int end) {
         if (start > end) {
             displayAnimation.setPlayMode(Animation.PlayMode.REVERSED);
-            stateTime = 0 + 0.6f * (6 - start);
+            stateTime = 0 + frameDuration * (6 - start);
         } else {
             displayAnimation.setPlayMode(Animation.PlayMode.NORMAL);
-            stateTime = 0 + 0.6f * (start - 1);
+            stateTime = 0 + frameDuration * (start - 1);
         }
         TextureRegion frame = displayAnimation.getKeyFrame(stateTime, false);
         display.setDrawable(new TextureRegionDrawable(frame));
@@ -132,12 +131,10 @@ public class Elevator implements GroupElements {
     }
 
     public Group initGroup() {
-        for (Image element : elements) {
-            mainGroup.addActor(element);
-        }
+        elements.forEach(mainGroup::addActor);
         back.setDrawable(new SpriteDrawable(atlas.createSprite("Back", GameManager.getGameState().getFloorIndex())));
         displayAnimation.setPlayMode(Animation.PlayMode.NORMAL);
-        stateTime = 0 + 0.6f * (GameManager.getGameState().getFloorIndex() - 1);
+        stateTime = 0 + frameDuration * (GameManager.getGameState().getFloorIndex() - 1);
         TextureRegion frame = displayAnimation.getKeyFrame(stateTime, false);
         display.setDrawable(new TextureRegionDrawable(frame));
 

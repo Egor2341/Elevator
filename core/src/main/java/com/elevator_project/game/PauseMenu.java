@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import java.util.Arrays;
+
 public class PauseMenu {
 
     private final TextureAtlas atlas;
@@ -21,10 +23,12 @@ public class PauseMenu {
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private final float LABEL_HORIZ;
     private final float[] LABEL_VERT;
+    private final Label[] labels;
 
     public PauseMenu () {
         atlas = GameManager.getAtlasses().getExtraElementsAtlas();
         mainGroup = new Group();
+        labels = new Label[4];
         w = App.getDimensions()[0];
         h = App.getDimensions()[1];
 
@@ -37,14 +41,20 @@ public class PauseMenu {
         parameter.size = (int) (w / LABEL_RESIZE);
         parameter.color = Color.WHITE;
         initBack();
+        initLabels();
     }
 
-    private void initGroup () {
+    private void initLabels(){
+        labels[0] = initLabelContinue();
+        labels[1] = initLabelSave();
+        labels[2] = initLabelLoad();
+        labels[3] = initLabelMainMenu();
+    }
+
+    private Group initGroup () {
         mainGroup.addActor(back);
-        mainGroup.addActor(initLabelContinue());
-        mainGroup.addActor(initLabelSave());
-        mainGroup.addActor(initLabelLoad());
-        mainGroup.addActor(initLabelMainMenu());
+        Arrays.stream(labels).forEach(mainGroup::addActor);
+        return mainGroup;
     }
 
     private void initBack () {
@@ -118,17 +128,8 @@ public class PauseMenu {
         return label;
     }
 
-    public void show () {
-        mainGroup.setVisible(true);
-    }
-
-    public void hide () {
-        mainGroup.setVisible(false);
-    }
-
     public void render () {
-        initGroup();
-        App.getStage().addActor(mainGroup);
+        App.getStage().addActor(initGroup());
     }
 
     public void dispose () {

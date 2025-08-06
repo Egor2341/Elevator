@@ -11,6 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import lombok.Getter;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class MainMenu {
 
     private final TextureAtlas atlas;
@@ -22,6 +25,7 @@ public class MainMenu {
     private final FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private final float LABEL_HORIZ;
     private final float[] LABEL_VERT;
+    private final Label[] labels;
 
     @Getter
     private boolean visible;
@@ -29,6 +33,7 @@ public class MainMenu {
     public MainMenu () {
         atlas = GameManager.getAtlasses().getExtraElementsAtlas();
         mainGroup = new Group();
+        labels = new Label[4];
         w = App.getDimensions()[0];
         h = App.getDimensions()[1];
 
@@ -41,16 +46,20 @@ public class MainMenu {
         parameter.size = (int) (w / LABEL_RESIZE);
         parameter.color = Color.WHITE;
         initBack();
-        initLabelStart();
-        initLabelContinue();
+        initLabels();
     }
 
-    private void initGroup () {
+    private void initLabels() {
+        labels[0] = initLabelStart();
+        labels[1] = initLabelContinue();
+        labels[2] = initLabelLoad();
+        labels[3] = initLabelExit();
+    }
+
+    private Group initGroup () {
         mainGroup.addActor(back);
-        mainGroup.addActor(initLabelStart());
-        mainGroup.addActor(initLabelContinue());
-        mainGroup.addActor(initLabelLoad());
-        mainGroup.addActor(initLabelExit());
+        Arrays.stream(labels).forEach(mainGroup::addActor);
+        return mainGroup;
     }
 
     private void initBack () {
@@ -72,11 +81,9 @@ public class MainMenu {
                 GameManager.setGameState(new GameState());
                 SaveManager.saveAutosave();
                 SaveManager.load();
-                GameManager.getElevatorManager().render();
                 dispose();
             }
         });
-
         return label;
     }
 
@@ -89,13 +96,9 @@ public class MainMenu {
         label.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                SaveManager.load();
-                if (GameManager.getGameState().isElevator()) {
-                    GameManager.getElevatorManager().render();
-                } else {
-                    GameManager.getFloor().render();
+                if (SaveManager.load() == 1) {
+                    dispose();
                 }
-                dispose();
             }
         });
         return label;
@@ -133,8 +136,7 @@ public class MainMenu {
 
     public void render () {
         visible = true;
-        initGroup();
-        App.getStage().addActor(mainGroup);
+        App.getStage().addActor(initGroup());
     }
 
     public void dispose () {

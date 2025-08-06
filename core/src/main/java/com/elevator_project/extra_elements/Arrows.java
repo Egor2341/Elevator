@@ -13,7 +13,6 @@ public class Arrows {
 
     private Image rightArrow;
     private Image leftArrow;
-    private Image downArrow;
     private final TextureAtlas atlas;
     private final Group mainGroup;
 
@@ -27,8 +26,6 @@ public class Arrows {
         float ARROW_RESIZE_FACTOR = 400f;
         float RIGHT_ARROW_HORIZ_FACTOR = 1.13f;
         float LEFT_ARROW_HORIZ_FACTOR = 9.5f;
-        float DOWN_ARROW_HORIZ_FACTOR = 2f;
-        float DOWN_ARROW_VERT_FACTOR = 15f;
         float ARROW_VERT_FACTOR = 2f;
 
         rightArrow = new Image(atlas.createSprite("RightArrow"));
@@ -47,19 +44,6 @@ public class Arrows {
             @Override
             public void clicked (InputEvent event, float x, float y) {
                 GameManager.getFloor().left();
-            }
-        });
-
-        downArrow = new Image(atlas.createSprite("DownArrow"));
-        ImageProcessing.process(downArrow, ARROW_RESIZE_FACTOR, DOWN_ARROW_HORIZ_FACTOR, DOWN_ARROW_VERT_FACTOR);
-        downArrow.addListener(new ClickListener() {
-            @Override
-            public void clicked (InputEvent event, float x, float y) {
-                if (GameManager.getGameState().isElevator()){
-                    GameManager.getElevatorManager().back();
-                } else {
-                    GameManager.getFloor().back();
-                }
             }
         });
     }

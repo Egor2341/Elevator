@@ -49,7 +49,6 @@ public class App extends ApplicationAdapter {
                 }
                 return false;
             }
-
         });
     }
 

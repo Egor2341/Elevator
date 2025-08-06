@@ -53,16 +53,14 @@ public class Inventory {
         }
     }
 
-    private void initGroup () {
-        for (int i = 0; i < cells.size(); i++) {
-            mainGroup.addActor(cells.get(i));
-            mainGroup.addActor(objects.get(i));
-        }
+    private Group initGroup () {
+        cells.forEach(mainGroup::addActor);
+        objects.forEach(mainGroup::addActor);
+        return mainGroup;
     }
 
     public void render () {
-        initGroup();
-        App.getStage().addActor(mainGroup);
+        App.getStage().addActor(initGroup());
     }
 
     public void dispose () {

@@ -24,7 +24,7 @@ public class Door {
     @Getter
     private boolean close;
 
-    public Door () {
+    public Door() {
         this.h = App.getDimensions()[1];
         atlas = GameManager.getAtlasses().getDoorAtlas();
         initDoor();
@@ -32,82 +32,77 @@ public class Door {
         close = true;
     }
 
-    private void initDoor () {
+    private void initDoor() {
         final float DOOR_RESIZE_FACTOR = 240f;
-        final float DOOR_VERT_FACTOR_IN_ELEVATOR = 4.65f;
-        final float DOOR_VERT_FACTOR_IN_ROOM = 3.15f;
+        final float DOOR_VERT_FACTOR = 4.65f;
         final float DOOR_HORIZ_FACTOR = 2.6f;
 
         doorAnimation = new Animation<>(0.3f, atlas.findRegions("Door"));
         door = new Image(new TextureRegionDrawable(doorAnimation.getKeyFrame(0)));
-        if (GameManager.getGameState().isElevator()){
-            ImageProcessing.process(door, DOOR_RESIZE_FACTOR, DOOR_HORIZ_FACTOR, DOOR_VERT_FACTOR_IN_ELEVATOR);
-        } else {
-            ImageProcessing.process(door, DOOR_RESIZE_FACTOR, DOOR_HORIZ_FACTOR, DOOR_VERT_FACTOR_IN_ROOM);
-        }
+        ImageProcessing.process(door, DOOR_RESIZE_FACTOR, DOOR_HORIZ_FACTOR, DOOR_VERT_FACTOR);
+
         door.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (GameManager.getGameState().isDoorAvailable()){
-                        if (open) {
-                            App.getSoundManager().playSteps();
-                            if (GameManager.getGameState().isElevator()) {
-                                dispose();
-                                GameManager.getElevatorManager().dispose();
-                                GameManager.getInventory().dispose();
-                                GameManager.getFloor().render();
+                if (GameManager.getGameState().isDoorAvailable()) {
+                    if (open) {
+                        App.getSoundManager().playSteps();
+                        if (GameManager.getGameState().isElevator()) {
+                            dispose();
+                            GameManager.getElevatorManager().dispose();
+                            GameManager.getInventory().dispose();
+                            GameManager.getFloor().render();
 
-                                App.getSoundManager().playElevatorDoors();
-                            } else {
-                                dispose();
-                                GameManager.getFloor().dispose();
-                                GameManager.getElevatorManager().render();
-                                close();
-                            }
-
-                        } else {
                             App.getSoundManager().playElevatorDoors();
-                            stateTime = 0;
-                            animation = true;
-                            GameManager.getGameState().setDoorAvailable(false);
-                            close = false;
-                            doorAnimation.setPlayMode(Animation.PlayMode.NORMAL);
+                        } else {
+                            dispose();
+                            GameManager.getFloor().dispose();
+                            GameManager.getElevatorManager().render();
+                            close();
                         }
+
+                    } else {
+                        App.getSoundManager().playElevatorDoors();
+                        stateTime = 0;
+                        animation = true;
+                        GameManager.getGameState().setDoorAvailable(false);
+                        close = false;
+                        doorAnimation.setPlayMode(Animation.PlayMode.NORMAL);
+                    }
                 }
             }
         });
     }
 
-    public void close () {
-            App.getSoundManager().playElevatorDoors();
-            doorAnimation.setPlayMode(Animation.PlayMode.REVERSED);
-            stateTime = 0;
-            GameManager.getGameState().setDoorAvailable(false);
-            animation = true;
-            close = true;
+    public void close() {
+        App.getSoundManager().playElevatorDoors();
+        doorAnimation.setPlayMode(Animation.PlayMode.REVERSED);
+        stateTime = 0;
+        GameManager.getGameState().setDoorAvailable(false);
+        animation = true;
+        close = true;
     }
 
     public void update(float delta) {
-        if (animation) {
-            stateTime += delta;
-            TextureRegion frame = doorAnimation.getKeyFrame(stateTime, false);
-            door.setDrawable(new TextureRegionDrawable(frame));
-            if (doorAnimation.isAnimationFinished(stateTime)) {
-                animation = false;
-                if (close) {
-                    open = false;
-                    if (GameManager.getElevatorManager().isWait()) {
-                        GameManager.getElevatorManager().getElevator().initMoving();
-                        GameManager.getElevatorManager().setWait(false);
-                    } else {
-                        GameManager.getGameState().setDoorAvailable(true);
-                    }
+        stateTime += delta;
+        TextureRegion frame = doorAnimation.getKeyFrame(stateTime, false);
+        door.setDrawable(new TextureRegionDrawable(frame));
+        if (doorAnimation.isAnimationFinished(stateTime)) {
+            animation = false;
+            if (close) {
+                open = false;
+                if (GameManager.getElevatorManager().isWait()) {
+                    GameManager.getElevatorManager().getElevator().initMoving();
+                    GameManager.getElevatorManager().setWait(false);
                 } else {
-                    open = true;
                     GameManager.getGameState().setDoorAvailable(true);
                 }
+            } else {
+                open = true;
+                GameManager.getGameState().setDoorAvailable(true);
             }
         }
+
     }
 
     public void dispose() {

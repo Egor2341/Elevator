@@ -40,7 +40,10 @@ public class GameState {
         screamerOnFirstFloorPlayed = false;
         buttonAvailable = false;
 
-        objectsInInventory = List.of("", "", "", "", "", "");
+        objectsInInventory = new ArrayList<>();
+        for (int i = 0; i < 6; i++){
+            objectsInInventory.add("");
+        }
 
         runesOnSecondFloorLocker = List.of(0, 0, 0, 0);
         lockerOnSecondFloorQuestSolved = false;

@@ -11,6 +11,10 @@ public class SaveManager {
 
     private static final FileHandle autosave = Gdx.files.local("saves/autosave.sav");
 
+    public static void saveAutosave() {
+        save(autosave, "autosave");
+    }
+
     public static void save (FileHandle save, String saveName) {
         GameManager.getGameState().setSaveName(saveName);
         Json json = new Json();
@@ -18,15 +22,15 @@ public class SaveManager {
         save.writeString(saveData, false);
     }
 
-    public static void load() {
-        load(autosave);
+    public static int load() {
+        return load(autosave);
     }
 
-    public static void load (FileHandle load) {
+    public static int load (FileHandle load) {
         Json json = new Json();
         String loadedData = load.readString();
         if (loadedData.isEmpty()) {
-            GameManager.setGameState(new GameState());
+            return 0;
         } else {
             if (GameManager.getGameState().isElevator()) {
                 GameManager.getElevatorManager().dispose();
@@ -41,7 +45,10 @@ public class SaveManager {
             GameManager.getFloor().render();
         }
         fillInventory();
-        GameManager.getLoadMenu().dispose();
+        if (GameManager.getLoadMenu().isVisible()){
+            GameManager.getLoadMenu().dispose();
+        }
+        return 1;
     }
 
     public static void  fillInventory () {
@@ -65,9 +72,4 @@ public class SaveManager {
             }
         }
     }
-
-    public static void saveAutosave() {
-        save(autosave, "autosave");
-    }
-
 }
