@@ -13,7 +13,6 @@ import com.elevator_project.game.RoomPart;
 import com.elevator_project.game.SaveManager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Locker extends RoomPart {
@@ -28,7 +27,7 @@ public class Locker extends RoomPart {
     public Locker() {
         atlas = GameManager.getAtlasses().getSecondFloorAtlas();
         elements = new ArrayList<>();
-        rightRunesIndexes = List.of(4, 1, 2, 3);
+        rightRunesIndexes = List.of(4, 1, 5, 3);
         initElements();
     }
 

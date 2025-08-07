@@ -1,6 +1,7 @@
 package com.elevator_project.elevator;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -25,6 +26,9 @@ public class Elevator implements GroupElements {
     private Image display;
     private Image back;
     private final float frameDuration;
+    private final Sprite[] backSprites;
+    private final float[] backResize = new float[] {240f, 240f, 1450f, 240f, 240f, 240f, 240f};
+    private final float[][] spritesSizes = new float[7][];
 
     public Elevator () {
         this.w = App.getDimensions()[0];
@@ -33,6 +37,7 @@ public class Elevator implements GroupElements {
         atlas = GameManager.getAtlasses().getElevatorAtlas();
         mainGroup = new Group();
         elements = new ArrayList<>();
+        backSprites = new Sprite[7];
         initElements();
     }
 
@@ -54,9 +59,23 @@ public class Elevator implements GroupElements {
         final float BACK_RESIZE_FACTOR = 240f;
         final float BACK_VERT_FACTOR = 4.65f;
         final float BACK_HORIZ_FACTOR = 2.6f;
-        back = new Image(atlas.createSprite("Back", GameManager.getGameState().getFloorIndex()));
+
+        for (int i = 0; i < 7; i++){
+            Sprite sprite = atlas.createSprite("Back", i);
+            backSprites[i] = sprite;
+            spritesSizes[i] = new float[] {sprite.getWidth(), sprite.getHeight()};
+        }
+
+
+        back = new Image(backSprites[0]);
         ImageProcessing.process(back, BACK_RESIZE_FACTOR, BACK_HORIZ_FACTOR, BACK_VERT_FACTOR);
         return back;
+    }
+
+    private void changeSprite(int index) {
+        back.setDrawable(new SpriteDrawable(backSprites[index]));
+        back.setSize(spritesSizes[index][0] * w / backResize[index],
+            spritesSizes[index][1] * w / backResize[index]);
     }
 
     private Image initButtons () {
@@ -120,11 +139,11 @@ public class Elevator implements GroupElements {
     public void initMoving () {
         GameManager.getElevatorManager().setMoving(true);
         App.getSoundManager().playElevatorMotor();
-        back.setDrawable(new SpriteDrawable(atlas.createSprite("Back", 0)));
+        changeSprite(0);
     }
 
     private void setFloorBack () {
-        back.setDrawable(new SpriteDrawable(atlas.createSprite("Back", GameManager.getGameState().getFloorIndex())));
+        changeSprite(GameManager.getGameState().getFloorIndex());
         GameManager.getGameState().setDoorAvailable(true);
         GameManager.getGameState().setPartIndex(0);
         SaveManager.saveAutosave();
@@ -132,7 +151,7 @@ public class Elevator implements GroupElements {
 
     public Group initGroup() {
         elements.forEach(mainGroup::addActor);
-        back.setDrawable(new SpriteDrawable(atlas.createSprite("Back", GameManager.getGameState().getFloorIndex())));
+        changeSprite(GameManager.getGameState().getFloorIndex());
         displayAnimation.setPlayMode(Animation.PlayMode.NORMAL);
         stateTime = 0 + frameDuration * (GameManager.getGameState().getFloorIndex() - 1);
         TextureRegion frame = displayAnimation.getKeyFrame(stateTime, false);

@@ -45,7 +45,10 @@ public class GameState {
             objectsInInventory.add("");
         }
 
-        runesOnSecondFloorLocker = List.of(0, 0, 0, 0);
+        runesOnSecondFloorLocker = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            runesOnSecondFloorLocker.add(0);
+        }
         lockerOnSecondFloorQuestSolved = false;
 
         floorIndex = 1;
