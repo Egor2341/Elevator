@@ -45,6 +45,7 @@ public class SecondFloor extends Floor {
     }
 
     public void disposeRuneImagesOnLocker(){
+        tv.disposeRunesImage();
         firstSide.disposeRunesImage();
     }
 
@@ -63,6 +64,7 @@ public class SecondFloor extends Floor {
             firstSide.updateRunesImage();
         }
         if (show == moveToTvPart || show == moveToLockerPart) {
+            tv.updateRunesImage();
             arrows.hide();
             downArrow.show();
         }
