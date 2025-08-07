@@ -32,14 +32,24 @@ public class Locker extends RoomPart {
     }
 
     private void initElements() {
+        elements.add(initBack());
         elements.add(initLocker());
         initRunes();
     }
 
+    private Image initBack() {
+        final float BACK_RESIZE = 960f;
+
+        Image back = new Image(atlas.createSprite("LockerBack"));
+        ImageProcessing.process(back, BACK_RESIZE, w, h);
+
+        return back;
+    }
+
     private Image initLocker() {
-        final float LOCKER_RESIZE = 150;
+        final float LOCKER_RESIZE = 180;
         final float LOCKER_HORIZ = 4.5f;
-        final float LOCKER_VERT = 4f;
+        final float LOCKER_VERT = 1.92f;
 
         locker = new Image(atlas.createSprite("Locker", 1));
         ImageProcessing.process(locker, LOCKER_RESIZE, LOCKER_HORIZ, LOCKER_VERT);
@@ -67,8 +77,8 @@ public class Locker extends RoomPart {
 
     private void initRunes() {
         final float RUNE_RESIZE = 400f;
-        final float RUNE_HORIZ = 1.42f;
-        final float[] RUNE_VERT = new float[] {1.35f, 1.52f, 1.74f, 2.04f};
+        final float RUNE_HORIZ = 1.63f;
+        final float[] RUNE_VERT = new float[] {1.095f, 1.2f, 1.33f, 1.49f};
 
         runesSprites = new Sprite[6];
         for (int i = 0; i < 6; i++) {

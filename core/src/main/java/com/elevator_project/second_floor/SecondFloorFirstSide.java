@@ -79,7 +79,6 @@ public class SecondFloorFirstSide extends RoomPart {
                 GameManager.getSecondFloor().moveToLocker();
             }
         });
-
         return locker;
     }
 
