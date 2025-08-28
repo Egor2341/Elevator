@@ -23,6 +23,7 @@ public class Tv extends RoomPart {
 
     private Image tv;
     private Image switchButton;
+    private Image powerButton;
 
     private Sprite[] tvSprites;
 
@@ -47,8 +48,8 @@ public class Tv extends RoomPart {
         final float TV_RESIZE = 160f;
         final float TV_HORIZ = 3.8f;
         final float TV_VERT = 5.5f;
-        tvSprites = new Sprite[5];
-        for (int i = 1; i < 6; i++) {
+        tvSprites = new Sprite[6];
+        for (int i = 1; i < 7; i++) {
             tvSprites[i-1] = atlas.createSprite("TV", i);
         }
         tv = new Image(tvSprites[1]);
@@ -77,6 +78,9 @@ public class Tv extends RoomPart {
 
         switchButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
+                if (GameManager.getGameState().isLockerOnSecondFloorQuestSolved()){
+                    return;
+                }
                 switchButton.rotateBy(72);
                 GameManager.getGameState().setChannelIndex(
                     (GameManager.getGameState().getChannelIndex() + 1) % 5
@@ -95,11 +99,14 @@ public class Tv extends RoomPart {
         final float POWER_BUTTON_HORIZ = 1.535f;
         final float POWER_BUTTON_VERT = 3.5f;
 
-        Image powerButton = new Image(atlas.createSprite("TV_PowerButton"));
+        powerButton = new Image(atlas.createSprite("TV_PowerButton"));
         ImageProcessing.process(powerButton, POWER_BUTTON_RESIZE, POWER_BUTTON_HORIZ, POWER_BUTTON_VERT);
 
         powerButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
+                if (GameManager.getGameState().isLockerOnSecondFloorQuestSolved()){
+                    return;
+                }
                 GameManager.getGameState().setTvOn(!GameManager.getGameState().isTvOn());
                 tv.setDrawable(new SpriteDrawable(
                     GameManager.getGameState().isTvOn() ?
@@ -141,19 +148,26 @@ public class Tv extends RoomPart {
         Arrays.stream(runes).forEach(Actor::remove);
     }
 
+    public void setScreamerImage(){
+        tv.setDrawable(new SpriteDrawable(tvSprites[5]));
+    }
+
     @Override
     public Group initGroup() {
         switchButton.setRotation(0);
         switchButton.rotateBy((GameManager.getGameState().getChannelIndex()) * 72);
-        tv.setDrawable(new SpriteDrawable(
-            GameManager.getGameState().isTvOn() ?
-                tvSprites[GameManager.getGameState().getChannelIndex()] :
-                atlas.createSprite("TV", 0)
-        ));
+
         elements.forEach(mainGroup::addActor);
         if (!GameManager.getGameState().isLockerOnSecondFloorQuestSolved()) {
+            tv.setDrawable(new SpriteDrawable(
+                GameManager.getGameState().isTvOn() ?
+                    tvSprites[GameManager.getGameState().getChannelIndex()] :
+                    atlas.createSprite("TV", 0)
+            ));
             updateRunesImage();
             Arrays.stream(runes).forEach(mainGroup::addActor);
+        } else {
+            setScreamerImage();
         }
         return mainGroup;
     }

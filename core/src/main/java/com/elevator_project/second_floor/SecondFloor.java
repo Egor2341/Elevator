@@ -47,6 +47,8 @@ public class SecondFloor extends Floor {
     public void disposeRuneImagesOnLocker(){
         tv.disposeRunesImage();
         firstSide.disposeRunesImage();
+        tv.setScreamerImage();
+        firstSide.updateTvImage();
     }
 
     @Override

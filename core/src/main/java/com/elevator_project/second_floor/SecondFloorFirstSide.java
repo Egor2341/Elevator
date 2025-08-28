@@ -95,8 +95,8 @@ public class SecondFloorFirstSide extends RoomPart {
         final float POWER_BUTTON_HORIZ = 1.72f;
         final float POWER_BUTTON_VERT = 1.65f;
 
-        tvSprites = new Sprite[5];
-        for (int i = 1; i < 6; i++) {
+        tvSprites = new Sprite[6];
+        for (int i = 1; i < 7; i++) {
             tvSprites[i-1] = atlas.createSprite("TV", i);
         }
         tv = new Image(tvSprites[1]);
@@ -120,11 +120,15 @@ public class SecondFloorFirstSide extends RoomPart {
     }
 
     public void updateTvImage() {
-        tv.setDrawable(new SpriteDrawable(
-            GameManager.getGameState().isTvOn() ?
-                tvSprites[GameManager.getGameState().getChannelIndex()] :
-                atlas.createSprite("TV", 0)
-        ));
+        if (GameManager.getGameState().isLockerOnSecondFloorQuestSolved()) {
+            tv.setDrawable(new SpriteDrawable(tvSprites[5]));
+        } else {
+            tv.setDrawable(new SpriteDrawable(
+                GameManager.getGameState().isTvOn() ?
+                    tvSprites[GameManager.getGameState().getChannelIndex()] :
+                    atlas.createSprite("TV", 0)
+            ));
+        }
         switchButton.setRotation(0);
         switchButton.rotateBy((GameManager.getGameState().getChannelIndex()) * 72);
     }

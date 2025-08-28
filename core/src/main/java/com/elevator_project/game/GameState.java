@@ -30,6 +30,7 @@ public class GameState {
     private boolean tvOn;
     private List<Integer> runesOnSecondFloorLocker;
     private boolean lockerOnSecondFloorQuestSolved;
+    private boolean screamerOnSecondFloorPlayed;
 
     public GameState () {
         elevator = true;
@@ -50,6 +51,7 @@ public class GameState {
             runesOnSecondFloorLocker.add(0);
         }
         lockerOnSecondFloorQuestSolved = false;
+        screamerOnSecondFloorPlayed = false;
 
         floorIndex = 1;
 
