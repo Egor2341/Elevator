@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.elevator_project.game.App;
 import com.elevator_project.game.GameManager;
 import com.elevator_project.game.ImageProcessing;
 import com.elevator_project.game.RoomPart;
@@ -81,6 +82,7 @@ public class Tv extends RoomPart {
                 if (GameManager.getGameState().isLockerOnSecondFloorQuestSolved()){
                     return;
                 }
+                App.getSoundManager().playSwitch();
                 switchButton.rotateBy(72);
                 GameManager.getGameState().setChannelIndex(
                     (GameManager.getGameState().getChannelIndex() + 1) % 5
@@ -107,6 +109,7 @@ public class Tv extends RoomPart {
                 if (GameManager.getGameState().isLockerOnSecondFloorQuestSolved()){
                     return;
                 }
+                App.getSoundManager().playButton();
                 GameManager.getGameState().setTvOn(!GameManager.getGameState().isTvOn());
                 tv.setDrawable(new SpriteDrawable(
                     GameManager.getGameState().isTvOn() ?

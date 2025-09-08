@@ -110,7 +110,7 @@ public class BoxQuest extends RoomPart {
             button.addListener(new ClickListener() {
                 @Override
                 public void clicked (InputEvent event, float x, float y) {
-                    App.getSoundManager().playRune();
+                    App.getSoundManager().playSwitch();
                     buttons.put(button, (buttons.get(button) + 1) % 6);
                     button.setDrawable(new SpriteDrawable((runes.get((buttons.get(button))))));
                 }
@@ -121,7 +121,7 @@ public class BoxQuest extends RoomPart {
 
     private void checkSubsequence () {
         if (Arrays.equals(combination, buttons.values().toArray(new Integer[4]))){
-            App.getSoundManager().playBox();
+            App.getSoundManager().playOpen();
             box.setDrawable(new SpriteDrawable(atlas.createSprite("Box", 3)));
             for (Image button : buttons.keySet()) {
                 button.remove();

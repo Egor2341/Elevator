@@ -7,10 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import com.elevator_project.game.GameManager;
-import com.elevator_project.game.ImageProcessing;
-import com.elevator_project.game.RoomPart;
-import com.elevator_project.game.SaveManager;
+import com.elevator_project.game.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +16,8 @@ public class Locker extends RoomPart {
     private final TextureAtlas atlas;
     private Sprite[] runesSprites;
     private Image[] runes;
-    private Image locker;
+    private Image closeLocker;
+    private Image openLocker;
     private final List<Image> elements;
     private List<Integer> runesIndexes;
     private final List<Integer> rightRunesIndexes;
@@ -34,6 +32,7 @@ public class Locker extends RoomPart {
     private void initElements() {
         elements.add(initBack());
         elements.add(initLocker());
+        elements.add(openLocker);
         initRunes();
     }
 
@@ -47,20 +46,28 @@ public class Locker extends RoomPart {
     }
 
     private Image initLocker() {
-        final float LOCKER_RESIZE = 180;
-        final float LOCKER_HORIZ = 4.5f;
-        final float LOCKER_VERT = 1.92f;
+        final float CLOSE_LOCKER_RESIZE = 180;
+        final float CLOSE_LOCKER_HORIZ = 4.5f;
+        final float CLOSE_LOCKER_VERT = 1.92f;
 
-        locker = new Image(atlas.createSprite("Locker", 1));
-        ImageProcessing.process(locker, LOCKER_RESIZE, LOCKER_HORIZ, LOCKER_VERT);
-        locker.addListener(new ClickListener() {
+        final float OPEN_LOCKER_RESIZE = 182f;
+        final float OPEN_LOCKER_HORIZ = 19f;
+        final float OPEN_LOCKER_VERT = 3.2f;
+
+        closeLocker = new Image(atlas.createSprite("Locker", 1));
+        ImageProcessing.process(closeLocker, CLOSE_LOCKER_RESIZE, CLOSE_LOCKER_HORIZ, CLOSE_LOCKER_VERT);
+        closeLocker.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 checkSubsequence();
             }
         });
 
-        return locker;
+
+        openLocker = new Image(atlas.createSprite("Locker", 2));
+        ImageProcessing.process(openLocker, OPEN_LOCKER_RESIZE, OPEN_LOCKER_HORIZ, OPEN_LOCKER_VERT);
+
+        return closeLocker;
     }
 
     private void checkSubsequence() {
@@ -70,7 +77,10 @@ public class Locker extends RoomPart {
             for (Image rune : runes) {
                 rune.remove();
             }
+            App.getSoundManager().playOpen();
             GameManager.getSecondFloor().disposeRuneImagesOnLocker();
+            closeLocker.setVisible(false);
+            openLocker.setVisible(true);
             SaveManager.saveAutosave();
         }
     }
@@ -94,6 +104,7 @@ public class Locker extends RoomPart {
             rune.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
+                    App.getSoundManager().playSwitch();
                     int runeIndex = (runesIndexes.get(number) + 1) % 6;
                     runesIndexes.set(number, runeIndex);
                     rune.setDrawable(new SpriteDrawable(runesSprites[runeIndex]));
@@ -106,6 +117,8 @@ public class Locker extends RoomPart {
 
     @Override
     public Group initGroup() {
+        closeLocker.setVisible(true);
+        openLocker.setVisible(false);
         elements.forEach(mainGroup::addActor);
         if (!GameManager.getGameState().isLockerOnSecondFloorQuestSolved()) {
             runesIndexes = GameManager.getGameState().getRunesOnSecondFloorLocker();

@@ -80,5 +80,10 @@ public class SecondFloor extends Floor {
             default -> 0;
         };
         move(GameManager.getGameState().getPartIndex(), show);
+        if (GameManager.getGameState().isLockerOnSecondFloorQuestSolved() &&
+            !GameManager.getGameState().isScreamerOnSecondFloorPlayed()) {
+            App.getSoundManager().playScreamer();
+            GameManager.getGameState().setScreamerOnSecondFloorPlayed(true);
+        }
     }
 }

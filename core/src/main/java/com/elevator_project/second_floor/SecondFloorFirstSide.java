@@ -27,6 +27,9 @@ public class SecondFloorFirstSide extends RoomPart {
     private Sprite[] runesSprites;
     private Image[] runes;
 
+    private Image closeLocker;
+    private Image openLocker;
+
     public SecondFloorFirstSide () {
         atlas = GameManager.getAtlasses().getSecondFloorAtlas();
         elements = new ArrayList<>();
@@ -39,6 +42,7 @@ public class SecondFloorFirstSide extends RoomPart {
         elements.add(initTV());
         elements.add(switchButton);
         elements.add(powerButton);
+        elements.add(openLocker);
     }
 
     private Image initWall () {
@@ -51,9 +55,13 @@ public class SecondFloorFirstSide extends RoomPart {
     }
 
     private Image initLocker () {
-        final float LOCKER_RESIZE_FACTOR = 350f;
-        final float LOCKER_HORIZ_FACTOR = 2.55f;
-        final float LOCKER_VERT_FACTOR = 3.19f;
+        final float CLOSE_LOCKER_RESIZE = 350f;
+        final float CLOSE_LOCKER_HORIZ  = 2.55f;
+        final float CLOSE_LOCKER_VERT = 3.19f;
+
+        final float OPEN_LOCKER_RESIZE = 360f;
+        final float OPEN_LOCKER_HORIZ = 3.2f;
+        final float OPEN_LOCKER_VERT = 4.7f;
 
         final float RUNE_RESIZE = 800f;
         final float RUNE_HORIZ = 1.68f;
@@ -71,15 +79,19 @@ public class SecondFloorFirstSide extends RoomPart {
             runes[i] = rune;
         }
 
-        Image locker = new Image(atlas.createSprite("Locker", 1));
-        ImageProcessing.process(locker, LOCKER_RESIZE_FACTOR, LOCKER_HORIZ_FACTOR, LOCKER_VERT_FACTOR);
-        locker.addListener(new ClickListener(){
+        closeLocker = new Image(atlas.createSprite("Locker", 1));
+        ImageProcessing.process(closeLocker, CLOSE_LOCKER_RESIZE, CLOSE_LOCKER_HORIZ, CLOSE_LOCKER_VERT);
+        closeLocker.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
                 GameManager.getSecondFloor().moveToLocker();
             }
         });
-        return locker;
+
+        openLocker = new Image(atlas.createSprite("Locker", 2));
+        ImageProcessing.process(openLocker, OPEN_LOCKER_RESIZE, OPEN_LOCKER_HORIZ, OPEN_LOCKER_VERT);
+
+        return closeLocker;
     }
 
     private Image initTV () {
@@ -144,9 +156,13 @@ public class SecondFloorFirstSide extends RoomPart {
         for (Image rune : runes) {
             rune.remove();
         }
+        closeLocker.setVisible(false);
+        openLocker.setVisible(true);
     }
 
     public Group initGroup() {
+        openLocker.setVisible(false);
+        closeLocker.setVisible(true);
         updateTvImage();
         for (Image element : elements) {
             mainGroup.addActor(element);

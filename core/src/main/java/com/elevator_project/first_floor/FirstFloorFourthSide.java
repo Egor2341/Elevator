@@ -102,7 +102,7 @@ public class FirstFloorFourthSide extends RoomPart {
         if (GameManager.getGameState().isBoxQuestSolved()) {
             window.setDrawable(new SpriteDrawable(windowSprites.get(2)));
             if (!GameManager.getGameState().isScreamerOnFirstFloorPlayed()) {
-                App.getSoundManager().playWindow();
+                App.getSoundManager().playScreamer();
 
                 GameManager.getGameState().setScreamerOnFirstFloorPlayed(true);
                 SaveManager.saveAutosave();

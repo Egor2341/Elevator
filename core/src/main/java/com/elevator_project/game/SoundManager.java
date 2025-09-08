@@ -8,25 +8,25 @@ public class SoundManager {
     private final Music backgroundMusic;
     private final Sound elevatorDoors;
     private final Sound steps;
-    private final Sound window;
-    private final Sound box;
-    private final Sound rune;
+    private final Sound screamer;
+    private final Sound open;
+    private final Sound switchSound;
     private final Sound elevatorMotor;
     private final Sound elevatorDing;
     private final Sound unavailableButton;
-    private final Sound availableButton;
+    private final Sound button;
 
     public SoundManager () {
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music/background_music.mp3"));
         elevatorDoors = Gdx.audio.newSound(Gdx.files.internal("sounds/elevator_doors.mp3"));
         steps = Gdx.audio.newSound(Gdx.files.internal("sounds/footsteps.mp3"));
-        window = Gdx.audio.newSound(Gdx.files.internal("sounds/window_2.wav"));
-        box = Gdx.audio.newSound(Gdx.files.internal("sounds/box.mp3"));
-        rune = Gdx.audio.newSound(Gdx.files.internal("sounds/rune.mp3"));
+        screamer = Gdx.audio.newSound(Gdx.files.internal("sounds/screamer.wav"));
+        open = Gdx.audio.newSound(Gdx.files.internal("sounds/open.mp3"));
+        switchSound = Gdx.audio.newSound(Gdx.files.internal("sounds/switch.mp3"));
         elevatorMotor = Gdx.audio.newSound(Gdx.files.internal("sounds/elevator_motor.mp3"));
         elevatorDing = Gdx.audio.newSound(Gdx.files.internal("sounds/elevator_ding.mp3"));
         unavailableButton = Gdx.audio.newSound(Gdx.files.internal("sounds/unavailable_button.mp3"));
-        availableButton = Gdx.audio.newSound(Gdx.files.internal("sounds/available_button.mp3"));
+        button = Gdx.audio.newSound(Gdx.files.internal("sounds/button.mp3"));
     }
 
     public void playBackgroundMusic () {
@@ -43,16 +43,16 @@ public class SoundManager {
         steps.play(1f, 1f, -0.5f);
     }
 
-    public void playWindow () {
-        window.play();
+    public void playScreamer() {
+        screamer.play();
     }
 
-    public void playBox () {
-        box.play();
+    public void playOpen() {
+        open.play();
     }
 
-    public void playRune () {
-        rune.play();
+    public void playSwitch() {
+        switchSound.play();
     }
 
     public void playElevatorMotor() {
@@ -68,7 +68,7 @@ public class SoundManager {
         unavailableButton.play();
     }
 
-    public void playAvailableButton() {
-        availableButton.play();
+    public void playButton() {
+        button.play();
     }
 }

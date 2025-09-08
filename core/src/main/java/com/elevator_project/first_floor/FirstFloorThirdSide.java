@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.elevator_project.game.*;
-import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +70,7 @@ public class FirstFloorThirdSide extends RoomPart {
                     GameManager.getGameState().setDoorAvailable(true);
                     SaveManager.saveAutosave();
 
-                    App.getSoundManager().playAvailableButton();
+                    App.getSoundManager().playButton();
                 } else {
                     App.getSoundManager().playUnavailableButton();
                 }
